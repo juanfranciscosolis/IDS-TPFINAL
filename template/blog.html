@@ -12,10 +12,18 @@
     <title>The Palatin - Hotel &amp; Resort Template</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="img/core-img/favicon.ico">
+    <link rel="icon" href="{{url_for('static', filename='img/core-img/favicon.ico')}}">
 
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/classy-nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-icon.css') }}">
 
 </head>
 
@@ -37,7 +45,7 @@
                     <nav class="classy-navbar justify-content-between" id="palatinNav">
 
                         <!-- Nav brand -->
-                        <a href="index.html" class="nav-brand"><img src="img/core-img/logo.png" alt=""></a>
+                        <a href="{{url_for('index')}}" class="nav-brand"><img src="{{url_for('static', filename='img/core-img/logo.png')}}" alt=""></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -59,57 +67,57 @@
                                     <li><a href="about-us.html">About Us</a></li>
                                     <li><a href="#">Pages</a>
                                         <ul class="dropdown">
-                                            <li><a href="index.html">Home</a></li>
-                                            <li><a href="about-us.html">About Us</a></li>
-                                            <li><a href="services.html">Services</a></li>
-                                            <li><a href="rooms.html">Rooms</a></li>
-                                            <li><a href="blog.html">News</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
-                                            <li><a href="elements.html">Elements</a></li>
+                                            <li><a href="{{ url_for('index') }}">Home</a></li>
+                                            <li><a href="{{ url_for('about') }}">About Us</a></li>
+                                            <li><a href="{{ url_for('services') }} ">Services</a></li>
+                                            <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
+                                            <li><a href="{{ url_for('blog') }}">News</a></li>
+                                            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                                            <li><a href="{{ url_for('elements') }}">Elements</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">Mega Menu</a>
                                         <div class="megamenu">
                                             <ul class="single-mega cn-col-4">
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="about-us.html">About Us</a></li>
-                                                <li><a href="services.html">Services</a></li>
-                                                <li><a href="rooms.html">Rooms</a></li>
-                                                <li><a href="blog.html">News</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
-                                                <li><a href="elements.html">Elements</a></li>
+                                                 <li><a href="{{ url_for('index') }}">Home</a></li>
+                                                <li><a href="{{ url_for('about') }}">About Us</a></li>
+                                                <li><a href="{{ url_for('services') }} ">Services</a></li>
+                                                <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
+                                                <li><a href="{{ url_for('blog') }}">News</a></li>
+                                                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                                                <li><a href="{{ url_for('elements') }}">Elements</a></li>
                                             </ul>
                                             <ul class="single-mega cn-col-4">
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="about-us.html">About Us</a></li>
-                                                <li><a href="services.html">Services</a></li>
-                                                <li><a href="rooms.html">Rooms</a></li>
-                                                <li><a href="blog.html">News</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
-                                                <li><a href="elements.html">Elements</a></li>
+                                                <li><a href="{{ url_for('index') }}">Home</a></li>
+                                                <li><a href="{{ url_for('about') }}">About Us</a></li>
+                                                <li><a href="{{ url_for('services') }}">Services</a></li>
+                                                <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
+                                                <li><a href="{{ url_for('blog') }}">News</a></li>
+                                                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                                                <li><a href="{{ url_for('elements') }}">Elements</a></li>
                                             </ul>
                                             <ul class="single-mega cn-col-4">
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="about-us.html">About Us</a></li>
-                                                <li><a href="services.html">Services</a></li>
-                                                <li><a href="rooms.html">Rooms</a></li>
-                                                <li><a href="blog.html">News</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
-                                                <li><a href="elements.html">Elements</a></li>
+                                                <li><a href="{{ url_for('index') }}">Home</a></li>
+                                                <li><a href="{{ url_for('about') }}">About Us</a></li>
+                                                <li><a href="{{ url_for('services') }}">Services</a></li>
+                                                <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
+                                                <li><a href="{{ url_for('blog') }}">News</a></li>
+                                                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                                                <li><a href="{{ url_for('elements') }}">Elements</a></li>
                                             </ul>
                                             <ul class="single-mega cn-col-4">
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="about-us.html">About Us</a></li>
-                                                <li><a href="services.html">Services</a></li>
-                                                <li><a href="rooms.html">Rooms</a></li>
-                                                <li><a href="blog.html">News</a></li>
-                                                <li><a href="contact.html">Contact</a></li>
-                                                <li><a href="elements.html">Elements</a></li>
+                                                <li><a href="{{ url_for('index') }}">Home</a></li>
+                                                <li><a href="{{ url_for('about') }}">About Us</a></li>
+                                                <li><a href="{{ url_for('services') }}">Services</a></li>
+                                                <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
+                                                <li><a href="{{ url_for('blog') }}">News</a></li>
+                                                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                                                <li><a href="{{ url_for('elements') }}">Elements</a></li>
                                             </ul>
                                         </div>
                                     </li>
-                                    <li><a href="services.html">Services</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="{{ url_for('services') }}">Services</a></li>
+                                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
                                 </ul>
 
                                 <!-- Button -->
@@ -216,7 +224,7 @@
                         <div class="single-blog-post mb-100 wow fadeInUp" data-wow-delay="100ms">
                             <!-- Post Thumb -->
                             <div class="blog-post-thumb">
-                                <img src="img/blog-img/1.jpg" alt="">
+                                <img src="{{url_for('static', filename='img/blog-img/1.jpg')}}" alt="">
                             </div>
                             <!-- Post Content -->
                             <div class="post-content">
@@ -240,7 +248,7 @@
                         <div class="single-blog-post mb-100 wow fadeInUp" data-wow-delay="300ms">
                             <!-- Post Thumb -->
                             <div class="blog-post-thumb">
-                                <img src="img/blog-img/2.jpg" alt="">
+                                <img src="{{url_for('static', filename='img/blog-img/2.jpg')}}" alt="">
                             </div>
                             <!-- Post Content -->
                             <div class="post-content">
@@ -264,7 +272,7 @@
                         <div class="single-blog-post mb-100 wow fadeInUp" data-wow-delay="500ms">
                             <!-- Post Thumb -->
                             <div class="blog-post-thumb">
-                                <img src="img/blog-img/3.jpg" alt="">
+                                <img src="{{url_for('static', filename='img/blog-img/3.jpg')}}" alt="">
                             </div>
                             <!-- Post Content -->
                             <div class="post-content">
@@ -305,7 +313,7 @@
                 <!-- Footer Widget Area -->
                 <div class="col-12 col-lg-5">
                     <div class="footer-widget-area mt-50">
-                        <a href="#" class="d-block mb-5"><img src="img/core-img/logo.png" alt=""></a>
+                        <a href="#" class="d-block mb-5"><img src="{{url_for('static', filename='img/core-img/logo.png')}}" alt=""></a>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. </p>
                     </div>
                 </div>
@@ -314,7 +322,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="footer-widget-area mt-50">
                         <h6 class="widget-title mb-5">Find us on the map</h6>
-                        <img src="img/bg-img/footer-map.png" alt="">
+                        <img src="{{url_for('static', filename='img/bg-img/footer-map.png')}}" alt="">
                     </div>
                 </div>
 
@@ -344,15 +352,15 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
     <!-- ##### All Javascript Script ##### -->
     <!-- jQuery-2.2.4 js -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="{{url_for('static', filename='js/jquery/jquery-2.2.4.min.js')}}"></script>
     <!-- Popper js -->
-    <script src="js/bootstrap/popper.min.js"></script>
+    <script src="{{url_for('static', filename='js/bootstrap/popper.min.js')}}"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="{{url_for('static', filename='js/bootstrap/bootstrap.min.js')}}"></script>
     <!-- All Plugins js -->
-    <script src="js/plugins/plugins.js"></script>
+    <script src="{{url_for('static', filename='js/plugins/plugins.js')}}"></script>
     <!-- Active js -->
-    <script src="js/active.js"></script>
+    <script src="{{url_for('static', filename='js/active.js')}}"></script>
 </body>
 
 </html>
