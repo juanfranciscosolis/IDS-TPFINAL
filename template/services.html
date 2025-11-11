@@ -1,21 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="">
+    <meta name="description" content="Servicios del Hotel Palatin: relajación, bienestar y experiencias únicas.">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <!-- Title -->
-    <title>The Palatin - Hotel &amp; Resort Template</title>
+    <title>The Palatin - Servicios</title>
 
-    <!-- Favicon -->
-    <link rel="icon" href="{{url_for('static', filename='img/core-img/favicon.ico')}}">
+    <link rel="icon" href="{{ url_for('static', filename='img/core-img/favicon.ico') }}">
 
-    <!-- Core Stylesheet -->
-     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/classy-nav.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
@@ -24,292 +20,198 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-icon.css') }}">
-
 </head>
 
 <body>
-    <!-- Preloader -->
+    <!-- Cargador -->
     <div class="preloader d-flex align-items-center justify-content-center">
         <div class="cssload-container">
             <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
         </div>
     </div>
 
-    <!-- ##### Header Area Start ##### -->
+    <!-- ##### Encabezado ##### -->
     <header class="header-area">
-        <!-- Navbar Area -->
         <div class="palatin-main-menu">
             <div class="classy-nav-container breakpoint-off">
                 <div class="container">
-                    <!-- Menu -->
                     <nav class="classy-navbar justify-content-between" id="palatinNav">
+                        <a href="{{ url_for('index') }}" class="nav-brand"><img src="{{ url_for('static', filename='img/core-img/logo.png') }}" alt="logo"></a>
 
-                        <!-- Nav brand -->
-                        <a href="{{ url_for('index') }}" class="nav-brand"><img src="{{ url_for('static', filename='img/core-img/logo.png') }}" alt=""></a>
-
-                        <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
                             <span class="navbarToggler"><span></span><span></span><span></span></span>
                         </div>
 
-                        <!-- Menu -->
                         <div class="classy-menu">
-
-                            <!-- close btn -->
                             <div class="classycloseIcon">
                                 <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                             </div>
 
-                            <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li><a href="index.html">Home</a></li>
-                                    <li><a href="about-us.html">About Us</a></li>
-                                    <li><a href="#">Pages</a>
-                                        <ul class="dropdown">
-                                            <li><a href="{{ url_for('index') }}">Home</a></li>
-                                            <li><a href="{{ url_for('about') }}">About Us</a></li>
-                                            <li><a href="{{ url_for('services') }}">Services</a></li>
-                                            <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
-                                            <li><a href="{{ url_for('blog') }}">News</a></li>
-                                            <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                                            <li><a href="{{ url_for('elements') }}">Elements</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Mega Menu</a>
-                                        <div class="megamenu">
-                                            <ul class="single-mega cn-col-4">
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><a href="{{ url_for('about') }}">About Us</a></li>
-                                                <li><a href="{{ url_for('services') }}">Services</a></li>
-                                                <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
-                                                <li><a href="{{ url_for('blog') }}">News</a></li>
-                                                <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                                                <li><a href="{{ url_for('elements') }}">Elements</a></li>
-                                            </ul>
-                                            <ul class="single-mega cn-col-4">
-                                                <li><a href="{{ url_for('index') }}">Home</a></li>
-                                                <li><a href="{{ url_for('about') }}">About Us</a></li>
-                                                <li><a href="{{ url_for('services') }}">Services</a></li>
-                                                <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
-                                                <li><a href="{{ url_for('blog') }}">News</a></li>
-                                                <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                                                <li><a href="{{ url_for('elements') }}">Elements</a></li>
-                                            </ul>
-                                            <ul class="single-mega cn-col-4">
-                                                <li><a href="{{ url_for('index') }}">Home</a></li>
-                                                <li><a href="{{ url_for('about') }}">About Us</a></li>
-                                                <li><a href="{{ url_for('services') }}">Services</a></li>
-                                                <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
-                                                <li><a href="{{ url_for('blog') }}">News</a></li>
-                                                <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                                                <li><a href="{{ url_for('elements') }}">Elements</a></li>
-                                            </ul>
-                                            <ul class="single-mega cn-col-4">
-                                                <li><a href="{{ url_for('index') }}">Home</a></li>
-                                                <li><a href="{{ url_for('about') }}">About Us</a></li>
-                                                <li><a href="{{ url_for('services') }}">Services</a></li>
-                                                <li><a href="{{ url_for('rooms') }}">Rooms</a></li>
-                                                <li><a href="{{ url_for('blog') }}">News</a></li>
-                                                <li><a href="{{ url_for('contact') }}">Contact</a></li>
-                                                <li><a href="{{ url_for('elements') }}">Elements</a></li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="active"><a href="{{ url_for('services') }}">Services</a></li>
-                                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
+                                    <li><a href="{{ url_for('about') }}">Nosotros</a></li>
+                                    <li class="active"><a href="{{ url_for('services') }}">Servicios</a></li>
+                                    <li><a href="{{ url_for('rooms') }}">Habitaciones</a></li>
+                                    <li><a href="{{ url_for('contact') }}">Contacto</a></li>
                                 </ul>
-
-                                <!-- Button -->
                                 <div class="menu-btn">
-                                    <a href="#" class="btn palatin-btn">Make a Reservation</a>
+                                    <a href="#" class="btn palatin-btn">Hacer una reserva</a>
                                 </div>
-
                             </div>
-                            <!-- Nav End -->
                         </div>
                     </nav>
                 </div>
             </div>
         </div>
     </header>
-    <!-- ##### Header Area End ##### -->
 
-    <!-- ##### Breadcumb Area Start ##### -->
-    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url(img/bg-img/bg-5.jpg);">
+    <!-- ##### Portada ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-5.jpg') }}');">
         <div class="bradcumbContent">
-            <h2>Services</h2>
+            <h2>Servicios</h2>
         </div>
     </section>
-    <!-- ##### Breadcumb Area End ##### -->
 
-    <!-- ##### Book Now Area Start ##### -->
+    <!-- ##### Reservar ##### -->
     <div class="book-now-area">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-10">
                     <div class="book-now-form">
                         <form action="#">
-                            <!-- Form Group -->
                             <div class="form-group">
-                                <label for="select1">Check In</label>
+                                <label for="select1">Fecha de ingreso</label>
                                 <select class="form-control" id="select1">
-                                  <option>19 June</option>
-                                  <option>20 June</option>
-                                  <option>21 June</option>
-                                  <option>22 June</option>
-                                  <option>23 June</option>
-                                  <option>24 June</option>
-                                  <option>25 June</option>
+                                  <option>19 Junio</option>
+                                  <option>20 Junio</option>
+                                  <option>21 Junio</option>
+                                  <option>22 Junio</option>
+                                  <option>23 Junio</option>
+                                  <option>24 Junio</option>
+                                  <option>25 Junio</option>
                                 </select>
                             </div>
-
-                            <!-- Form Group -->
                             <div class="form-group">
-                                <label for="select2">Check Out</label>
+                                <label for="select2">Fecha de salida</label>
                                 <select class="form-control" id="select2">
-                                  <option>20 June</option>
-                                  <option>21 June</option>
-                                  <option>22 June</option>
-                                  <option>23 June</option>
-                                  <option>24 June</option>
-                                  <option>25 June</option>
-                                  <option>26 June</option>
-                                  <option>27 June</option>
+                                  <option>20 Junio</option>
+                                  <option>21 Junio</option>
+                                  <option>22 Junio</option>
+                                  <option>23 Junio</option>
+                                  <option>24 Junio</option>
+                                  <option>25 Junio</option>
+                                  <option>26 Junio</option>
+                                  <option>27 Junio</option>
                                 </select>
                             </div>
-
-                            <!-- Form Group -->
                             <div class="form-group">
-                                <label for="select3">Adults</label>
+                                <label for="select3">Adultos</label>
                                 <select class="form-control" id="select3">
                                   <option>02</option>
                                   <option>03</option>
                                   <option>04</option>
                                   <option>05</option>
-                                  <option>06</option>
                                 </select>
                             </div>
-
-                            <!-- Form Group -->
                             <div class="form-group">
-                                <label for="select4">Childrens</label>
+                                <label for="select4">Niños</label>
                                 <select class="form-control" id="select4">
+                                  <option>00</option>
                                   <option>01</option>
                                   <option>02</option>
                                   <option>03</option>
-                                  <option>04</option>
-                                  <option>05</option>
                                 </select>
                             </div>
-
-                            <!-- Button -->
-                            <button type="submit">Book Now</button>
+                            <button type="submit">Reservar ahora</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- ##### Book Now Area End ##### -->
 
-    <!-- ##### Service Intro Area Start ##### -->
+    <!-- ##### Introducción de Servicios ##### -->
     <section class="services-intro">
         <div class="container">
             <div class="row align-items-center">
-                <!-- Service Intro Text -->
                 <div class="col-12 col-lg-6">
                     <div class="service-intro-text mb-100">
                         <div class="section-heading">
                             <div class="line-"></div>
-                            <h2>Amazing Services</h2>
+                            <h2>Servicios Excepcionales</h2>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus.</p>
-                        <a href="#" class="btn palatin-btn mt-50">Read More</a>
+                        <p>En el Hotel Palatin, cada servicio está diseñado para ofrecerte una experiencia inolvidable. Desde nuestro spa y piscina infinita hasta el lounge bar y actividades al aire libre, todo está pensado para tu descanso y bienestar.</p>
+                        <a href="#" class="btn palatin-btn mt-50">Saber más</a>
                     </div>
                 </div>
 
-                <!-- Services Features -->
                 <div class="col-12 col-lg-6">
                     <div class="row mb-100">
-
-                        <!-- Single Cool Facts -->
                         <div class="col-12 col-sm-4">
                             <div class="single-cool-fact">
                                 <div class="scf-text">
                                     <i class="icon-cocktail-1"></i>
-                                    <p>Pool Beachbar</p>
+                                    <p>Bar en la piscina</p>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Single Cool Facts -->
                         <div class="col-12 col-sm-4">
                             <div class="single-cool-fact">
                                 <div class="scf-text">
                                     <i class="icon-swimming-pool"></i>
-                                    <p>Infinity Pool</p>
+                                    <p>Piscina infinita</p>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Single Cool Facts -->
                         <div class="col-12 col-sm-4">
                             <div class="single-cool-fact">
                                 <div class="scf-text">
                                     <i class="icon-beach"></i>
-                                    <p>Sunbeds</p>
+                                    <p>Camastros y solarium</p>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- ##### Service Intro Area End ##### -->
 
-    <!-- ##### Core Features Start ##### -->
+    <!-- ##### Áreas Principales ##### -->
     <section class="core-features-area">
         <div class="container">
             <div class="row justify-content-center">
 
-                <!-- Single Core Feature Area -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-core-feature mb-100">
-                        <div class="bg-thumbnail bg-img" style="background-image: url(img/bg-img/12.jpg);"></div>
-                        <!-- Content -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url('{{ url_for('static', filename='img/bg-img/12.jpg') }}');"></div>
                         <div class="feature-content">
                             <i class="icon-sunset"></i>
-                            <h3>Wellness</h3>
-                            <p>Malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus. faucibus finibus.</p>
+                            <h3>Bienestar</h3>
+                            <p>Un espacio dedicado al equilibrio físico y mental, con actividades relajantes y terapias personalizadas.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Single Core Feature Area -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-core-feature mb-100">
-                        <div class="bg-thumbnail bg-img" style="background-image: url(img/bg-img/13.jpg);"></div>
-                        <!-- Content -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url('{{ url_for('static', filename='img/bg-img/13.jpg') }}');"></div>
                         <div class="feature-content">
                             <i class="icon-sunset"></i>
-                            <h3>Spa Center</h3>
-                            <p>Malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus. faucibus finibus.</p>
+                            <h3>Spa &amp; Relax</h3>
+                            <p>Masajes, jacuzzis y tratamientos de belleza con productos naturales. Una experiencia sensorial inigualable.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Single Core Feature Area -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-core-feature mb-100">
-                        <div class="bg-thumbnail bg-img" style="background-image: url(img/bg-img/14.jpg);"></div>
-                        <!-- Content -->
+                        <div class="bg-thumbnail bg-img" style="background-image: url('{{ url_for('static', filename='img/bg-img/14.jpg') }}');"></div>
                         <div class="feature-content">
                             <i class="icon-island"></i>
                             <h3>Lounge Bar</h3>
-                            <p>Malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus. faucibus finibus.</p>
+                            <p>Disfrutá cócteles exclusivos con música en vivo y vistas panorámicas al atardecer.</p>
                         </div>
                     </div>
                 </div>
@@ -317,128 +219,109 @@
             </div>
         </div>
     </section>
-    <!-- ##### Core Features End ##### -->
 
-    <!-- ##### Services Area Start ##### -->
+    <!-- ##### Servicios ##### -->
     <section class="services-area">
         <div class="container">
             <div class="row">
 
-                <!-- Single Service Area -->
                 <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="100ms">
                         <i class="icon-trekking"></i>
-                        <h4>Bike Rentals</h4>
-                        <p>Nulla massa dui, posuere non erat in, eleifend mattis dui. Vivamus luctus luctus rhoncus. Donec sagittis nulla id finibus iaculis. Mauris odio tortor.</p>
+                        <h4>Alquiler de bicicletas</h4>
+                        <p>Explorá los alrededores del resort con nuestras bicicletas, ideales para paseos en familia o recorridos de aventura.</p>
                     </div>
                 </div>
 
-                <!-- Single Service Area -->
                 <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="200ms">
                         <i class="icon-boat"></i>
-                        <h4>Boat Trips</h4>
-                        <p>Nulla massa dui, posuere non erat in, eleifend mattis dui. Vivamus luctus luctus rhoncus. Donec sagittis nulla id finibus iaculis. Mauris odio tortor.</p>
+                        <h4>Paseos en barco</h4>
+                        <p>Recorré paisajes únicos en excursiones guiadas y disfrutá del atardecer desde el mar.</p>
                     </div>
                 </div>
 
-                <!-- Single Service Area -->
                 <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="300ms">
                         <i class="icon-restaurant"></i>
-                        <h4>Restaurants</h4>
-                        <p>Nulla massa dui, posuere non erat in, eleifend mattis dui. Vivamus luctus luctus rhoncus. Donec sagittis nulla id finibus iaculis. Mauris odio tortor.</p>
+                        <h4>Restaurantes gourmet</h4>
+                        <p>Sabores únicos y cocina internacional en nuestros restaurantes con menú de autor.</p>
                     </div>
                 </div>
 
-                <!-- Single Service Area -->
                 <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="400ms">
                         <i class="icon-beach"></i>
-                        <h4>Massages</h4>
-                        <p>Nulla massa dui, posuere non erat in, eleifend mattis dui. Vivamus luctus luctus rhoncus. Donec sagittis nulla id finibus iaculis. Mauris odio tortor.</p>
+                        <h4>Masajes relajantes</h4>
+                        <p>Terapias con aceites esenciales y técnicas de relajación profunda en un ambiente de serenidad.</p>
                     </div>
                 </div>
 
-                <!-- Single Service Area -->
                 <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="500ms">
                         <i class="icon-boarding-pass"></i>
-                        <h4>Event Tikets</h4>
-                        <p>Nulla massa dui, posuere non erat in, eleifend mattis dui. Vivamus luctus luctus rhoncus. Donec sagittis nulla id finibus iaculis. Mauris odio tortor.</p>
+                        <h4>Entradas a eventos</h4>
+                        <p>Te ayudamos a acceder a los mejores espectáculos y experiencias culturales locales.</p>
                     </div>
                 </div>
 
-                <!-- Single Service Area -->
                 <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="600ms">
                         <i class="icon-sign"></i>
-                        <h4>Hiking</h4>
-                        <p>Nulla massa dui, posuere non erat in, eleifend mattis dui. Vivamus luctus luctus rhoncus. Donec sagittis nulla id finibus iaculis. Mauris odio tortor.</p>
+                        <h4>Senderismo guiado</h4>
+                        <p>Descubrí la naturaleza de los alrededores con nuestras excursiones y guías expertos.</p>
                     </div>
                 </div>
 
             </div>
         </div>
     </section>
-    <!-- ##### Services Area End ##### -->
 
-    <!-- ##### Footer Area Start ##### -->
+    <!-- ##### Pie de Página ##### -->
     <footer class="footer-area">
         <div class="container">
             <div class="row">
-
-                <!-- Footer Widget Area -->
                 <div class="col-12 col-lg-5">
                     <div class="footer-widget-area mt-50">
-                        <a href="#" class="d-block mb-5"><img src="img/core-img/logo.png" alt=""></a>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada lorem maximus mauris sceleri sque, at rutrum nulla dictum. Ut ac ligula sapien. Suspendisse cursus faucibus finibus. </p>
+                        <a href="#" class="d-block mb-5"><img src="{{ url_for('static', filename='img/core-img/logo.png') }}" alt=""></a>
+                        <p>En el Hotel Palatin cuidamos cada detalle para que tu estadía sea inolvidable: servicio, gastronomía y hospitalidad de excelencia.</p>
                     </div>
                 </div>
 
-                <!-- Footer Widget Area -->
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="footer-widget-area mt-50">
-                        <h6 class="widget-title mb-5">Find us on the map</h6>
+                        <h6 class="widget-title mb-5">Ubicación</h6>
                         <img src="{{ url_for('static', filename='img/bg-img/footer-map.png') }}" alt="">
                     </div>
                 </div>
 
-                <!-- Footer Widget Area -->
                 <div class="col-12 col-md-6 col-lg-3">
                     <div class="footer-widget-area mt-50">
-                        <h6 class="widget-title mb-5">Subscribe to our newsletter</h6>
+                        <h6 class="widget-title mb-5">Suscribite a nuestras novedades</h6>
                         <form action="#" method="post" class="subscribe-form">
-                            <input type="email" name="subscribe-email" id="subscribeemail" placeholder="Your E-mail">
-                            <button type="submit">Subscribe</button>
+                            <input type="email" name="subscribe-email" id="subscribeemail" placeholder="Tu correo electrónico">
+                            <button type="submit">Suscribirse</button>
                         </form>
                     </div>
                 </div>
 
-                <!-- Copywrite Text -->
                 <div class="col-12">
                     <div class="copywrite-text mt-30">
-                        <p><a href="#"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                        <p>Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script>
+                            Todos los derechos reservados | Diseñado con <i class="fa fa-heart-o"></i> por
+                            <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-    <!-- ##### Footer Area End ##### -->
 
-    <!-- ##### All Javascript Script ##### -->
-    <!-- jQuery-2.2.4 js -->
     <script src="{{ url_for('static', filename='js/jquery/jquery-2.2.4.min.js') }}"></script>
-    <!-- Popper js -->
     <script src="{{ url_for('static', filename='js/bootstrap/popper.min.js') }}"></script>
-    <!-- Bootstrap js -->
     <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.min.js') }}"></script>
-    <!-- All Plugins js -->
     <script src="{{ url_for('static', filename='js/plugins/plugins.js') }}"></script>
-    <!-- Active js -->
     <script src="{{ url_for('static', filename='js/active.js') }}"></script>
 </body>
-
 </html>
