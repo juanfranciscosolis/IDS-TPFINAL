@@ -1,111 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Hotel y Resort - Experiencias de lujo y confort junto al mar.">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block title %}Contacto - The Palatin{% endblock %}
 
-    <!-- Título -->
-    <title>The Palatin - Hotel & Resort</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="{{ url_for('static', filename='img/core-img/favicon.ico') }}">
-
-    <!-- Hojas de estilo -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/classy-nav.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-icon.css') }}">
-</head>
-
-<body>
-    <!-- Cargador -->
-    <div class="preloader d-flex align-items-center justify-content-center">
-        <div class="cssload-container">
-            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
-        </div>
-    </div>
-
-    <!-- ##### Encabezado ##### -->
-    <header class="header-area">
-        <!-- Barra de navegación -->
-        <div class="palatin-main-menu">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
-                    <nav class="classy-navbar justify-content-between" id="palatinNav">
-                        <!-- Marca -->
-                        <a href="{{ url_for('index') }}" class="nav-brand">
-                            <img src="{{ url_for('static', filename='img/core-img/logo.png') }}" alt="Logo del hotel">
-                        </a>
-
-                        <!-- Botón menú -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
-
-                        <!-- Menú -->
-                        <div class="classy-menu">
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <div class="classynav">
-                                <ul>
-                                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
-                                    <li><a href="{{ url_for('about') }}">Nosotros</a></li>
-                                    <li><a href="#">Páginas</a>
-                                        <ul class="dropdown">
-                                            <li><a href="{{ url_for('index') }}">Inicio</a></li>
-                                            <li><a href="{{ url_for('about') }}">Nosotros</a></li>
-                                            <li><a href="{{ url_for('services') }}">Servicios</a></li>
-                                            <li><a href="{{ url_for('rooms') }}">Habitaciones</a></li>
-                                            <li><a href="{{ url_for('blog') }}">Noticias</a></li>
-                                            <li><a href="{{ url_for('contact') }}">Contacto</a></li>
-                                            <li><a href="{{ url_for('elements') }}">Elementos</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#">Menú Principal</a>
-                                        <div class="megamenu">
-                                            {% for i in range(4) %}
-                                            <ul class="single-mega cn-col-4">
-                                                <li><a href="{{ url_for('index') }}">Inicio</a></li>
-                                                <li><a href="{{ url_for('about') }}">Nosotros</a></li>
-                                                <li><a href="{{ url_for('services') }}">Servicios</a></li>
-                                                <li><a href="{{ url_for('rooms') }}">Habitaciones</a></li>
-                                                <li><a href="{{ url_for('blog') }}">Noticias</a></li>
-                                                <li><a href="{{ url_for('contact') }}">Contacto</a></li>
-                                                <li><a href="{{ url_for('elements') }}">Elementos</a></li>
-                                            </ul>
-                                            {% endfor %}
-                                        </div>
-                                    </li>
-                                    <li><a href="{{ url_for('services') }}">Servicios</a></li>
-                                    <li class="active"><a href="{{ url_for('contact') }}">Contacto</a></li>
-                                </ul>
-
-                                <!-- Botón -->
-                                <div class="menu-btn">
-                                    <a href="#" class="btn palatin-btn">Hacer una Reserva</a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
+{% block content %}
 
     <!-- ##### Sección encabezado de página ##### -->
     <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
-        style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-8.jpg') }}');">
+             style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-8.jpg') }}');">
         <div class="bradcumbContent">
             <h2>Contacto</h2>
         </div>
@@ -290,63 +191,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <iframe src="https://www.google.com/maps/embed?..."></iframe>
+                    <iframe src="https://www.google.com/maps/embed?..." ></iframe>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ##### Pie de Página ##### -->
-    <footer class="footer-area">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-12 col-lg-5">
-                    <div class="footer-widget-area mt-50">
-                        <a href="#" class="d-block mb-5">
-                            <img src="{{ url_for('static', filename='img/core-img/logo.png') }}" alt="Logo Palatin">
-                        </a>
-                        <p>Palatin Hotel combina elegancia, confort y una atención personalizada para ofrecerte una estadía inolvidable. Descubre nuestros servicios exclusivos y disfrutá del verdadero descanso.</p>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="footer-widget-area mt-50">
-                        <h6 class="widget-title mb-5">Encuéntranos en el mapa</h6>
-                        <img src="{{ url_for('static', filename='img/bg-img/footer-map.png') }}" alt="Mapa del hotel">
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="footer-widget-area mt-50">
-                        <h6 class="widget-title mb-5">Suscribite a nuestro boletín</h6>
-                        <form action="#" method="post" class="subscribe-form">
-                            <input type="email" name="subscribe-email" id="subscribeemail" placeholder="Tu correo electrónico">
-                            <button type="submit">Suscribirse</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="copywrite-text mt-30">
-                        <p>Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script>
-                            Todos los derechos reservados | Plantilla creada con <i class="fa fa-heart-o"
-                                aria-hidden="true"></i>
-                            por <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="{{ url_for('static', filename='js/jquery/jquery-2.2.4.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/plugins.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/active.js') }}"></script>
-</body>
-
-</html>
+{% endblock %}

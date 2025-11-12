@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Registrarse - The Palatin{% endblock %}
+
+{% block content %}
+
+<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center auth-hero"
+         style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-3.jpg') }}');">
+    <div class="bradcumbContent auth-panel">
+        <form action="{{ url_for('register') }}" method="post">
+
+            <!-- Fila 1: Nombre + Email -->
+            <div class="auth-row">
+                <div class="form-group">
+                    <label for="name">Nombre completo</label>
+                    <input type="text" class="form-control" id="name" name="name"
+                           placeholder="Tu nombre y apellido" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                           placeholder="tu_correo@ejemplo.com" required>
+                </div>
+            </div>
+
+            <!-- Fila 2: Password + Confirmación -->
+            <div class="auth-row">
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" class="form-control" id="password" name="password"
+                           placeholder="Crea una contraseña" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Repetir contraseña</label>
+                    <input type="password" class="form-control" id="confirm_password"
+                           name="confirm_password" placeholder="Repetí la contraseña" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn palatin-btn auth-btn">Registrarse</button>
+
+            <p class="auth-switch-text">
+                ¿Ya tenés cuenta?
+                <a href="{{ url_for('login') }}">Iniciar sesión</a>
+            </p>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,86 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Conocé el Hotel Palatin: un destino de descanso, lujo y experiencias inolvidables.">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% block title %}Sobre nosotros - The Palatin{% endblock %}
 
-    <title>The Palatin - Sobre Nosotros</title>
-
-    <link rel="icon" href="{{ url_for('static', filename='img/core-img/favicon.ico') }}">
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/classy-nav.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/nice-select.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/travel-icon.css') }}">
-</head>
-
-<body>
-    <!-- Preloader -->
-    <div class="preloader d-flex align-items-center justify-content-center">
-        <div class="cssload-container">
-            <div class="cssload-loading"><i></i><i></i><i></i><i></i></div>
-        </div>
-    </div>
-
-    <!-- ##### Encabezado ##### -->
-    <header class="header-area">
-        <div class="palatin-main-menu">
-            <div class="classy-nav-container breakpoint-off">
-                <div class="container">
-                    <nav class="classy-navbar justify-content-between" id="palatinNav">
-
-                        <a href="{{ url_for('index') }}" class="nav-brand"><img src="{{ url_for('static', filename='img/core-img/logo.png') }}" alt="logo"></a>
-
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
-
-                        <div class="classy-menu">
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <div class="classynav">
-                                <ul>
-                                    <li><a href="{{ url_for('index') }}">Inicio</a></li>
-                                    <li class="active"><a href="{{ url_for('about') }}">Nosotros</a></li>
-                                    <li><a href="#">Páginas</a>
-                                        <ul class="dropdown">
-                                            <li><a href="{{ url_for('index') }}">Inicio</a></li>
-                                            <li><a href="{{ url_for('about') }}">Nosotros</a></li>
-                                            <li><a href="{{ url_for('services') }}">Servicios</a></li>
-                                            <li><a href="{{ url_for('rooms') }}">Habitaciones</a></li>
-                                            <li><a href="{{ url_for('blog') }}">Noticias</a></li>
-                                            <li><a href="{{ url_for('contact') }}">Contacto</a></li>
-                                            <li><a href="{{ url_for('elements') }}">Elementos</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="{{ url_for('services') }}">Servicios</a></li>
-                                    <li><a href="{{ url_for('contact') }}">Contacto</a></li>
-                                </ul>
-
-                                <div class="menu-btn">
-                                    <a href="#" class="btn palatin-btn">Hacer una reserva</a>
-                                </div>
-
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
+{% block content %}
 
     <!-- ##### Portada ##### -->
-    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center" style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-2.jpg') }}');">
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
+             style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-2.jpg') }}');">
         <div class="bradcumbContent">
             <h2>Sobre Nosotros</h2>
         </div>
@@ -175,7 +101,8 @@
     </section>
 
     <!-- ##### Logros ##### -->
-    <section class="our-milestones section-padding-100-0 bg-img bg-overlay bg-fixed" style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-4.jpg') }}');">
+    <section class="our-milestones section-padding-100-0 bg-img bg-overlay bg-fixed"
+             style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-4.jpg') }}');">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-8">
@@ -263,7 +190,8 @@
     </section>
 
     <!-- ##### Testimonios ##### -->
-    <section class="testimonial-area section-padding-100 bg-img" style="background-image: url('{{ url_for('static', filename='img/core-img/pattern.png') }}');">
+    <section class="testimonial-area section-padding-100 bg-img"
+             style="background-image: url('{{ url_for('static', filename='img/core-img/pattern.png') }}');">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -291,51 +219,4 @@
         </div>
     </section>
 
-    <!-- ##### Pie de Página ##### -->
-    <footer class="footer-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-5">
-                    <div class="footer-widget-area mt-50">
-                        <a href="#" class="d-block mb-5"><img src="{{ url_for('static', filename='img/core-img/logo.png') }}" alt=""></a>
-                        <p>Hotel Palatin: elegancia, confort y atención personalizada en un entorno de naturaleza y tranquilidad.</p>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="footer-widget-area mt-50">
-                        <h6 class="widget-title mb-5">Ubicación</h6>
-                        <img src="{{ url_for('static', filename='img/bg-img/footer-map.png') }}" alt="">
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="footer-widget-area mt-50">
-                        <h6 class="widget-title mb-5">Suscribite a nuestras novedades</h6>
-                        <form action="#" method="post" class="subscribe-form">
-                            <input type="email" name="subscribe-email" id="subscribeemail" placeholder="Tu correo electrónico">
-                            <button type="submit">Suscribirse</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="copywrite-text mt-30">
-                        <p>Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script>
-                            Todos los derechos reservados | Diseñado con <i class="fa fa-heart-o"></i> por
-                            <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="{{ url_for('static', filename='js/jquery/jquery-2.2.4.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap/popper.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/plugins/plugins.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/active.js') }}"></script>
-</body>
-</html>
+{% endblock %}
