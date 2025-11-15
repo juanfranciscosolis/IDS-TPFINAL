@@ -1554,6 +1554,148 @@ img {
   .palatin-tabs-content .tab-content h6 {
     font-size: 18px; }
 
+   
+/* --- Botones de login / registro / reserva en el header --- */
+
+.menu-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;            /* espacio entre login/registro y reserva */
+    padding-top: 8px;    /* aire arriba, separa los botones de la parte superior del header */
+    padding-bottom: 14px;/* aire abajo, separa "Hacer una reserva" de la línea gris */
+}
+.menu-btn > * {
+    width: 100%;
+}
+
+/* fila login / registro */
+.auth-links {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+.auth-links a {
+    flex: 1;
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    font-size: 11px;
+    padding: 3px 10px;      /* más padding interno en los botones superiores */
+    border-radius: 999px;
+    text-transform: none;
+    text-align: center;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+/* buen contraste en hover */
+.classynav .auth-links a:hover {
+    background-color: #fff !important;
+    color: #111 !important;
+    border-color: #fff !important;
+}
+
+.menu-btn .palatin-btn {
+    padding: 1px 10px 3px 10px;  /* top 1px, lados 10px, bottom 3px */
+    font-size: 12px;
+    border-radius: 999px;
+    display: block;
+    text-align: center;
+}
+
+/* ========================= */
+/* LOGIN / REGISTER HERO     */
+/* ========================= */
+
+.auth-hero {
+    position: relative;
+    margin-top: 90px;                 /* compensa la navbar fija */
+    padding: 110px 0 180px;           /* ↑ más espacio arriba y abajo */
+    min-height: calc(100vh - 90px);   /* ocupa casi toda la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.auth-hero .auth-panel {
+    background-color: rgba(0, 0, 0, 0.86);
+    border: 1px solid #d89a7c;
+    padding: 24px 32px 22px;
+    max-width: 680px;   /* MÁS ANCHO */
+    width: 100%;
+    color: #fff;
+}
+
+/* En móviles mantenemos algo más angosto para que no se rompa */
+@media (max-width: 767px) {
+    .auth-hero .auth-panel {
+        max-width: 100%;
+        padding: 20px 18px 18px;
+    }
+}
+
+/* Labels */
+.auth-hero .auth-panel .form-group label {
+    font-size: 15px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+/* Inputs */
+.auth-hero .auth-panel .form-control {
+    background-color: transparent;
+    border-radius: 0;
+    border: 1px solid #555;
+    color: #fff;
+    height: 42px;
+    font-size: 13px;
+}
+
+.auth-hero .auth-panel .form-control::placeholder {
+    color: #aaa;
+}
+
+/* Botón */
+.auth-hero .auth-btn {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+}
+
+/* Texto "¿No tenés cuenta?..." / "¿Ya tenés cuenta?..." */
+.auth-hero .auth-switch-text {
+    margin-top: 14px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.auth-hero .auth-switch-text a {
+    color: #d89a7c;
+}
+/* Fila de dos columnas en login/register (nombre+email, password+confirm) */
+.auth-hero .auth-panel .auth-row {
+    display: flex;
+    gap: 16px;
+}
+
+/* Que cada form-group ocupe la mitad de la fila */
+.auth-hero .auth-panel .auth-row .form-group {
+    flex: 1;
+    margin-bottom: 14px;
+}
+
+/* En pantallas chicas se apilan uno debajo del otro */
+@media (max-width: 767px) {
+    .auth-hero .auth-panel .auth-row {
+        flex-direction: column;
+    }
+}
+
 /* ====== The End ====== */
+
+
 
 /*# sourceMappingURL=style.css.map */
