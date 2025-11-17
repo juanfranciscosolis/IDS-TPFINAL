@@ -24,7 +24,7 @@
                     <div class="mb-3">
                         <strong>Email:</strong>
                         <span id="usuario-email">...</span>
-                    </div>
+                    </div>                                                  
                 </div>
         </div>
         
@@ -34,11 +34,41 @@
                 </div>
                 <div class="card-body">
                     <div id="reservas-container">
-                        <p>reservasss</p>
+                        <p>reservas...</p>
                     </div>
                 </div>
         </div>
 
     </div>
 </section>
+{% endblock %}
+{% block extra_js %}
+<script>
+    function obtenerIdDeUsuario() {
+        // Cambiar luego 
+        // Obtener id por login    
+        return {{ usuario.id | tojson }};
+    }
+
+    async function cargarUsuario() {
+        const userId = obtenerIdDeUsuario();
+        
+        try {
+            const url = "{{ url_for('api_usuario', user_id=0) }}".replace('0', userId);
+            const res = await fetch(url);
+            const usuario = await res.json();
+
+            document.getElementById('usuario-id').textContent = usuario.id;
+            document.getElementById('usuario-nombre').textContent = usuario.nombre;
+            document.getElementById('usuario-email').textContent = usuario.email;
+            
+        } catch (error) {
+            document.getElementById('usuario-id').textContent = 'Error';
+            document.getElementById('usuario-nombre').textContent = 'Error al cargar datos';
+            document.getElementById('usuario-email').textContent = error.message;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', cargarUsuario);
+</script>
 {% endblock %}
