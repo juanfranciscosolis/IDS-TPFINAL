@@ -10,4 +10,4 @@ app.register_blueprint(habitaciones_bp, url_prefix="/habitaciones")
 app.register_blueprint(reservas_bp, url_prefix="/reservas")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5010, debug=True)
