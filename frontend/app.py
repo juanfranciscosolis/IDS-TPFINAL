@@ -38,6 +38,7 @@ def login():
 
 @app.route('/register')
 def register():
+
     return render_template('register.html')
 
 @app.route('/usuario/<int:user_id>')
@@ -55,6 +56,26 @@ def api_usuario(user_id):
     if not usuario:
         return jsonify({"error": "Usuario no encontrado"}), 404
     return jsonify(usuario)
+
+@app.route('/api/registrar', methods=["POST"])
+def api_registrar_usuario():
+    datos = request.json # Obtiene los datos
+
+    # Verifica la contrasena
+    if datos["password"] != datos["confirmPassword"]:
+        return jsonify({"error": "Las contraseñas no coinciden"}), 400
+
+    # Envia los datos al backend
+    response = requests.post(
+        f'{API_BASE}/usuarios/',
+        json={
+            "name": datos["name"],
+            "email": datos["email"],
+            "password": datos["password"]
+        }
+    )
+
+    return jsonify(response.json()), response.status_code
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

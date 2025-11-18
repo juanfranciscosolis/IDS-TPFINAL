@@ -30,3 +30,34 @@ def get_usuario(id_usuario):
     cursor.close()
     conn.close()
     return jsonify(usuario_dict), 200
+
+@usuarios_bp.route('/', methods=['POST'])
+
+def crear_usuario():
+    # Recibe los datos del frontend
+    data = request.get_json()
+    
+    # Se guarda los datos
+    name = data.get('name')
+    email = data.get('email')
+    password = data.get('password')
+    
+    # Conexion con la base de datos
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    # Se guarda el usuario en la base de datos
+    cursor.execute(
+        "INSERT INTO usuarios (nombre, email, password) VALUES (%s, %s, %s) RETURNING id",
+        (name, email, password)
+    )
+
+    # Obtenemos el id
+    new_id = cursor.fetchone()[0]
+
+    conn.commit() # Guarda los cambios
+    
+    cursor.close()
+    conn.close()
+    
+    return jsonify({"id": new_id, "message": "Usuario creado"}), 201
