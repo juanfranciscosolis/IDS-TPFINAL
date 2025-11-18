@@ -1,17 +1,18 @@
--- Crear base de datos
-SELECT 'CREATE DATABASE hotel_db'
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'hotel_db')\gexec
-
--- Conectar a la base de datos
-\c hotel_db;
+-- Crear tabla usuarios
+CREATE TABLE IF NOT EXISTS usuarios (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password VARCHAR(150) NOT NULL
+);
 
 -- Crear tabla habitaciones
 CREATE TABLE IF NOT EXISTS habitaciones (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
-    capacidad INTEGER NOT NULL,
-    precio_por_dia DECIMAL(10,2) NOT NULL,
+    capacidad INTEGER NOT NULL CHECK (capacidad > 0),
+    precio_por_dia DECIMAL(10,2) NOT NULL CHECK (precio_por_dia > 0),
     disponible BOOLEAN DEFAULT TRUE,
     imagen_url VARCHAR(255)
 );
@@ -19,58 +20,38 @@ CREATE TABLE IF NOT EXISTS habitaciones (
 -- Crear tabla reservas 
 CREATE TABLE IF NOT EXISTS reservas (
     id SERIAL PRIMARY KEY,
-    nombre_cliente VARCHAR(100) NOT NULL,
-    email_cliente VARCHAR(150) NOT NULL,
-    fecha_checkin DATE NOT NULL,
-    fecha_checkout DATE NOT NULL,
-    cantidad_personas INTEGER,
-    id_habitaciones INTEGER NOT NULL,
-    FOREIGN KEY (id_habitaciones) REFERENCES habitaciones(id) ON DELETE CASCADE
+    id_habitacion INT REFERENCES habitaciones(id) ON DELETE CASCADE,
+    id_usuario INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    fecha_entrada DATE NOT NULL,
+    fecha_salida DATE NOT NULL,
+    cantidad_personas INT NOT NULL,
+    precio_total DECIMAL(10, 2) NOT NULL,
+    estado VARCHAR(20) DEFAULT 'pendiente' CHECK (estado IN ('pendiente', 'cancelada'))
 );
 
+
+
 -- Datos de ejemplo
-INSERT INTO habitaciones (id, nombre, descripcion, capacidad, precio_por_dia, disponible, imagen_url)
-SELECT 1, 'Habitación Standard', 'Habitación cómoda con cama doble y baño privado', 2, 100.00, true, 'static/images/standard.jpg'
-WHERE NOT EXISTS (SELECT 1 FROM habitaciones WHERE id = 1);
+-- Insertar usuarios de ejemplo
+INSERT INTO usuarios (nombre, email, password) VALUES
+('María González', 'maria.gonzalez@email.com', 'password123'),
+('Carlos Rodríguez', 'carlos.rodriguez@email.com', 'securepass456'),
+('Ana Martínez', 'ana.martinez@email.com', 'ana789'),
+('Javier López', 'javier.lopez@email.com', 'javier2024'),
+('Laura Sánchez', 'laura.sanchez@email.com', 'laura_pass');
 
-INSERT INTO habitaciones (id, nombre, descripcion, capacidad, precio_por_dia, disponible, imagen_url)
-SELECT 2, 'Habitación Individual', 'Habitación ideal para una persona', 1, 80.00, true, 'static/images/individual.jpg'
-WHERE NOT EXISTS (SELECT 1 FROM habitaciones WHERE id = 2);
+-- Insertar habitaciones de ejemplo
+INSERT INTO habitaciones (nombre, descripcion, capacidad, precio_por_dia, disponible, imagen_url) VALUES
+('Habitación Doble Estándar', 'Amplia habitación doble con baño privado, TV y WiFi', 2, 85.00, true, '/img/doble-estandar.jpg'),
+('Suite Ejecutiva', 'Lujosa suite con sala de estar y vista al mar', 3, 150.00, true, '/img/suite-ejecutiva.jpg'),
+('Habitación Familiar', 'Espaciosa habitación para familias, con dos camas dobles', 4, 120.00, true, '/img/familiar.jpg'),
+('Habitación Individual', 'Cómoda habitación individual para viajeros solos', 1, 65.00, false, '/img/individual.jpg'),
+('Suite Presidencial', 'Nuestra suite más exclusiva con jacuzzi y terraza privada', 2, 250.00, true, '/img/presidencial.jpg');
 
-INSERT INTO habitaciones (id, nombre, descripcion, capacidad, precio_por_dia, disponible, imagen_url)
-SELECT 3, 'Habitación Económica', 'Habitación básica pero confortable', 1, 50.00, true, 'static/images/economica.jpg'
-WHERE NOT EXISTS (SELECT 1 FROM habitaciones WHERE id = 3);
-
-
-INSERT INTO reservas (id, nombre_cliente, email_cliente, fecha_checkin, fecha_checkout, cantidad_personas, id_habitaciones)
-VALUES 
-    (1, 'María González', 'maria.gonzalez@email.com', '2024-12-15', '2024-12-20', 2, 1)
-ON CONFLICT (id) DO NOTHING;
-
--- Mostrar resultados
-SELECT 'Habitaciones insertadas: ' || COUNT(*)::TEXT as total FROM habitaciones;
-SELECT 'reservas insertadas: ' || COUNT(*)::TEXT as total FROM reservas;
-
-SELECT 'DETALLES DE HABITACIONES:' as info;
-SELECT 
-    id, 
-    nombre, 
-    capacidad, 
-    precio_por_dia, 
-    disponible 
-FROM habitaciones 
-ORDER BY id;
-
-SELECT '=== DETALLES DE RESERVAS ===' as info;
-SELECT 
-    r.id,
-    r.nombre_cliente,
-    r.email_cliente,
-    r.fecha_checkin,
-    r.fecha_checkout,
-    r.cantidad_personas,
-    h.nombre as habitacion,
-    h.precio_por_dia
-FROM reservas r
-JOIN habitaciones h ON r.id_habitaciones = h.id
-ORDER BY r.id;
+-- Insertar reservas de ejemplo
+INSERT INTO reservas (id_habitacion, id_usuario, fecha_entrada, fecha_salida, cantidad_personas, precio_total, estado) VALUES
+(1, 1, '2024-01-15', '2024-01-18', 2, 255.00, 'pendiente'),
+(2, 2, '2024-01-20', '2024-01-25', 2, 750.00, 'pendiente'),
+(3, 3, '2024-02-01', '2024-02-05', 4, 480.00, 'pendiente'),
+(5, 4, '2024-01-10', '2024-01-12', 2, 500.00, 'cancelada'),
+(1, 5, '2024-01-22', '2024-01-24', 2, 170.00, 'pendiente');
