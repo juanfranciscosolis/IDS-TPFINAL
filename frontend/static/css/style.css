@@ -1693,6 +1693,28 @@ img {
         flex-direction: column;
     }
 }
+/* Usuario logueado en la navbar */
+.auth-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;              /* espacio entre nombre y "Cerrar sesión" */
+}
+
+.navbar-username {
+    color: #ffffff;         /* texto blanco */
+    font-weight: 500;       /* un poquito más grueso */
+}
+
+.logout-link {
+    color: #ffffff;         /* link "Cerrar sesión" en blanco */
+    text-decoration: none;
+}
+
+.logout-link:hover {
+    text-decoration: underline;
+}
+
+
 
 /* ====== The End ====== */
 

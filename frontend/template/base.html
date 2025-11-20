@@ -72,14 +72,23 @@
                                     </li>
                                 </ul>
 
-                                <!-- botones arriba del de reserva, alineados al mismo ancho -->
+                           
                                 <div class="menu-btn">
-                                    <div class="auth-links">
+                                <div class="auth-links">
+                                    {% if session.get('user_id') %}
+                                        <span class="navbar-username">
+                                            {{ session['user_name'] }}
+                                        </span>
+                                        <a href="{{ url_for('logout') }}" class="logout-link">
+                                            Cerrar sesión
+                                        </a>
+                                    {% else %}
                                         <a href="{{ url_for('login') }}">Iniciar sesión</a>
                                         <a href="{{ url_for('register') }}">Registrarse</a>
-                                    </div>
-                                    <a href="#" class="btn palatin-btn">Hacer una reserva</a>
+                                    {% endif %}
                                 </div>
+                                <a href="#" class="btn palatin-btn">Hacer una reserva</a>
+                            </div>
 
                             </div>
                         </div>
