@@ -31,33 +31,35 @@ def get_usuario(id_usuario):
 
 @usuarios_bp.route('/', methods=['POST'])
 def crear_usuario():
-    # Recibe los datos del frontend
     data = request.get_json()
 
-    # Se guardan los datos
     name = data.get('name')
     email = data.get('email')
     password = data.get('password')
 
-    # Conexion con la base de datos
     conn = get_connection()
     cursor = conn.cursor()
 
-    # INSERT en MySQL (sin RETURNING)
-    cursor.execute(
-        "INSERT INTO usuarios (nombre, email, password) VALUES (%s, %s, %s)",
-        (name, email, password)
-    )
+    try:
+        cursor.execute("SELECT id FROM usuarios WHERE email = %s", (email,))
+        if cursor.fetchone():
+            return jsonify({"error": "El usuario ya existe"}), 409
 
-    # Obtenemos el id autoincremental generado
-    new_id = cursor.lastrowid
 
-    conn.commit()  # Guarda los cambios
+        cursor.execute(
+            "INSERT INTO usuarios (nombre, email, password) VALUES (%s, %s, %s)",
+            (name, email, password)
+        )
 
-    cursor.close()
-    conn.close()
-
-    return jsonify({"id": new_id, "message": "Usuario creado"}), 201
+        conn.commit()
+        return jsonify({"mensaje": "Usuario creado exitosamente"}), 201
+    
+    except Exception as e:
+        conn.rollback()
+        return jsonify({"error", "Error interno del servidor"}), 500
+    finally:
+        cursor.close()
+        conn.close()
 
 @usuarios_bp.route('/login', methods=['POST'])
 def login_usuario():

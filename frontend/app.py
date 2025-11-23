@@ -14,6 +14,24 @@ def obtener_usuario(id):
         return res.json()
     return None
 
+def registrar_usuario(datos):
+    """
+    Funcion auxiliar (recibe JSON)
+    """
+    if datos["password"] != datos["confirmPassword"]:
+        return {"error": "Las contraseñas no coinciden"}, 400
+    
+    response = requests.post(
+        f'{API_BASE}/usuarios/',
+        json={
+            "name": datos["name"],
+            "email": datos["email"], 
+            "password": datos["password"]
+        }
+    )
+    
+    return response.json(), response.status_code
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -70,9 +88,15 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    if request.method == 'GET':
+        return render_template('register.html')
+    
+    datos = request.get_json()
+    resultado, status_code = registrar_usuario(datos)
+    
+    return jsonify(resultado), status_code
 
 @app.route('/usuario/<int:user_id>')
 def usuario(user_id):
@@ -88,26 +112,6 @@ def api_usuario(user_id):
     if not usuario:
         return jsonify({"error": "Usuario no encontrado"}), 404
     return jsonify(usuario)
-
-@app.route('/api/registrar', methods=["POST"])
-def api_registrar_usuario():
-    datos = request.json # Obtiene los datos
-
-    # Verifica la contrasena
-    if datos["password"] != datos["confirmPassword"]:
-        return jsonify({"error": "Las contraseñas no coinciden"}), 400
-
-    # Envia los datos al backend
-    response = requests.post(
-        f'{API_BASE}/usuarios/',
-        json={
-            "name": datos["name"],
-            "email": datos["email"],
-            "password": datos["password"]
-        }
-    )
-
-    return jsonify(response.json()), response.status_code
 
 @app.route('/reservar', methods=['GET', 'POST'])
 def reservar():
