@@ -121,7 +121,7 @@ def crear_reserva():
             fecha_entrada,
             fecha_salida,
             cantidad_adultos,
-            cantidad_menores,
+            cantidad_ninos,
             cantidad_personas,
             precio_total,
             estado,
