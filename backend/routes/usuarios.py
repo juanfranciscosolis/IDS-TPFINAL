@@ -11,8 +11,6 @@ def get_usuarios():
     usuarios = cursor.fetchall()
     cursor.close()
     conn.close()
-
-    # usuarios ya es una lista de dicts gracias a dictionary=True
     return jsonify(usuarios), 200
 
 @usuarios_bp.route('/<int:id_usuario>', methods=['GET'])
@@ -40,27 +38,22 @@ def crear_usuario():
     conn = get_connection()
     cursor = conn.cursor()
 
-    try:
-        cursor.execute("SELECT id FROM usuarios WHERE email = %s", (email,))
-        if cursor.fetchone():
-            return jsonify({"error": "El usuario ya existe"}), 409
+    cursor.execute("SELECT id FROM usuarios WHERE email = %s", (email,))
+    if cursor.fetchone():
+        return jsonify({"error": "El usuario ya existe"}), 409
 
 
-        cursor.execute(
-            "INSERT INTO usuarios (nombre, email, password) VALUES (%s, %s, %s)",
-            (name, email, password)
-        )
+    cursor.execute(
+        "INSERT INTO usuarios (nombre, email, password) VALUES (%s, %s, %s)",
+        (name, email, password)
+    )
+    conn.commit()
 
-        conn.commit()
-        return jsonify({"mensaje": "Usuario creado exitosamente"}), 201
+    cursor.close()
+    conn.close()
+
+    return jsonify({"mensaje": "Usuario creado exitosamente"}), 201
     
-    except Exception as e:
-        conn.rollback()
-        return jsonify({"error", "Error interno del servidor"}), 500
-    finally:
-        cursor.close()
-        conn.close()
-
 @usuarios_bp.route('/login', methods=['POST'])
 def login_usuario():
     data = request.get_json()
@@ -83,5 +76,5 @@ def login_usuario():
     if user['password'] != password:
         return jsonify({"error": "Contraseña incorrecta"}), 401
 
-    user.pop('password', None)  # no devolvemos la contraseña
+    user.pop('password', None)  # no devolvemos la contraseña por seguridad
     return jsonify(user), 200
