@@ -1,51 +1,51 @@
-import psycopg2
 import os
+import mysql.connector
 from dotenv import load_dotenv
 
 load_dotenv()
 
 def create_database():
-    conn = psycopg2.connect(
-        host=os.getenv("DB_HOST"),
+    conn = mysql.connector.connect(
+        host=os.getenv("DB_HOST", "localhost"),
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
-        port=os.getenv("DB_PORT", 5432)
+        port=int(os.getenv("DB_PORT", 3306))
     )
     conn.autocommit = True
     cursor = conn.cursor()
-    
+
     db_name = os.getenv("DB_NAME")
-    cursor.execute("SELECT 1 FROM pg_database WHERE datname = %s", (db_name,))
-    exists = cursor.fetchone()
-    
-    if not exists:
-        cursor.execute(f'CREATE DATABASE {db_name}')
-        print(f"Database {db_name} created")
-    
+    cursor.execute(f"CREATE DATABASE IF NOT EXISTS `{db_name}` DEFAULT CHARACTER SET utf8mb4")
+    print(f"Database {db_name} OK (creada o ya existente)")
+
     cursor.close()
     conn.close()
 
 def init_tables():
-    with open("init_db.sql") as f:
+   
+    sql_path = os.path.join(os.path.dirname(__file__), "init_db.sql")
+    with open(sql_path, encoding="utf-8") as f:
         sql = f.read()
 
-    conn = psycopg2.connect(
-        host=os.getenv("DB_HOST"),
+    conn = mysql.connector.connect(
+        host=os.getenv("DB_HOST", "localhost"),
         database=os.getenv("DB_NAME"),
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
-        port=os.getenv("DB_PORT", 5432)
+        port=int(os.getenv("DB_PORT", 3306))
     )
     cursor = conn.cursor()
 
+   
     for statement in sql.split(";"):
-        if statement.strip():
-            cursor.execute(statement)
-            conn.commit()
+        stmt = statement.strip()
+        if stmt:
+            cursor.execute(stmt)
+    conn.commit()
 
     cursor.close()
     conn.close()
-    print("Tables created")
+    print("Tablas y datos de ejemplo creados")
 
 if __name__ == "__main__":
     create_database()

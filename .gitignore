@@ -2,3 +2,8 @@ __pycache__
 *.pyc
 venv
 .env
+
+
+.venv/
+backend/.venv/
+__pycache__/
