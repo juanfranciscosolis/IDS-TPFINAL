@@ -1,0 +1,402 @@
+# =====================================================
+# API de Gestión de Reservas de Habitaciones
+# =====================================================
+# Especificación OpenAPI 3.0 para documentar todos los
+# endpoints de usuarios, habitaciones y reservas
+
+openapi: 3.0.0
+
+# Información general de la API
+info:
+  title: TP_FINAL_IDS API
+  description: |
+    API RESTful para gestión de:
+    - Registro y autenticación de usuarios
+    - Inventario de habitaciones disponibles
+    - Sistema de reservas de habitaciones
+  version: 1.0.0
+  contact:
+    name: Soporte Técnico
+  license:
+    name: MIT
+
+# Servidores disponibles
+servers:
+  - url: http://localhost:8000
+    description: Servidor local (desarrollo)
+  - url: https://api.example.com
+    description: Servidor producción
+
+# =====================================================
+# RUTAS (ENDPOINTS) DE LA API
+# =====================================================
+paths:
+
+  # ========== USUARIOS ==========
+  
+  /usuarios:
+    # Obtener lista de todos los usuarios registrados
+    get:
+      summary: Listar todos los usuarios
+      description: Retorna un array con todos los usuarios registrados en el sistema
+      operationId: getUsuarios
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Lista de usuarios obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+    
+    # Crear un nuevo usuario
+    post:
+      summary: Registrar nuevo usuario
+      description: |
+        Crea un nuevo usuario en el sistema.
+        
+        Validaciones:
+        - Email debe ser único
+        - Contraseña mínimo 6 caracteres
+        - Nombre requerido
+      operationId: createUsuario
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        description: Datos del nuevo usuario a registrar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioCrear'
+            example:
+              name: teodolindo miranda
+              email: teo.miranda@example.com
+              password: '123456'
+      responses:
+        '201':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '400':
+          description: Datos inválidos o email ya existe
+        '500':
+          description: Error en el servidor
+
+  # Obtener un usuario específico por su ID
+  /usuarios/{id}:
+    get:
+      summary: Obtener usuario por ID
+      description: Retorna los detalles de un usuario específico según su ID
+      operationId: getUsuarioById
+      tags:
+        - Usuarios
+      parameters:
+        # Parámetro de ruta: ID del usuario
+        - name: id
+          in: path
+          required: true
+          description: ID único del usuario
+          schema:
+            type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error en el servidor
+
+  # Endpoint de autenticación
+  /usuarios/login:
+    post:
+      summary: Iniciar sesión de usuario
+      description: |
+        Autentica un usuario y retorna un token JWT.
+        
+        Este token debe incluirse en los headers de 
+        las siguientes peticiones que requieran autenticación.
+      operationId: loginUsuario
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        description: Credenciales de acceso
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioLogin'
+            example:
+              email: teo.miranda@example.com
+              password: '123456'
+      responses:
+        '200':
+          description: Login exitoso, token generado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token para autenticación en requests posteriores
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  usuario:
+                    $ref: '#/components/schemas/Usuario'
+        '401':
+          description: Credenciales inválidas
+        '404':
+          description: Usuario no encontrado
+
+  # ========== HABITACIONES ==========
+  
+  /habitaciones:
+    # Obtener inventario completo de habitaciones
+    get:
+      summary: Listar inventario de habitaciones
+      description: |
+        Retorna todas las habitaciones disponibles en el sistema
+        con su información de precio, disponibilidad, etc.
+      operationId: getHabitaciones
+      tags:
+        - Habitaciones
+      responses:
+        '200':
+          description: Lista de habitaciones obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Habitacion'
+        '500':
+          description: Error en el servidor
+
+  # ========== RESERVAS ==========
+  
+  /reservas:
+    # Obtener todas las reservas
+    get:
+      summary: Listar todas las reservas
+      description: |
+        Retorna un listado de todas las reservas registradas
+        en el sistema con detalles de usuario, habitación y fechas.
+      operationId: getReservas
+      tags:
+        - Reservas
+      responses:
+        '200':
+          description: Lista de reservas obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reserva'
+        '500':
+          description: Error en el servidor
+    
+    # Crear una nueva reserva
+    post:
+      summary: Crear nueva reserva
+      description: |
+        Registra una nueva reserva de habitación para un usuario.
+        
+        Validaciones:
+        - La habitación debe estar disponible
+        - Fecha inicio debe ser anterior a fecha fin
+        - No puede haber reservas solapadas en la misma habitación
+      operationId: createReserva
+      tags:
+        - Reservas
+      requestBody:
+        required: true
+        description: Datos para la nueva reserva
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservaCrear'
+            example:
+              usuarioId: "123e4567-e89b-12d3-a456-426614174000"
+              habitacionId: "hab-001"
+              fechaInicio: "2025-12-01"
+              fechaFin: "2025-12-05"
+      responses:
+        '201':
+          description: Reserva creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reserva'
+        '400':
+          description: Datos inválidos o habitación no disponible
+        '404':
+          description: Usuario o habitación no encontrados
+        '409':
+          description: Conflicto de fechas - habitación ocupada
+        '500':
+          description: Error en el servidor
+
+# =====================================================
+# COMPONENTES (Esquemas de datos reutilizables)
+# =====================================================
+components:
+  schemas:
+    
+    # Esquema de Usuario (respuesta de lectura)
+    Usuario:
+      type: object
+      description: Información de un usuario registrado en el sistema
+      properties:
+        id:
+          type: string
+          description: Identificador único del usuario (UUID)
+        name:
+          type: string
+          description: Nombre completo del usuario
+        email:
+          type: string
+          format: email
+          description: Email único del usuario
+        createdAt:
+          type: string
+          format: date-time
+          description: Fecha y hora de registro del usuario
+        updatedAt:
+          type: string
+          format: date-time
+          description: Fecha y hora de última modificación
+    
+    # Esquema para crear usuario
+    UsuarioCrear:
+      type: object
+      description: Datos requeridos para registrar un nuevo usuario
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          minLength: 3
+          description: Nombre completo (mínimo 3 caracteres)
+        email:
+          type: string
+          format: email
+          description: Email válido y único en el sistema
+        password:
+          type: string
+          minLength: 6
+          description: Contraseña (mínimo 6 caracteres, se almacena hasheada)
+    
+    # Esquema para login
+    UsuarioLogin:
+      type: object
+      description: Credenciales para autenticación
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email del usuario registrado
+        password:
+          type: string
+          description: Contraseña del usuario
+    
+    # Esquema de Habitación
+    Habitacion:
+      type: object
+      description: Información de una habitación disponible
+      properties:
+        id:
+          type: string
+          description: Identificador único de la habitación (ej. hab-001)
+        numero:
+          type: string
+          description: Número de habitación visible
+        tipo:
+          type: string
+          enum: [simple, doble, suite]
+          description: Tipo de habitación
+        disponible:
+          type: boolean
+          description: Indica si la habitación está disponible para reservar
+        precio:
+          type: number
+          format: float
+          description: Precio por noche en moneda local
+        capacidad:
+          type: integer
+          description: Número de personas que puede alojar
+    
+    # Esquema de Reserva (respuesta)
+    Reserva:
+      type: object
+      description: Información de una reserva registrada
+      properties:
+        id:
+          type: string
+          description: Identificador único de la reserva
+        usuarioId:
+          type: string
+          description: ID del usuario que realiza la reserva
+        habitacionId:
+          type: string
+          description: ID de la habitación reservada
+        fechaInicio:
+          type: string
+          format: date
+          description: Fecha de check-in (YYYY-MM-DD)
+        fechaFin:
+          type: string
+          format: date
+          description: Fecha de check-out (YYYY-MM-DD)
+        estado:
+          type: string
+          enum: [pendiente, confirmada, cancelada, completada]
+          description: Estado actual de la reserva
+        precioTotal:
+          type: number
+          format: float
+          description: Precio total calculado (precio noche × cantidad noches)
+        createdAt:
+          type: string
+          format: date-time
+          description: Fecha de creación de la reserva
+    
+    # Esquema para crear reserva
+    ReservaCrear:
+      type: object
+      description: Datos requeridos para crear una nueva reserva
+      required:
+        - usuarioId
+        - habitacionId
+        - fechaInicio
+        - fechaFin
+      properties:
+        usuarioId:
+          type: string
+          description: ID del usuario que realiza la reserva
+        habitacionId:
+          type: string
+          description: ID de la habitación a reservar
+        fechaInicio:
+          type: string
+          format: date
+          description: Fecha de entrada (YYYY-MM-DD)
+        fechaFin:
+          type: string
+          format: date
+          description: Fecha de salida (YYYY-MM-DD)
