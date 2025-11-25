@@ -26,8 +26,8 @@ def listar_reservas():
     return jsonify(reservas), 200
 
 
-@reservas_bp.route('/<int:reserva_id>', methods=['GET'])
-def obtener_reserva(reserva_id):
+@reservas_bp.route('/usuario/<int:usuario_id>', methods=['GET'])
+def obtener_reservas_por_usuario(usuario_id):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
@@ -38,16 +38,13 @@ def obtener_reserva(reserva_id):
         FROM reservas r
         LEFT JOIN habitaciones h ON r.id_habitacion = h.id
         LEFT JOIN usuarios u ON r.id_usuario = u.id
-        WHERE r.id = %s
-    """, (reserva_id,))
-    reserva = cursor.fetchone()
+        WHERE r.id_usuario = %s
+    """, (usuario_id,))
+    reservas = cursor.fetchall()
     cursor.close()
     conn.close()
 
-    if not reserva:
-        return jsonify({"error": "Reserva no encontrada"}), 404
-
-    return jsonify(reserva), 200
+    return jsonify(reservas), 200
 
 
 @reservas_bp.route('/', methods=['POST'])

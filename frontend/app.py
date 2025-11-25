@@ -1,18 +1,10 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session
-
-
 import requests
 
 app = Flask(__name__, template_folder='template')
 app.secret_key = "mi_clave_super_secreta_para_el_tp_123"
 
 API_BASE = "http://localhost:5010" 
-
-def obtener_usuario(id):
-    res = requests.get(f"{API_BASE}/usuarios/{id}")
-    if res.status_code == 200:
-        return res.json()
-    return None
 
 def registrar_usuario(datos):
     """
@@ -55,33 +47,48 @@ def services():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # GET: mostrar formulario
+
+    #Si ya inicio sesion
+    if 'user_id' in session:
+        return redirect(url_for('user', user_id=session['user_id']))
+
     if request.method == 'GET':
         return render_template('login.html')
 
-    # POST: procesar login
     email = request.form.get('email')
     password = request.form.get('password')
 
-    resp = requests.post(
-        f"{API_BASE}/usuarios/login",
-        json={"email": email, "password": password}
-    )
-
-    if resp.status_code == 200:
-        user = resp.json()
-        session['user_id'] = user['id']
-        session['user_name'] = user['nombre']
-        session['user_email'] = user['email']
-        return redirect(url_for('index'))
-
     try:
-        data = resp.json()
-        error = data.get("error", "Error al iniciar sesión")
-    except Exception:
-        error = "Error al iniciar sesión"
+        resp = requests.post(
+            f"{API_BASE}/usuarios/login",
+            json={"email": email, "password": password}
+        )
 
-    return render_template('login.html', error=error, email=email), resp.status_code
+        if resp.status_code == 200:
+            user = resp.json()
+            user_id = user.get('id')
+            user_nombre = user.get('nombre')
+            user_email = user.get('email')
+
+            if user_id:
+                session['user_id'] = user_id
+                session['user_name'] = user_nombre
+                session['user_email'] = user_email
+                return redirect(url_for('user', user_id=user_id))
+            else:
+                error = "Error: No se recibió ID de usuario"
+                return render_template('login.html', error=error, email=email), 500
+
+        try:
+            data = resp.json()
+            error = data.get("error", "Error al iniciar sesión")
+        except Exception:
+            error = "Error al iniciar sesión"
+
+        return render_template('login.html', error=error, email=email), resp.status_code
+
+    except requests.RequestException:
+        return render_template('login.html', error="Error de conexión con el servidor", email=email), 500
 
 @app.route('/logout')
 def logout():
@@ -98,20 +105,22 @@ def register():
     
     return jsonify(resultado), status_code
 
-@app.route('/usuario/<int:user_id>')
-def usuario(user_id):
-    usuario = obtener_usuario(user_id)
-    if not usuario:
-        return redirect(url_for("login"))    
-
-    return render_template("user.html", usuario=usuario)
-
-@app.route('/api/usuario/<int:user_id>')
-def api_usuario(user_id):
-    usuario = obtener_usuario(user_id)
-    if not usuario:
-        return jsonify({"error": "Usuario no encontrado"}), 404
-    return jsonify(usuario)
+@app.route('/user/<int:user_id>')
+def user(user_id):
+    # Si no esta logeado
+    if 'user_id' not in session:
+        return redirect(url_for("login"))
+    
+    # Obtener usuario
+    usuario_res = requests.get(f"{API_BASE}/usuarios/{user_id}")
+    if usuario_res.status_code != 200:
+        return redirect(url_for("login"))
+    usuario = usuario_res.json()
+    
+    reservas_res = requests.get(f"{API_BASE}/reservas/usuario/{user_id}")
+    reservas = reservas_res.json() if reservas_res.status_code == 200 else []
+    
+    return render_template("user.html", usuario=usuario, reservas=reservas)
 
 @app.route('/reservar', methods=['GET', 'POST'])
 def reservar():

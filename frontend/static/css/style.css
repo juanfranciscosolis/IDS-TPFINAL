@@ -1610,6 +1610,132 @@ img {
 /* LOGIN / REGISTER HERO     */
 /* ========================= */
 
+.user-panel {
+    background: rgba(30, 30, 40, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem auto;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 1200px;
+    position: relative;
+    z-index: 10;
+    color: #e9ecef;
+}
+
+.user-panel .card {
+    background: rgba(45, 45, 60, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #e9ecef;
+}
+
+.user-panel .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+    background: rgba(50, 50, 65, 0.95);
+}
+
+.user-panel .card-header {
+    background: linear-gradient(135deg, #a3b6c9 0%, #197ee2 100%) !important;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(128, 163, 187, 0.3);
+    color: #ffffff;
+}
+
+.user-panel .card-body {
+    padding: 1.5rem;
+    background: transparent;
+}
+
+.user-panel .reserva-item {
+    background: linear-gradient(135deg, rgba(52, 73, 94, 0.6) 0%, rgba(44, 62, 80, 0.6) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 5px solid #3498db;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    color: #e9ecef;
+}
+
+.user-panel .reserva-item:hover {
+    background: linear-gradient(135deg, rgba(41, 128, 185, 0.3) 0%, rgba(52, 152, 219, 0.2) 100%);
+    transform: translateX(5px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
+    border-left-color: #2980b9;
+}
+
+.user-panel .alert-info {
+    border: 1px solid rgba(101, 153, 189, 0.4);
+    border-radius: 12px;
+    padding: 2rem;
+    color: #d6eaf8;
+}
+
+.user-panel .btn-primary {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.user-panel .btn-primary:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #2471a3 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+}
+
+.user-panel .badge {
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+}
+
+.user-panel .text-muted {
+    color: #bdc3c7 !important;
+}
+
+.user-panel .border-top {
+    border-color: rgba(236, 230, 230, 0.1) !important;
+}
+
+.user-panel strong {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.user-panel .text-success {
+    color: #58d68d !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .user-panel {
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: 10px;
+    }
+    
+    .user-panel .card-body {
+        padding: 1rem;
+    }
+    
+    .user-panel .reserva-item {
+        padding: 1rem;
+    }
+}
+
 .auth-hero {
     position: relative;
     margin-top: 90px;                 /* compensa la navbar fija */
