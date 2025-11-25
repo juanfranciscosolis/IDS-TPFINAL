@@ -11,7 +11,7 @@ def listar_reservas():
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
-        SELECT 
+        SELECT
             r.*,
             h.nombre AS nombre_habitacion,
             u.nombre AS nombre_usuario
@@ -31,7 +31,7 @@ def obtener_reservas_por_usuario(usuario_id):
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
-        SELECT 
+        SELECT
             r.*,
             h.nombre AS nombre_habitacion,
             u.nombre AS nombre_usuario
@@ -151,7 +151,7 @@ def crear_reserva():
     cursor.close()
     conn.close()
 
-    
+
     # Envío de email de reserva
 
     try:

@@ -1,14 +1,16 @@
-import os
 import mysql.connector
-from dotenv import load_dotenv
-
-load_dotenv()
+import os
 
 def get_connection():
-    return mysql.connector.connect(
-        host=os.getenv("DB_HOST", "localhost"),
-        database=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        port=int(os.getenv("DB_PORT", 3306))
-    )
+    try:
+        conn = mysql.connector.connect(
+            host="Alxsss.mysql.pythonanywhere-services.com",
+            user="Alxsss",
+            password="Contrasenahoteldb123",
+            database="Alxsss$hotel_db",
+            port=3306
+        )
+        return conn
+    except Exception as e:
+        print(f"Error de conexión: {e}")
+        return None
