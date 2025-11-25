@@ -1,0 +1,556 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+% Configurar código
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    rulecolor=\color{black!30}
+}
+
+% Headers and footers
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{IDS - Trabajo Práctico Final}
+\chead{Hotel Reservas}
+\rhead{\thepage\ de \pageref{LastPage}}
+\lfoot{TEAM LAST PUSH}
+\rfoot{\today}
+
+\title{\textbf{INFORME TÉCNICO: PLATAFORMA DE RESERVA DE HOSPEDAJE}}
+\author{Equipo LAST PUSH \\ 
+        Juan Felipe Gómez (98265) \\
+        Susana Cai (106991) \\
+        Luciano Desimone (114055) \\
+        Alexis Herrera (111127) \\
+        Juan Francisco Solís (112796) \\
+        Stefano Diaz (113909)}
+\date{November 24, 2025}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Introducción}
+
+
+El presente informe detalla la arquitectura, desarrollo e implementación de una plataforma integral de reserva de hospedaje. Este proyecto representa una solución completa que integra tecnologías modernas de \textit{frontend} y \textit{backend} para proporcionar a los usuarios una experiencia fluida y eficiente en la búsqueda y reserva de alojamientos.
+
+\subsection{Descripción General del Proyecto}
+
+La plataforma ``Hotel IDS'' es una aplicación web diseñada para facilitar la reserva de alojamientos (hoteles, cabañas, departamentos) con los siguientes objetivos:
+
+\begin{itemize}
+    \item Proporcionar una interfaz intuitiva para navegar disponibilidad de habitaciones
+    \item Permitir reservas fáciles y seguras
+    \item Mostrar información detallada con fotografías de alojamientos
+    \item Facilitar contacto entre usuarios y la plataforma
+    \item Mantener registro de historial de reservas
+    \item Integrar herramientas interactivas como mapas
+\end{itemize}
+
+\subsection{Objetivos del Proyecto}
+
+\begin{enumerate}
+    \item Crear una plataforma web moderna y responsiva
+    \item Implementar un sistema robusto de gestión de reservas
+    \item Desarrollar un backend seguro con autenticación de usuarios
+    \item Proporcionar una base de datos eficiente para almacenar información
+    \item Garantizar la escalabilidad y mantenibilidad del código
+\end{enumerate}
+
+\section{Tecnologías Utilizadas}
+
+
+\subsection{Frontend}
+
+\begin{tabularx}{\textwidth}{lX}
+    \toprule
+    \textbf{Tecnología} & \textbf{Descripción} \\
+    \midrule
+    Python/Flask & Framework web para renderizar templates HTML \\
+    HTML5 & Estructura y semántica de las páginas \\
+    CSS3 & Estilos, diseño responsivo y animaciones \\
+    Bootstrap & Framework CSS para componentes prediseñados \\
+    JavaScript & Interactividad del lado del cliente \\
+    Leaflet.js & Integración de mapas interactivos \\
+    \bottomrule
+\end{tabularx}
+
+\subsection{Backend}
+
+\begin{tabularx}{\textwidth}{lX}
+    \toprule
+    \textbf{Tecnología} & \textbf{Descripción} \\
+    \midrule
+    Python & Lenguaje de programación principal \\
+    Flask & Microframework web para APIs REST \\
+    Flask-CORS & Gestión de CORS entre frontend y backend \\
+    Flask-Mail & Sistema de notificaciones por correo \\
+    SQLAlchemy & ORM para interacción con base de datos \\
+    MySQL & Sistema de gestión de base de datos relacional \\
+    \bottomrule
+\end{tabularx}
+
+\subsection{Herramientas de Desarrollo}
+
+\begin{itemize}
+    \item \textbf{Control de Versiones:} Git y GitHub
+    \item \textbf{Documentación API:} OpenAPI/Swagger
+    \item \textbf{Entorno Virtual:} Python venv
+    \item \textbf{Gestor de Dependencias:} pip
+\end{itemize}
+
+% ============================================================
+\section{Arquitectura del Sistema}
+% ============================================================
+
+\subsection{Estructura General}
+
+La arquitectura del proyecto sigue un patrón de separación cliente-servidor:
+
+\begin{itemize}
+    \item \textbf{Frontend:} Aplicación Flask que renderiza vistas HTML
+    \item \textbf{Backend:} API REST desarrollada con Flask para gestionar datos
+    \item \textbf{Base de Datos:} MYSQL para almacenamiento persistente
+\end{itemize}
+
+\subsection{Estructura de Carpetas}
+
+\begin{lstlisting}
+IDS-TPFINAL/
+├── backend/
+│   ├── app.py              # Punto de entrada del backend
+│   ├── db.py               # Configuración de base de datos
+│   ├── requirements.txt     # Dependencias Python
+│   ├── routes/
+│   │   ├── habitaciones.py  # API de habitaciones
+│   │   ├── reservas.py      # API de reservas
+│   │   └── usuarios.py      # API de usuarios
+│   ├── openapi.yaml         # Documentación de API
+│   └── init_db.py          # Scripts de inicialización
+├── frontend/
+│   ├── app.py              # Aplicación Flask frontend
+│   ├── requirements.txt
+│   ├── static/
+│   │   ├── css/             # Estilos CSS
+│   │   ├── js/              # Scripts JavaScript
+│   │   └── img/             # Imágenes
+│   └── template/
+│       ├── base.html        # Template base
+│       ├── index.html       # Página principal
+│       ├── rooms.html       # Listado de habitaciones
+│       ├── reservar.html    # Página de reserva
+│       ├── login.html       # Login
+│       ├── register.html    # Registro
+│       └── user.html        # Perfil de usuario
+└── README.md
+\end{lstlisting}
+
+% ============================================================
+\section{Componentes Principales}
+% ============================================================
+
+\subsection{Backend - API REST}
+
+\subsubsection{Autenticación y Usuarios}
+
+La ruta \texttt{/usuarios} implementa:
+
+\begin{itemize}
+    \item Registro de nuevos usuarios
+    \item Login seguro con sesiones
+    \item Gestión de perfiles de usuario
+    \item Recuperación de contraseña
+\end{itemize}
+
+\lstset{language=Python}
+\begin{lstlisting}
+# Ejemplo de estructura de usuario
+{
+    "id": 1,
+    "nombre": "Juan Pérez",
+    "email": "juan@example.com",
+    "telefono": "+598 2 1234 5678",
+    "historial_reservas": [...]
+}
+\end{lstlisting}
+
+\subsubsection{Gestión de Habitaciones}
+
+La ruta \texttt{/habitaciones} implementa:
+
+\begin{itemize}
+    \item Listado de habitaciones disponibles
+    \item Búsqueda y filtrado por características
+    \item Consulta de disponibilidad por fechas
+    \item Detalles completos con fotografías
+    \item Información de precios y servicios
+\end{itemize}
+
+\subsubsection{Sistema de Reservas}
+
+La ruta \texttt{/reservas} implementa:
+
+\begin{itemize}
+    \item Creación de nuevas reservas
+    \item Validación de disponibilidad
+    \item Confirmación y generación de comprobantes
+    \item Cancelación de reservas
+    \item Historial de reservas por usuario
+\end{itemize}
+
+\subsection{Frontend - Interfaz de Usuario}
+
+\subsubsection{Páginas Principales}
+
+\begin{description}
+    \item[index.html] Página principal con descripción del servicio y destacados
+    \item[rooms.html] Catálogo de habitaciones con filtros y búsqueda
+    \item[reservar.html] Formulario de reserva con selección de fechas
+    \item[login.html] Formulario de inicio de sesión
+    \item[register.html] Formulario de registro de nuevos usuarios
+    \item[user.html] Perfil de usuario y historial de reservas
+\end{description}
+
+\subsubsection{Características Tecnológicas}
+
+\begin{itemize}
+    \item Diseño responsivo compatible con dispositivos móviles
+    \item Interfaz intuitiva y accesible
+    \item Animaciones CSS suaves
+    \item Validación de formularios en cliente y servidor
+    \item Integración de mapa interactivo con Leaflet.js
+\end{itemize}
+
+% ============================================================
+\section{Base de Datos}
+% ============================================================
+
+\subsection{Modelo de Datos}
+
+\subsubsection{Tabla: Usuarios}
+
+\begin{tabularx}{\textwidth}{lll}
+    \toprule
+    \textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
+    \midrule
+    id & INTEGER & Identificador único (PK) \\
+    nombre & VARCHAR & Nombre completo \\
+    email & VARCHAR & Correo electrónico (UNIQUE) \\
+    contraseña & VARCHAR & Contraseña hasheada \\
+    telefono & VARCHAR & Número de teléfono \\
+    fecha_registro & DATETIME & Fecha de registro \\
+    \bottomrule
+\end{tabularx}
+
+\subsubsection{Tabla: Habitaciones}
+
+\begin{tabularx}{\textwidth}{lll}
+    \toprule
+    \textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
+    \midrule
+    id & INTEGER & Identificador único (PK) \\
+    numero & VARCHAR & Número de habitación \\
+    tipo & VARCHAR & Tipo (individual, doble, suite) \\
+    capacidad & INTEGER & Número de huéspedes \\
+    precio & DECIMAL & Precio por noche \\
+    descripcion & TEXT & Descripción detallada \\
+    imagen & VARCHAR & URL de imagen \\
+    disponible & BOOLEAN & Estado de disponibilidad \\
+    servicios & TEXT & Servicios incluidos \\
+    \bottomrule
+\end{tabularx}
+
+\subsubsection{Tabla: Reservas}
+
+\begin{tabularx}{\textwidth}{lll}
+    \toprule
+    \textbf{Campo} & \textbf{Tipo} & \textbf{Descripción} \\
+    \midrule
+    id & INTEGER & Identificador único (PK) \\
+    usuario\_id & INTEGER & Referencia a usuario (FK) \\
+    habitacion\_id & INTEGER & Referencia a habitación (FK) \\
+    fecha_inicio & DATE & Fecha de entrada \\
+    fecha_fin & DATE & Fecha de salida \\
+    estado & VARCHAR & Estado (pendiente, confirmada, cancelada) \\
+    precio_total & DECIMAL & Precio total de la reserva \\
+    fecha_reserva & DATETIME & Fecha de creación \\
+    \bottomrule
+\end{tabularx}
+
+% ============================================================
+\section{Funcionalidades Implementadas}
+% ============================================================
+
+\subsection{Módulo de Usuarios}
+
+\begin{enumerate}
+    \item \textbf{Registro:} Formulario con validación de datos
+    \item \textbf{Login:} Autenticación segura con sesiones
+    \item \textbf{Perfil:} Visualización y edición de información personal
+    \item \textbf{Historial:} Vista de reservas anteriores
+    \item \textbf{Recuperación de Contraseña:} Enlace de recuperación por correo
+\end{enumerate}
+
+\subsection{Módulo de Habitaciones}
+
+\begin{enumerate}
+    \item \textbf{Catálogo:} Visualización de todas las habitaciones
+    \item \textbf{Búsqueda:} Filtrado por tipo, capacidad y precio
+    \item \textbf{Detalles:} Información completa con fotos y servicios
+    \item \textbf{Disponibilidad:} Verificación de fechas disponibles
+    \item \textbf{Calificaciones:} Sistema de puntuación de usuarios
+\end{enumerate}
+
+\subsection{Módulo de Reservas}
+
+\begin{enumerate}
+    \item \textbf{Creación:} Selección de fechas y habitación
+    \item \textbf{Validación:} Verificación de disponibilidad en tiempo real
+    \item \textbf{Confirmación:} Envío de correo de confirmación
+    \item \textbf{Gestión:} Modificación y cancelación de reservas
+    \item \textbf{Comprobante:} Generación de PDF con detalles
+\end{enumerate}
+
+\subsection{Características Adicionales}
+
+\begin{itemize}
+    \item \textbf{Mapa Interactivo:} Ubicación del hospedaje
+    \item \textbf{Sistema de Contacto:} Formulario de consultas
+    \item \textbf{Panel de Opiniones:} Comentarios de clientes
+    \item \textbf{Notificaciones:} Recordatorios por correo
+    \item \textbf{Soporte 24/7:} Chat o email de contacto
+\end{itemize}
+
+% ============================================================
+\section{API REST}
+% ============================================================
+
+\subsection{Endpoints Principales}
+
+\subsubsection{Usuarios}
+
+\begin{tabularx}{\textwidth}{llX}
+    \toprule
+    \textbf{Método} & \textbf{Endpoint} & \textbf{Descripción} \\
+    \midrule
+    POST & /usuarios/registro & Registrar nuevo usuario \\
+    POST & /usuarios/login & Iniciar sesión \\
+    GET & /usuarios/\{id\} & Obtener datos de usuario \\
+    PUT & /usuarios/\{id\} & Actualizar usuario \\
+    POST & /usuarios/logout & Cerrar sesión \\
+    \bottomrule
+\end{tabularx}
+
+\subsubsection{Habitaciones}
+
+\begin{tabularx}{\textwidth}{llX}
+    \toprule
+    \textbf{Método} & \textbf{Endpoint} & \textbf{Descripción} \\
+    \midrule
+    GET & /habitaciones & Listar todas las habitaciones \\
+    GET & /habitaciones/\{id\} & Obtener detalles de habitación \\
+    GET & /habitaciones/disponibles & Habitaciones disponibles \\
+    POST & /habitaciones/buscar & Buscar por criterios \\
+    \bottomrule
+\end{tabularx}
+
+\subsubsection{Reservas}
+
+\begin{tabularx}{\textwidth}{llX}
+    \toprule
+    \textbf{Método} & \textbf{Endpoint} & \textbf{Descripción} \\
+    \midrule
+    POST & /reservas & Crear nueva reserva \\
+    GET & /reservas/\{id\} & Obtener detalles de reserva \\
+    GET & /reservas/usuario/\{id\} & Historial de usuario \\
+    PUT & /reservas/\{id\} & Modificar reserva \\
+    DELETE & /reservas/\{id\} & Cancelar reserva \\
+    \bottomrule
+\end{tabularx}
+
+% ============================================================
+\section{Seguridad}
+% ============================================================
+
+\subsection{Medidas Implementadas}
+
+\begin{itemize}
+    \item \textbf{Autenticación:} Sistema de login con sesiones Flask
+    \item \textbf{Contraseñas:} Hash seguro de contraseñas
+    \item \textbf{CORS:} Configuración de CORS en backend
+    \item \textbf{Validación:} Validación en servidor de todos los datos
+    \item \textbf{Sanitización:} Protección contra inyecciones SQL
+    \item \textbf{HTTPS:} (Recomendado en producción)
+\end{itemize}
+
+% ============================================================
+\section{Instalación y Configuración}
+% ============================================================
+
+\subsection{Requisitos Previos}
+
+\begin{itemize}
+    \item Python 3.8 o superior
+    \item PostgreSQL 12 o superior
+    \item Node.js (opcional, para herramientas de desarrollo)
+    \item Git para control de versiones
+\end{itemize}
+
+\subsection{Pasos de Instalación}
+
+\subsubsection{Backend}
+
+\begin{lstlisting}[language=bash]
+# Clonar repositorio
+git clone <repository-url>
+cd IDS-TPFINAL/backend
+
+# Crear entorno virtual
+python3 -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Crear archivo .env con variables
+cp .env.example .env
+
+# Inicializar base de datos
+python init_db.py
+
+# Ejecutar servidor
+python app.py
+\end{lstlisting}
+
+\subsubsection{Frontend}
+
+\begin{lstlisting}[language=bash]
+# Navegar a carpeta frontend
+cd ../frontend
+
+# Crear entorno virtual
+python3 -m venv venv
+source venv/bin/activate
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+# Ejecutar servidor
+python app.py
+\end{lstlisting}
+
+\subsection{Variables de Entorno}
+
+\begin{lstlisting}
+# .env archivo
+FLASK_ENV=development
+FLASK_SECRET_KEY=your_secret_key
+DATABASE_URL=postgresql://user:password@localhost:5432/hotel_db
+MAIL_USERNAME=your_email@gmail.com
+MAIL_PASSWORD=your_app_password
+\end{lstlisting}
+
+% ============================================================
+\section{Documentación API}
+% ============================================================
+
+\subsection{OpenAPI/Swagger}
+
+La documentación interactiva de la API está disponible en:
+\begin{verbatim}
+http://localhost:5010/api/docs
+\end{verbatim}
+
+Ver archivo \texttt{openapi.yaml} para especificación completa.
+
+\subsection{Ejemplo de Solicitud}
+
+\begin{lstlisting}
+# Crear una reserva
+curl -X POST http://localhost:5010/reservas \
+  -H "Content-Type: application/json" \
+  -d '{
+    "usuario_id": 1,
+    "habitacion_id": 5,
+    "fecha_inicio": "2025-12-01",
+    "fecha_fin": "2025-12-05"
+  }'
+\end{lstlisting}
+
+% ============================================================
+\section{Gestión del Proyecto}
+% ============================================================
+
+\subsection{Metodología}
+
+Se utilizó metodología Agile con sprints de una semana, permitiendo:
+
+\begin{itemize}
+    \item Iteración rápida sobre funcionalidades
+    \item Feedback constante del equipo
+    \item Adaptación a cambios de requisitos
+    \item Entrega incremental de valor
+\end{itemize}
+
+\subsection{Herramientas de Colaboración}
+
+\begin{itemize}
+    \item \textbf{GitHub:} Control de versiones y colaboración
+    \item \textbf{GitHub Issues:} Gestión de tareas
+    \item \textbf{GitHub Projects:} Tablero Kanban
+    \item \textbf{Slack/Discord:} Comunicación del equipo
+\end{itemize}
+
+
+% ============================================================
+\section{Conclusiones}
+% ============================================================
+
+Este proyecto de Trabajo Práctico Final demuestra la capacidad del equipo LAST PUSH para:
+
+\begin{itemize}
+    \item Diseñar y arquitectar una aplicación web moderna
+    \item Implementar funcionalidades complejas en frontend y backend
+    \item Trabajar colaborativamente en un proyecto de escala real
+    \item Aplicar buenas prácticas de desarrollo y seguridad
+    \item Documentar adecuadamente el trabajo realizado
+\end{itemize}
+
+La plataforma Hotel IDS proporciona una solución robusta y escalable para la gestión de reservas de hospedaje, con potencial para ser expandida y mejorada en el futuro. El código está bien estructurado, documentado y listo para ser mantenido y mejorado por otros desarrolladores.
+
+% ============================================================
+\section{Referencias}
+% ============================================================
+
+\begin{itemize}
+    \item Flask Documentation: \href{https://flask.palletsprojects.com/}{https://flask.palletsprojects.com/}
+    \item PostgreSQL Documentation: \href{https://www.postgresql.org/docs/}{https://www.postgresql.org/docs/}
+    \item Bootstrap: \href{https://getbootstrap.com/}{https://getbootstrap.com/}
+    \item Leaflet.js: \href{https://leafletjs.com/}{https://leafletjs.com/}
+    \item OpenAPI Specification: \href{https://spec.openapis.org/}{https://spec.openapis.org/}
+\end{itemize}
+
+\end{document}
