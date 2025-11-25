@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__, template_folder='template')
 app.secret_key = "mi_clave_super_secreta_para_el_tp_123"
 
-API_BASE = "http://localhost:5010" 
+API_BASE = "https://alxsss.pythonanywhere.com"
 
 def registrar_usuario(datos):
     """
@@ -12,16 +12,16 @@ def registrar_usuario(datos):
     """
     if datos["password"] != datos["confirmPassword"]:
         return {"error": "Las contraseñas no coinciden"}, 400
-    
+
     response = requests.post(
         f'{API_BASE}/usuarios/',
         json={
             "name": datos["name"],
-            "email": datos["email"], 
+            "email": datos["email"],
             "password": datos["password"]
         }
     )
-    
+
     return response.json(), response.status_code
 
 @app.route('/')
@@ -99,12 +99,13 @@ def logout():
 def register():
     if request.method == 'GET':
         return render_template('register.html')
-    
+
     datos = request.get_json()
     resultado, status_code = registrar_usuario(datos)
-    
+
     return jsonify(resultado), status_code
 
+<<<<<<< Updated upstream
 @app.route('/user/<int:user_id>')
 def user(user_id):
     # Si no esta logeado
@@ -121,6 +122,22 @@ def user(user_id):
     reservas = reservas_res.json() if reservas_res.status_code == 200 else []
     
     return render_template("user.html", usuario=usuario, reservas=reservas)
+=======
+@app.route('/usuario/<int:user_id>')
+def usuario(user_id):
+    usuario = obtener_usuario(user_id)
+    if not usuario:
+        return redirect(url_for("login"))
+
+    return render_template("user.html", usuario=usuario)
+
+@app.route('/api/usuario/<int:user_id>')
+def api_usuario(user_id):
+    usuario = obtener_usuario(user_id)
+    if not usuario:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+    return jsonify(usuario)
+>>>>>>> Stashed changes
 
 @app.route('/reservar', methods=['GET', 'POST'])
 def reservar():
