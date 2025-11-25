@@ -75,9 +75,11 @@
                                 <div class="menu-btn">
                                     <div class="auth-links">
                                         {% if session.get('user_id') %}
-                                            <span class="navbar-username">
-                                                {{ session['user_name'] }}
-                                            </span>
+                                            <a href="{{ url_for('login') }}">
+                                                <span class="navbar-username">
+                                                    {{ session['user_name'] }}
+                                                </span>
+                                            </a>
                                             <a href="{{ url_for('logout') }}" class="logout-link">
                                                 Cerrar sesión
                                             </a>
