@@ -1714,8 +1714,185 @@ img {
     text-decoration: underline;
 }
 
+/* ====== Portada Reservar (titulo + subtitulo) ====== */
 
+.reservation-hero {
+    position: relative;
+    padding: 120px 0;
+}
 
+.reservation-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35); /* leve oscurecimiento sobre la foto */
+}
+
+.reservation-hero .bradcumbContent {
+    position: relative;
+    text-align: center;
+}
+
+.reservation-hero .bradcumbContent h2 {
+    color: #ffffff;
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.reservation-hero .bradcumbContent p {
+    color: #ffffff;
+    font-size: 18px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* ====== Formulario de Reserva (panel oscuro tipo login) ====== */
+
+.reservation-area {
+    background-color: #f5f5f5;  /* gris claro, fuera del formulario se ve blanco/gris */
+    padding-top: 60px;
+    padding-bottom: 80px;
+}
+
+.reservation-form {
+    background: rgba(40, 40, 40, 0.9);   /* gris oscuro, no negro puro */
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 40px 35px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Títulos dentro del formulario */
+.reservation-form .section-title {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Labels blancos */
+.reservation-form label {
+    position: static !important;
+    transform: none !important;
+    display: block;
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #f7f7f7;
+    margin-bottom: 0.35rem;
+}
+
+/* Inputs y selects estilo oscuro, más grandes */
+.reservation-form .form-control,
+.reservation-form select {
+    width: 100% !important;
+    height: 46px !important;
+    padding: 0.55rem 0.85rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background-color: rgba(255, 255, 255, 0.07);
+    color: #ffffff;
+    box-shadow: none;
+}
+
+.reservation-form .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Texto de ayuda */
+.reservation-form .small,
+.reservation-form .text-muted {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Check de términos */
+.reservation-form .form-check-label {
+    color: #f7f7f7;
+}
+
+/* Alertas dentro del panel oscuro */
+.reservation-form .alert-success {
+    background-color: rgba(40, 167, 69, 0.9);
+    border-color: transparent;
+    color: #fff;
+}
+
+.reservation-form .alert-danger {
+    background-color: rgba(220, 53, 69, 0.9);
+    border-color: transparent;
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .reservation-hero {
+        padding: 90px 0;
+    }
+
+    .reservation-hero .bradcumbContent h2 {
+        font-size: 32px;
+    }
+
+    .reservation-hero .bradcumbContent p {
+        font-size: 16px;
+        padding: 0 15px;
+    }
+
+    .reservation-form {
+        padding: 30px 20px;
+    }
+
+    .reservation-form .form-control,
+    .reservation-form select {
+        height: 50px !important;
+    }
+}
+/* Selects: fondo claro para que el desplegable se lea bien */
+.reservation-form select {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+/* Opciones del desplegable */
+.reservation-form select option {
+    background-color: #ffffff;
+    color: #333;
+}
+/* ====== Fix visual de nice-select dentro del formulario de reserva ====== */
+
+/* Caja cerrada del select */
+.reservation-form .nice-select {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    color: #333 !important;
+    border: 1px solid rgba(0, 0, 0, 0.25) !important;
+    height: 46px !important;
+    line-height: 46px !important;
+}
+
+/* Texto actual (lo que se ve cuando está cerrado) */
+.reservation-form .nice-select .current {
+    color: #333 !important;
+}
+
+/* Lista desplegable */
+.reservation-form .nice-select .list {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Opciones dentro del desplegable */
+.reservation-form .nice-select .option {
+    color: #333 !important;
+}
+
+/* Hover y opción seleccionada */
+.reservation-form .nice-select .option:hover,
+.reservation-form .nice-select .option.focus,
+.reservation-form .nice-select .option.selected.focus {
+    background-color: #f0f0f0 !important;
+    color: #000 !important;
+}
 /* ====== The End ====== */
 
 
