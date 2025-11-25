@@ -37,26 +37,33 @@ def services():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # GET: mostrar formulario
     if request.method == 'GET':
         return render_template('login.html')
 
+    # POST: procesar login
     email = request.form.get('email')
     password = request.form.get('password')
+
     resp = requests.post(
         f"{API_BASE}/usuarios/login",
         json={"email": email, "password": password}
     )
+
     if resp.status_code == 200:
         user = resp.json()
-      
         session['user_id'] = user['id']
         session['user_name'] = user['nombre']
         session['user_email'] = user['email']
-       
         return redirect(url_for('index'))
-     
-    error = resp.json().get("error", "Credenciales inválidas")
-    return render_template('login.html', error=error, email=email), 401
+
+    try:
+        data = resp.json()
+        error = data.get("error", "Error al iniciar sesión")
+    except Exception:
+        error = "Error al iniciar sesión"
+
+    return render_template('login.html', error=error, email=email), resp.status_code
 
 @app.route('/logout')
 def logout():
