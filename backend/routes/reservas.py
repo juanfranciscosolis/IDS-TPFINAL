@@ -26,26 +26,45 @@ def listar_reservas():
     return jsonify(reservas), 200
 
 
-@reservas_bp.route('/usuario/<int:usuario_id>', methods=['GET'])
+@reservas_bp.route('/usuario/<int:usuario_id>/reservas', methods=['GET'])
 def obtener_reservas_por_usuario(usuario_id):
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("""
-        SELECT 
-            r.*,
-            h.nombre AS nombre_habitacion,
-            u.nombre AS nombre_usuario
-        FROM reservas r
-        LEFT JOIN habitaciones h ON r.id_habitacion = h.id
-        LEFT JOIN usuarios u ON r.id_usuario = u.id
-        WHERE r.id_usuario = %s
-    """, (usuario_id,))
-    reservas = cursor.fetchall()
-    cursor.close()
-    conn.close()
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("""
+            SELECT 
+                r.id,
+                r.fecha_entrada,
+                r.fecha_salida,
+                r.estado,
+                r.precio_total,
+                r.cantidad_adultos,
+                r.cantidad_ninos,
+                r.cantidad_personas,
+                r.metodo_pago,
+                r.tarjeta_ultimos4,
+                r.nombre_completo,
+                r.email,
+                r.telefono,
+                r.created_at,
+                h.nombre AS nombre_habitacion,
+                u.nombre AS nombre_usuario
+            FROM reservas r
+            INNER JOIN habitaciones h ON r.id_habitacion = h.id
+            INNER JOIN usuarios u ON r.id_usuario = u.id
+            WHERE r.id_usuario = %s
+            ORDER BY r.fecha_entrada DESC
+        """, (usuario_id,))
+        
+        reservas = cursor.fetchall()
+    
+        cursor.close()
+        conn.close()
 
-    return jsonify(reservas), 200
+        return jsonify(reservas), 200
 
+    except Exception as e:
+        return jsonify({'error': 'Error del servidor (base de datos)'}), 500
 
 @reservas_bp.route('/', methods=['POST'])
 def crear_reserva():

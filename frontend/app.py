@@ -116,10 +116,14 @@ def user(user_id):
     if usuario_res.status_code != 200:
         return redirect(url_for("login"))
     usuario = usuario_res.json()
-    
-    reservas_res = requests.get(f"{API_BASE}/reservas/usuario/{user_id}")
-    reservas = reservas_res.json() if reservas_res.status_code == 200 else []
-    
+
+    reservas_res = requests.get(f"{API_BASE}/reservas/usuario/{user_id}/reservas")
+    if reservas_res.status_code == 200:
+        reservas = reservas_res.json()
+    else:
+        reservas = []
+        """Manejar error"""
+
     return render_template("user.html", usuario=usuario, reservas=reservas)
 
 @app.route('/reservar', methods=['GET', 'POST'])
