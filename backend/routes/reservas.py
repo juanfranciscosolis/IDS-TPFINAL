@@ -1,36 +1,50 @@
 from flask import Blueprint, jsonify, request, current_app
-from flask_mail import Message
 from backend.db import get_connection
 from datetime import datetime
 
 reservas_bp = Blueprint("reservas", __name__)
 
-
 @reservas_bp.route('/', methods=['GET'])
 def listar_reservas():
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("""
-        SELECT 
-            r.*,
-            h.nombre AS nombre_habitacion,
-            u.nombre AS nombre_usuario
-        FROM reservas r
-        LEFT JOIN habitaciones h ON r.id_habitacion = h.id
-        LEFT JOIN usuarios u ON r.id_usuario = u.id
-        ORDER BY r.id DESC
-    """)
-    reservas = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return jsonify(reservas), 200
-
-
-@reservas_bp.route('/usuario/<int:usuario_id>/reservas', methods=['GET'])
-def obtener_reservas_por_usuario(usuario_id):
+    conn = None
+    cursor = None
     try:
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("""
+            SELECT 
+                r.*,
+                h.nombre AS nombre_habitacion,
+                u.nombre AS nombre_usuario
+            FROM reservas r
+            LEFT JOIN habitaciones h ON r.id_habitacion = h.id
+            LEFT JOIN usuarios u ON r.id_usuario = u.id
+            ORDER BY r.id DESC
+        """)
+        
+        reservas = cursor.fetchall()
+        
+        return jsonify(reservas), 200
+        
+    except Exception:
+        return jsonify({"error": "Error del servidor"}), 500
+        
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
+
+@reservas_bp.route('/usuario/<int:usuario_id>/reservas', methods=['GET'])
+def obtener_reservas_por_usuario(usuario_id):
+    if usuario_id <= 0:
+        return jsonify({"error": "ID de usuario invalido"}), 400
+
+    conn = None
+    cursor = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+        
         cursor.execute("""
             SELECT 
                 r.id,
@@ -38,15 +52,6 @@ def obtener_reservas_por_usuario(usuario_id):
                 r.fecha_salida,
                 r.estado,
                 r.precio_total,
-                r.cantidad_adultos,
-                r.cantidad_ninos,
-                r.cantidad_personas,
-                r.metodo_pago,
-                r.tarjeta_ultimos4,
-                r.nombre_completo,
-                r.email,
-                r.telefono,
-                r.created_at,
                 h.nombre AS nombre_habitacion,
                 u.nombre AS nombre_usuario
             FROM reservas r
@@ -57,14 +62,15 @@ def obtener_reservas_por_usuario(usuario_id):
         """, (usuario_id,))
         
         reservas = cursor.fetchall()
-    
-        cursor.close()
-        conn.close()
-
+            
         return jsonify(reservas), 200
 
     except Exception as e:
-        return jsonify({'error': 'Error del servidor (base de datos)'}), 500
+        return jsonify({'error': 'Error del servidor'}), 500
+
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
 
 @reservas_bp.route('/', methods=['POST'])
 def crear_reserva():
