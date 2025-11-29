@@ -112,7 +112,7 @@ def login_usuario():
         user = cursor.fetchone()
         
         if not user:
-            return jsonify({"error": "Credenciales invalidas"}), 401 
+            return jsonify({"error": "Usuario no encontrado"}), 404
         
         if user['password'] != password:
             return jsonify({"error": "Credenciales invalidas"}), 401

@@ -6,24 +6,6 @@ app.secret_key = "mi_clave_super_secreta_para_el_tp_123"
 
 API_BASE = "http://localhost:5010" 
 
-def registrar_usuario(datos):
-    """
-    Funcion auxiliar (recibe JSON)
-    """
-    if datos["password"] != datos["confirmPassword"]:
-        return {"error": "Las contraseñas no coinciden"}, 400
-    
-    response = requests.post(
-        f'{API_BASE}/usuarios/',
-        json={
-            "name": datos["name"],
-            "email": datos["email"], 
-            "password": datos["password"]
-        }
-    )
-    
-    return response.json(), response.status_code
-
 @app.route('/')
 @app.route('/index')
 def index():
@@ -47,17 +29,21 @@ def services():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
-    #Si ya inicio sesion
     if 'user_id' in session:
         return redirect(url_for('user', user_id=session['user_id']))
 
     if request.method == 'GET':
         return render_template('login.html')
 
-    email = request.form.get('email')
-    password = request.form.get('password')
+    email = request.form.get('email', '').strip()
+    password = request.form.get('password', '')
+    error = "Error interno del servidor"
 
+    if not email or not password:
+        return render_template('login.html', 
+            error="Email y contraseña son requeridos", 
+            email=email), 400
+    
     try:
         resp = requests.post(
             f"{API_BASE}/usuarios/login",
@@ -66,65 +52,90 @@ def login():
 
         if resp.status_code == 200:
             user = resp.json()
-            user_id = user.get('id')
-            user_nombre = user.get('nombre')
-            user_email = user.get('email')
+            session.update({
+                'user_id': user['id'],
+                'user_name': user.get('nombre', ''),
+                'user_email': user.get('email', '')
+            })
+            return redirect(url_for('user', user_id=user['id']))
 
-            if user_id:
-                session['user_id'] = user_id
-                session['user_name'] = user_nombre
-                session['user_email'] = user_email
-                return redirect(url_for('user', user_id=user_id))
-            else:
-                error = "Error: No se recibió ID de usuario"
-                return render_template('login.html', error=error, email=email), 500
+        if resp.status_code == 404:
+            error = "Usuario no registrado"
+        
+        if resp.status_code == 401:
+            error = "Credenciales incorrectas"
 
-        try:
-            data = resp.json()
-            error = data.get("error", "Error al iniciar sesión")
-        except Exception:
-            error = "Error al iniciar sesión"
+        return render_template('login.html', 
+            error=error, email=email), resp.status_code
 
-        return render_template('login.html', error=error, email=email), resp.status_code
-
-    except requests.RequestException:
-        return render_template('login.html', error="Error de conexión con el servidor", email=email), 500
-
+    except Exception as e:
+        return render_template('login.html', 
+            error=error,
+            email=email), 500
+    
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register')
 def register():
-    if request.method == 'GET':
-        return render_template('register.html')
-    
-    datos = request.get_json()
-    resultado, status_code = registrar_usuario(datos)
-    
-    return jsonify(resultado), status_code
+    return render_template('register.html')
+
+@app.route('/register', methods=['POST'])
+def register_user():
+    try:
+        datos = request.get_json()
+        if not datos:
+            return jsonify({"error": "Datos requeridos"}), 400
+        
+        name = datos.get('name', '').strip()
+        email = datos.get('email', '').strip()
+        password = datos.get('password', '')
+        confirm_password = datos.get('confirmPassword', '')
+        
+        if not all([name, email, password]):
+            return jsonify({"error": "Todos los campos son requeridos"}), 400
+        
+        if password != confirm_password:
+            return jsonify({"error": "Las contraseñas no coinciden"}), 400
+        
+        response = requests.post(
+            f'{API_BASE}/usuarios/',
+            json={"name": name, "email": email, "password": password},
+            timeout=5
+        )
+        
+        if response.status_code == 201:
+            return jsonify({"mensaje": "Usuario registrado exitosamente"}), 201
+        else:
+            error = response.json().get('error', 'Error en el registro')
+            return jsonify({"error": error}), response.status_code
+            
+    except Exception as e:
+        return jsonify({"error": "Error interno del servidor"}), 500
 
 @app.route('/user/<int:user_id>')
 def user(user_id):
-    # Si no esta logeado
     if 'user_id' not in session:
         return redirect(url_for("login"))
     
-    # Obtener usuario
-    usuario_res = requests.get(f"{API_BASE}/usuarios/{user_id}")
-    if usuario_res.status_code != 200:
-        return redirect(url_for("login"))
-    usuario = usuario_res.json()
+    try:
+        # Obtener usuario
+        usuario_res = requests.get(f"{API_BASE}/usuarios/{user_id}", timeout=5)
+        if usuario_res.status_code != 200:
+            return redirect(url_for("login"))
+        usuario = usuario_res.json()
 
-    reservas_res = requests.get(f"{API_BASE}/reservas/usuario/{user_id}/reservas")
-    if reservas_res.status_code == 200:
-        reservas = reservas_res.json()
-    else:
         reservas = []
-        """Manejar error"""
+        reservas_res = requests.get(f"{API_BASE}/reservas/usuario/{user_id}/reservas", timeout=5)
+        if reservas_res.status_code == 200:
+            reservas = reservas_res.json()
 
-    return render_template("user.html", usuario=usuario, reservas=reservas)
+        return render_template("user.html", usuario=usuario, reservas=reservas)
+        
+    except Exception as e:
+        return redirect(url_for("login"))
 
 @app.route('/reservar', methods=['GET', 'POST'])
 def reservar():
