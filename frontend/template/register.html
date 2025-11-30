@@ -55,47 +55,45 @@
 {% block extra_js %}
 <script>
     function registrar() {
-    const datos = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
-        confirmPassword: document.getElementById("confirm_password").value
-    };
+        const datos = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            confirmPassword: document.getElementById("confirm_password").value
+        };
 
-    const url = "{{ url_for('register') }}";
-    fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json"}, // tipo de dato json
-        body: JSON.stringify(datos)
-    })
-    .then(res => { // res: respuesta del servidor
-        if (!res.ok) {
-            return res.json().then(errorData => {
-                throw new Error(errorData.error || "Error al registrar"); // error al catch
-            });
-        }
-        return res.json();
-    })
-    .then(data => {
-        const mensaje = document.getElementById("mensaje");
-        mensaje.textContent = "Usuario registrado correctamente";
-        mensaje.style.color = "green";
-        mensaje.style.display = "block";
-        
-        document.getElementById("registerForm").reset();
-        
-        // espera 2seg y redirige al login
-        setTimeout(() => {
-            window.location.href = "{{ url_for('login') }}";
-        }, 2000);
-    })
-    .catch(error => {
-        const mensaje = document.getElementById("mensaje");
-        mensaje.textContent = error.message;
-        mensaje.style.color = "red";
-        mensaje.style.display = "block";
-    });
-}
-
+        const url = "{{ url_for('register') }}";
+        fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json"},
+            body: JSON.stringify(datos)
+        })
+        .then(res => {
+            if (!res.ok) {
+                return res.json().then(errorData => {
+                    throw new Error(errorData.error || "Error al registrar");
+                });
+            }
+            return res.json();
+        })
+        .then(data => {
+            const mensaje = document.getElementById("mensaje");
+            mensaje.textContent = "Usuario registrado correctamente";
+            mensaje.style.color = "green";
+            mensaje.style.display = "block";
+            
+            document.getElementById("registerForm").reset();
+            
+            setTimeout(() => {
+                window.location.href = "{{ url_for('login') }}";
+            }, 1000);
+        })
+        .catch(error => {
+            const mensaje = document.getElementById("mensaje");
+            mensaje.textContent = error.message;
+            mensaje.style.color = "red";
+            mensaje.style.display = "block";
+        });
+    }
 </script>
 {% endblock %}
