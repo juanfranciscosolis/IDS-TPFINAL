@@ -62,7 +62,11 @@
                                   <option>03</option>
                                 </select>
                             </div>
-                            <button type="submit">Reservar ahora</button>
+                            <button type="button"
+                            onclick="window.location.href='{{ url_for('reservar') }}'"
+                            class="book-room-btn btn palatin-btn">
+                            Reservar Ahora
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -81,7 +85,12 @@
                             <h2>Servicios Excepcionales</h2>
                         </div>
                         <p>En el Hotel Palatin, cada servicio está diseñado para ofrecerte una experiencia inolvidable. Desde nuestro spa y piscina infinita hasta el lounge bar y actividades al aire libre, todo está pensado para tu descanso y bienestar.</p>
-                        <a href="#" class="btn palatin-btn mt-50">Saber más</a>
+                        <a href="{{ url_for('static', filename='docs/servicios_hotel_detallado.pdf') }}"
+                        target="_blank"
+                        class="btn palatin-btn mt-50">
+                        Saber más
+                        </a>           
+                        
                     </div>
                 </div>
 

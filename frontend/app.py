@@ -1,10 +1,39 @@
-from flask import Flask, jsonify, render_template, request, redirect, url_for, session
+from flask import Flask, jsonify, render_template, request, redirect, url_for, session, flash
 import requests
 
 app = Flask(__name__, template_folder='template')
 app.secret_key = "mi_clave_super_secreta_para_el_tp_123"
 
 API_BASE = "http://localhost:5010" 
+
+@app.route('/contact', methods=['POST'])
+def contacto():
+    nombre = request.form.get('text')
+    email = request.form.get('email')
+    asunto = request.form.get('subject')
+    mensaje = request.form.get('message')
+
+
+    flash("Mensaje enviado. Pronto nos pondremos en contacto.", "success")
+    return redirect(url_for('contact'))
+
+def registrar_usuario(datos):
+    """
+    Funcion auxiliar (recibe JSON)
+    """
+    if datos["password"] != datos["confirmPassword"]:
+        return {"error": "Las contraseñas no coinciden"}, 400
+    
+    response = requests.post(
+        f'{API_BASE}/usuarios/',
+        json={
+            "name": datos["name"],
+            "email": datos["email"], 
+            "password": datos["password"]
+        }
+    )
+    
+    return response.json(), response.status_code
 
 @app.route('/')
 @app.route('/index')
@@ -15,9 +44,11 @@ def index():
 def about():
     return render_template('about-us.html')
 
-@app.route ('/contact')
+@app.route('/contact', methods=['GET'])
 def contact():
     return render_template('contact.html')
+
+
 
 @app.route('/rooms')
 def rooms():
@@ -152,6 +183,8 @@ def reservar():
     # Si no hay usuario logueado, redirigimos a login
     if 'user_id' not in session:
         return redirect(url_for('login'))
+    
+    habitacion_id_preseleccionada = request.args.get('habitacion_id')
 
     try:
         response = requests.get(f"{API_BASE}/habitaciones", timeout=5)
