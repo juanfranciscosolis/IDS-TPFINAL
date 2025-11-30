@@ -62,7 +62,7 @@
             confirmPassword: document.getElementById("confirm_password").value
         };
 
-        const url = "{{ url_for('register_user') }}";
+        const url = "{{ url_for('register') }}";
         fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json"},

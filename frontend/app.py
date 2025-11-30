@@ -21,7 +21,17 @@ def contact():
 
 @app.route('/rooms')
 def rooms():
-    return render_template('rooms.html')
+    try:
+        response = requests.get(f"{API_BASE}/habitaciones", timeout=5)
+        response.raise_for_status()  # Lanza excepcion si hay error http
+        habitaciones = response.json()
+        error = None
+    except requests.exceptions.RequestException as e:
+        habitaciones = []
+        error = "No se pudieron cargar las habitaciones"
+    
+    return render_template('rooms.html', habitaciones=habitaciones, error=error)
+    
 
 @app.route('/services')
 def services():
@@ -78,12 +88,12 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
 
-@app.route('/register', methods=['POST'])
-def register_user():
+    if request.method  == 'GET':
+        return render_template('register.html')
+
     try:
         datos = request.get_json()
         if not datos:
@@ -143,12 +153,24 @@ def reservar():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
+    try:
+        response = requests.get(f"{API_BASE}/habitaciones", timeout=5)
+        habitaciones = response.json() if response.status_code == 200 else []
+    except requests.exceptions.RequestException:
+        habitaciones = []
+
     if request.method == 'GET':
+        habitacion_id = request.args.get('habitacion_id')
+        form_data = {
+            'habitacion': habitacion_id
+        }
         # Mostrar formulario
         return render_template(
             'reservar.html',
             user_name=session.get('user_name'),
-            user_email=session.get('user_email')
+            user_email=session.get('user_email'),
+            form_data=form_data,
+            habitaciones=habitaciones 
         )
 
     # POST: datos del form
@@ -186,7 +208,8 @@ def reservar():
             'reservar.html',
             error="No se pudo conectar con el servidor de reservas.",
             user_name=session.get('user_name'),
-            user_email=session.get('user_email')
+            user_email=session.get('user_email'),
+            habitaciones=habitaciones 
         ), 500
 
     if resp.status_code == 201:
@@ -196,7 +219,9 @@ def reservar():
             'reservar.html',
             success=success_msg,
             user_name=session.get('user_name'),
-            user_email=session.get('user_email')
+            user_email=session.get('user_email'),
+            form_data=form_data,
+            habitaciones=habitaciones
         )
 
     # Algún error de validación / negocio
@@ -210,9 +235,10 @@ def reservar():
         'reservar.html',
         error=error_msg,
         user_name=session.get('user_name'),
-        user_email=session.get('user_email')
+        user_email=session.get('user_email'),
+        form_data=form_data,
+        habitaciones=habitaciones 
     ), resp.status_code
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
-
