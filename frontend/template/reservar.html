@@ -67,11 +67,33 @@
                                     <label for="habitacion">Tipo de habitación</label>
                                     <select class="form-control" id="habitacion" name="habitacion" required>
                                         <option value="">Seleccioná una opción</option>
-                                        <option value="1">Habitación Doble Estándar</option>
-                                        <option value="2">Suite Ejecutiva</option>
-                                        <option value="3">Habitación Familiar</option>
-                                        <option value="4">Habitación Individual</option>
-                                        <option value="5">Suite Presidencial</option>
+                                        <option value="1" {% if habitacion_id == '1' %}selected{% endif %}>
+                                            Habitación Deluxe
+                                        </option>
+                                        <option value="2" {% if habitacion_id == '2' %}selected{% endif %}>
+                                            Suite Doble
+                                        </option>
+                                        <option value="3" {% if habitacion_id == '3' %}selected{% endif %}>
+                                            Habitación Individual
+                                        </option>
+                                        <option value="4" {% if habitacion_id == '4' %}selected{% endif %}>
+                                            Habitación Deluxe Vista Al Jardín
+                                        </option>
+                                        <option value="5" {% if habitacion_id == '5' %}selected{% endif %}>
+                                            Habitación Deluxe Vista Al Lago
+                                        </option>
+                                        <option value="6" {% if habitacion_id == '6' %}selected{% endif %}>
+                                            Suite Romantica
+                                        </option>
+                                        <option value="7" {% if habitacion_id == '7' %}selected{% endif %}>
+                                            Suite Premium Familiar
+                                        </option>
+                                        <option value="8" {% if habitacion_id == '8' %}selected{% endif %}>
+                                            Loft Moderno
+                                        </option>                                    
+                                        <option value="9" {% if habitacion_id == '9' %}selected{% endif %}>
+                                            Suite Panorámica
+                                        </option>
                                     </select>
                                 </div>
                             </div>

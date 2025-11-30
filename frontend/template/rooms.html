@@ -64,7 +64,11 @@
                                   <option>04</option>
                                 </select>
                             </div>
-                            <button type="submit">Reservar ahora</button>
+                            <button type="button"
+                            onclick="window.location.href='{{ url_for('reservar') }}'"
+                            class="book-room-btn btn palatin-btn">
+                            Reservar Ahora
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -98,7 +102,7 @@
                             <h4>Habitación Deluxe</h4>
                             <p>Amplia habitación con decoración moderna, cama king, minibar y balcón con vista al jardín.</p>
                         </div>
-                        <a href="#" class="book-room-btn btn palatin-btn">Reservar</a>
+                        <a href="{{ url_for('reservar') }}" class="book-room-btn btn palatin-btn">Reservar</a>
                     </div>
                 </div>
 
@@ -113,7 +117,9 @@
                             <h4>Suite Doble</h4>
                             <p>Espacio ideal para familias o grupos pequeños. Dos camas queen y zona de estar con TV de pantalla plana.</p>
                         </div>
-                        <a href="#" class="book-room-btn btn palatin-btn">Reservar</a>
+                        <a href="{{ url_for('reservar', habitacion_id=2) }}" 
+                        class="book-room-btn btn palatin-btn">Reservar</a>
+                        
                     </div>
                 </div>
 
@@ -128,34 +134,47 @@
                             <h4>Habitación Individual</h4>
                             <p>Perfecta para viajeros solos. Ambiente cómodo, escritorio de trabajo y baño privado.</p>
                         </div>
-                        <a href="#" class="book-room-btn btn palatin-btn">Reservar</a>
+                        <a href="{{ url_for('reservar') }}" class="book-room-btn btn palatin-btn">Reservar</a>
+                        
                     </div>
                 </div>
 
-                <!-- Más habitaciones -->
-                {% for n in [15,16,17,18,19,20] %}
-                <div class="col-12 col-md-6 col-lg-4">
-                    <div class="single-rooms-area wow fadeInUp">
-                        <div class="bg-thumbnail bg-img"
-                             style="background-image: url('{{ url_for('static', filename='img/bg-img/' ~ n ~ '.jpg') }}');"></div>
-                        <p class="price-from">Desde $150/noche</p>
-                        <div class="rooms-text">
-                            <div class="line"></div>
-                            <h4>Habitación {{ loop.index + 3 }}</h4>
-                            <p>Espacio elegante con todas las comodidades, ideal para disfrutar del lujo y la serenidad del resort.</p>
-                        </div>
-                        <a href="#" class="book-room-btn btn palatin-btn">Reservar</a>
-                    </div>
-                </div>
-                {% endfor %}
+               {% set nombres = [
+    "Habitación Deluxe Vista al Jardín",
+    "Habitación Deluxe Vista al Lago",
+    "Suite Romántica",
+    "Suite Premium Familiar",
+    "Loft Moderno",
+    "Suite Panorámica"
+] %}
 
+{% for n in [15,16,17,18,19,20] %}
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="single-rooms-area wow fadeInUp">
+            <div class="bg-thumbnail bg-img"
+                 style="background-image: url('{{ url_for('static', filename='img/bg-img/' ~ n ~ '.jpg') }}');"></div>
+
+            <p class="price-from">Desde $150/noche</p>
+
+            <div class="rooms-text">
+                <div class="line"></div>
+
+                <h4>{{ nombres[loop.index0] }}</h4>
+
+                <p>Espacio elegante con todas las comodidades, ideal para disfrutar del lujo y la serenidad del resort.</p>
+            </div>
+            <a href="{{ url_for('reservar') }}" class="book-room-btn btn palatin-btn">Reservar</a>
+            <!--a href="#" class="book-room-btn btn palatin-btn">Reservar</a>-->
+        </div>
+    </div>
+{% endfor %}
                 <div class="col-12">
                     <div class="pagination-area wow fadeInUp" data-wow-delay="400ms">
                         <nav>
                             <ul class="pagination">
-                                <li class="page-item active"><a class="page-link" href="#">01.</a></li>
-                                <li class="page-item"><a class="page-link" href="#">02.</a></li>
-                                <li class="page-item"><a class="page-link" href="#">03.</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <!--<li class="page-item"><a class="page-link" href="#">02.</a></li>
+                                <li class="page-item"><a class="page-link" href="#">03.</a></li>-->
                             </ul>
                         </nav>
                     </div>

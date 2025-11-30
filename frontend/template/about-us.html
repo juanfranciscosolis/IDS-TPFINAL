@@ -67,8 +67,11 @@
                                   <option>04</option>
                                 </select>
                             </div>
-
-                            <button type="submit">Reservar</button>
+                            <button type="button"
+                            onclick="window.location.href='{{ url_for('reservar') }}'"
+                            class="book-room-btn btn palatin-btn">
+                            Reservar Ahora
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -87,7 +90,7 @@
                             <h2>Un lugar para recordar</h2>
                         </div>
                         <p>El Hotel Palatin combina lujo, naturaleza y tranquilidad. Nuestro compromiso es ofrecerte una experiencia única, donde cada detalle está pensado para tu descanso y bienestar. Disfrutá de nuestros espacios amplios, vistas impresionantes y atención personalizada.</p>
-                        <a href="#" class="btn palatin-btn mt-50">Conocer más</a>
+                     
                     </div>
                 </div>
 
@@ -119,7 +122,7 @@
                     <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="300ms">
                         <div class="scf-text">
                             <i class="icon-cocktail-1"></i>
-                            <h2><span class="counter">231</span></h2>
+                            <h2><span class="counter">250</span></h2>
                             <p>Cócteles al día</p>
                         </div>
                     </div>
@@ -139,7 +142,7 @@
                     <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="700ms">
                         <div class="scf-text">
                             <i class="icon-resort"></i>
-                            <h2><span class="counter">79</span></h2>
+                            <h2><span class="counter">80</span></h2>
                             <p>Habitaciones</p>
                         </div>
                     </div>

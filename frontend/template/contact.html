@@ -67,8 +67,11 @@
                                   <option>05</option>
                                 </select>
                             </div>
-
-                            <button type="submit">Reservar Ahora</button>
+                             <button type="button"
+                            onclick="window.location.href='{{ url_for('reservar') }}'"
+                            class="book-room-btn btn palatin-btn">
+                            Reservar Ahora
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -162,19 +165,29 @@
 
             <div class="row">
                 <div class="col-12">
-                    <form action="#" method="post">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form action="{{ url_for('contacto') }}" method="post">
                         <div class="row">
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" name="text" placeholder="Tu Nombre">
+                                <input type="text" class="form-control" name="text" placeholder="Tu Nombre" required>
                             </div>
                             <div class="col-lg-4">
-                                <input type="email" class="form-control" name="email" placeholder="Correo Electrónico">
+                                <input type="email" class="form-control" name="email" placeholder="Correo Electrónico"required>
                             </div>
                             <div class="col-lg-4">
-                                <input type="text" class="form-control" name="subject" placeholder="Asunto">
+                                <input type="text" class="form-control" name="subject" placeholder="Asunto"required>
                             </div>
                             <div class="col-12">
-                                <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Mensaje"></textarea>
+                                <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Mensaje"required></textarea>
                             </div>
                             <div class="col-12">
                                 <button type="submit" class="btn palatin-btn mt-50">Enviar Mensaje</button>

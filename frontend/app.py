@@ -1,10 +1,23 @@
-from flask import Flask, jsonify, render_template, request, redirect, url_for, session
+from flask import Flask, jsonify, render_template, request, redirect, url_for, session, flash
 import requests
 
 app = Flask(__name__, template_folder='template')
 app.secret_key = "mi_clave_super_secreta_para_el_tp_123"
 
 API_BASE = "http://localhost:5010" 
+
+
+
+@app.route('/contact', methods=['POST'])
+def contacto():
+    nombre = request.form.get('text')
+    email = request.form.get('email')
+    asunto = request.form.get('subject')
+    mensaje = request.form.get('message')
+
+
+    flash("Mensaje enviado. Pronto nos pondremos en contacto.", "success")
+    return redirect(url_for('contact'))
 
 def registrar_usuario(datos):
     """
@@ -33,9 +46,11 @@ def index():
 def about():
     return render_template('about-us.html')
 
-@app.route ('/contact')
+@app.route('/contact', methods=['GET'])
 def contact():
     return render_template('contact.html')
+
+
 
 @app.route('/rooms')
 def rooms():
@@ -127,13 +142,16 @@ def reservar():
     # Si no hay usuario logueado, redirigimos a login
     if 'user_id' not in session:
         return redirect(url_for('login'))
+    
+    habitacion_id_preseleccionada = request.args.get('habitacion_id')
 
     if request.method == 'GET':
         # Mostrar formulario
         return render_template(
             'reservar.html',
             user_name=session.get('user_name'),
-            user_email=session.get('user_email')
+            user_email=session.get('user_email'),
+            habitacion_id=habitacion_id_preseleccionada  
         )
 
     # POST: datos del form
