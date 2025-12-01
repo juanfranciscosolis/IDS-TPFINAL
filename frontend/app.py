@@ -221,6 +221,19 @@ def reservar():
     numero_tarjeta = (request.form.get('numero_tarjeta') or "").replace(" ", "")
     tarjeta_ultimos4 = numero_tarjeta[-4:] if len(numero_tarjeta) >= 4 else None
 
+    form_data = {
+        'fecha_entrada': fecha_entrada,
+        'fecha_salida': fecha_salida,
+        'habitacion': habitacion_id,
+        'adultos': adultos,
+        'ninos': ninos,
+        'nombre_completo': nombre_completo,
+        'email': email,
+        'telefono': telefono,
+        'metodo_pago': metodo_pago,
+        'numero_tarjeta': request.form.get('numero_tarjeta')
+    }
+
     payload = {
         "id_habitacion": habitacion_id,
         "fecha_entrada": fecha_entrada,
@@ -242,7 +255,8 @@ def reservar():
             error="No se pudo conectar con el servidor de reservas.",
             user_name=session.get('user_name'),
             user_email=session.get('user_email'),
-            habitaciones=habitaciones 
+            habitaciones=habitaciones,
+            form_data=form_data
         ), 500
 
     if resp.status_code == 201:

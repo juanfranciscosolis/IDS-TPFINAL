@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, current_app
 from backend.db import get_connection
 from datetime import datetime
+from flask_mail import Message
 
 reservas_bp = Blueprint("reservas", __name__)
 
@@ -203,7 +204,6 @@ Datos de la reserva:
 - Precio total: ${precio_total}
 """
 
-            # Solo a tu casilla (MAIL_DEFAULT_SENDER_EMAIL del .env)
             default_sender = current_app.config.get("MAIL_DEFAULT_SENDER")
             if isinstance(default_sender, tuple) and len(default_sender) == 2:
                 destinatarios = [default_sender[1]]
