@@ -1,31 +1,32 @@
 # =====================================================
 # API de Gestión de Reservas de Habitaciones
+# Proyecto: Hotel IDS - Trabajo Práctico Final
 # =====================================================
-# Especificación OpenAPI 3.0 para documentar todos los
-# endpoints de usuarios, habitaciones y reservas
 
 openapi: 3.0.0
 
-# Información general de la API
 info:
-  title: TP_FINAL_IDS API
+  title: Hotel IDS - API REST
   description: |
-    API RESTful para gestión de:
+    API RESTful para la gestión de reservas de hospedaje. Incluye:
     - Registro y autenticación de usuarios
-    - Inventario de habitaciones disponibles
-    - Sistema de reservas de habitaciones
+    - Inventario y consulta de habitaciones
+    - Creación y gestión de reservas
+    - Validación de datos en servidor
   version: 1.0.0
-  contact:
-    name: Soporte Técnico
-  license:
-    name: MIT
 
-# Servidores disponibles
 servers:
-  - url: http://localhost:8000
-    description: Servidor local (desarrollo)
-  - url: https://api.example.com
-    description: Servidor producción
+  - url: http://localhost:5010
+    description: Servidor local de desarrollo
+
+
+tags:
+  - name: Usuarios
+    description: Registro, autenticación y gestión de usuarios
+  - name: Habitaciones
+    description: Consulta del inventario de habitaciones
+  - name: Reservas
+    description: Creación y gestión de reservas
 
 # =====================================================
 # RUTAS (ENDPOINTS) DE LA API
@@ -33,15 +34,25 @@ servers:
 paths:
 
   # ========== USUARIOS ==========
-  
   /usuarios:
-    # Obtener lista de todos los usuarios registrados
     get:
       summary: Listar todos los usuarios
-      description: Retorna un array con todos los usuarios registrados en el sistema
+      description: Retorna un array con todos los usuarios registrados.
       operationId: getUsuarios
-      tags:
-        - Usuarios
+      tags: [Usuarios]
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
       responses:
         '200':
           description: Lista de usuarios obtenida exitosamente
@@ -51,60 +62,47 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Usuario'
-    
-    # Crear un nuevo usuario
+        '500':
+          description: Error en el servidor
     post:
       summary: Registrar nuevo usuario
-      description: |
-        Crea un nuevo usuario en el sistema.
-        
-        Validaciones:
-        - Email debe ser único
-        - Contraseña mínimo 6 caracteres
-        - Nombre requerido
+      description: Crea un nuevo usuario en el sistema. Email debe ser único.
       operationId: createUsuario
-      tags:
-        - Usuarios
+      tags: [Usuarios]
       requestBody:
         required: true
-        description: Datos del nuevo usuario a registrar
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UsuarioCrear'
-            example:
-              name: teodolindo miranda
-              email: teo.miranda@example.com
-              password: '123456'
       responses:
         '201':
           description: Usuario creado exitosamente
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Usuario'
+                type: object
+                properties:
+                  mensaje:
+                    type: string
         '400':
-          description: Datos inválidos o email ya existe
+          description: Email ya existe
         '500':
           description: Error en el servidor
 
-  # Obtener un usuario específico por su ID
   /usuarios/{id}:
     get:
       summary: Obtener usuario por ID
-      description: Retorna los detalles de un usuario específico según su ID
+      description: Retorna los detalles de un usuario específico.
       operationId: getUsuarioById
-      tags:
-        - Usuarios
+      tags: [Usuarios]
       parameters:
-        # Parámetro de ruta: ID del usuario
         - name: id
           in: path
           required: true
           description: ID único del usuario
           schema:
-            type: string
-          example: "123e4567-e89b-12d3-a456-426614174000"
+            type: integer
       responses:
         '200':
           description: Usuario encontrado
@@ -117,59 +115,39 @@ paths:
         '500':
           description: Error en el servidor
 
-  # Endpoint de autenticación
   /usuarios/login:
     post:
       summary: Iniciar sesión de usuario
-      description: |
-        Autentica un usuario y retorna un token JWT.
-        
-        Este token debe incluirse en los headers de 
-        las siguientes peticiones que requieran autenticación.
+      description: Autentica un usuario con email y contraseña. Retorna los datos del usuario (sin contraseña).
       operationId: loginUsuario
-      tags:
-        - Usuarios
+      tags: [Usuarios]
       requestBody:
         required: true
-        description: Credenciales de acceso
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UsuarioLogin'
-            example:
-              email: teo.miranda@example.com
-              password: '123456'
       responses:
         '200':
-          description: Login exitoso, token generado
+          description: Login exitoso
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    description: JWT token para autenticación en requests posteriores
-                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                  usuario:
-                    $ref: '#/components/schemas/Usuario'
+                $ref: '#/components/schemas/Usuario'
         '401':
-          description: Credenciales inválidas
+          description: Contraseña incorrecta
         '404':
-          description: Usuario no encontrado
+          description: Usuario no existe
+        '500':
+          description: Error en el servidor
 
   # ========== HABITACIONES ==========
-  
   /habitaciones:
-    # Obtener inventario completo de habitaciones
     get:
-      summary: Listar inventario de habitaciones
-      description: |
-        Retorna todas las habitaciones disponibles en el sistema
-        con su información de precio, disponibilidad, etc.
+      summary: Listar todas las habitaciones
+      description: Retorna el inventario completo de habitaciones disponibles en el sistema.
       operationId: getHabitaciones
-      tags:
-        - Habitaciones
+      tags: [Habitaciones]
       responses:
         '200':
           description: Lista de habitaciones obtenida exitosamente
@@ -182,18 +160,38 @@ paths:
         '500':
           description: Error en el servidor
 
+  /habitaciones/{id}:
+    get:
+      summary: Obtener habitación por ID
+      description: Retorna los detalles completos de una habitación específica.
+      operationId: getHabitacionById
+      tags: [Habitaciones]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID único de la habitación
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Habitación encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Habitacion'
+        '404':
+          description: Habitación no encontrada
+        '500':
+          description: Error en el servidor
+
   # ========== RESERVAS ==========
-  
   /reservas:
-    # Obtener todas las reservas
     get:
       summary: Listar todas las reservas
-      description: |
-        Retorna un listado de todas las reservas registradas
-        en el sistema con detalles de usuario, habitación y fechas.
+      description: Retorna un listado de todas las reservas con información del usuario y habitación.
       operationId: getReservas
-      tags:
-        - Reservas
+      tags: [Reservas]
       responses:
         '200':
           description: Lista de reservas obtenida exitosamente
@@ -205,79 +203,85 @@ paths:
                   $ref: '#/components/schemas/Reserva'
         '500':
           description: Error en el servidor
-    
-    # Crear una nueva reserva
     post:
       summary: Crear nueva reserva
-      description: |
-        Registra una nueva reserva de habitación para un usuario.
-        
-        Validaciones:
-        - La habitación debe estar disponible
-        - Fecha inicio debe ser anterior a fecha fin
-        - No puede haber reservas solapadas en la misma habitación
+      description: Registra una nueva reserva de habitación. Valida fechas y calcula el precio total.
       operationId: createReserva
-      tags:
-        - Reservas
+      tags: [Reservas]
       requestBody:
         required: true
-        description: Datos para la nueva reserva
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ReservaCrear'
-            example:
-              usuarioId: "123e4567-e89b-12d3-a456-426614174000"
-              habitacionId: "hab-001"
-              fechaInicio: "2025-12-01"
-              fechaFin: "2025-12-05"
       responses:
         '201':
           description: Reserva creada exitosamente
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reserva'
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  precio_total:
+                    type: number
+                  estado:
+                    type: string
+                  mensaje:
+                    type: string
         '400':
-          description: Datos inválidos o habitación no disponible
-        '404':
-          description: Usuario o habitación no encontrados
-        '409':
-          description: Conflicto de fechas - habitación ocupada
+          description: Datos inválidos o habitación no encontrada
+        '500':
+          description: Error en el servidor
+
+  /reservas/usuario/{usuario_id}:
+    get:
+      summary: Obtener reservas de un usuario
+      description: Retorna todas las reservas realizadas por un usuario específico.
+      operationId: getReservasPorUsuario
+      tags: [Reservas]
+      parameters:
+        - name: usuario_id
+          in: path
+          required: true
+          description: ID único del usuario
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lista de reservas del usuario obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reserva'
         '500':
           description: Error en el servidor
 
 # =====================================================
-# COMPONENTES (Esquemas de datos reutilizables)
+# COMPONENTES (Esquemas de datos)
 # =====================================================
 components:
   schemas:
-    
-    # Esquema de Usuario (respuesta de lectura)
+
+    # ========== USUARIO ==========
     Usuario:
       type: object
       description: Información de un usuario registrado en el sistema
       properties:
         id:
-          type: string
-          description: Identificador único del usuario (UUID)
-        name:
+          type: integer
+          description: ID único del usuario
+        nombre:
           type: string
           description: Nombre completo del usuario
         email:
           type: string
           format: email
           description: Email único del usuario
-        createdAt:
-          type: string
-          format: date-time
-          description: Fecha y hora de registro del usuario
-        updatedAt:
-          type: string
-          format: date-time
-          description: Fecha y hora de última modificación
-    
-    # Esquema para crear usuario
+
     UsuarioCrear:
       type: object
       description: Datos requeridos para registrar un nuevo usuario
@@ -289,7 +293,7 @@ components:
         name:
           type: string
           minLength: 3
-          description: Nombre completo (mínimo 3 caracteres)
+          description: Nombre completo del usuario
         email:
           type: string
           format: email
@@ -297,9 +301,8 @@ components:
         password:
           type: string
           minLength: 6
-          description: Contraseña (mínimo 6 caracteres, se almacena hasheada)
-    
-    # Esquema para login
+          description: Contraseña (mínimo 6 caracteres)
+
     UsuarioLogin:
       type: object
       description: Credenciales para autenticación
@@ -314,89 +317,187 @@ components:
         password:
           type: string
           description: Contraseña del usuario
-    
-    # Esquema de Habitación
+
+    # ========== HABITACION ==========
     Habitacion:
       type: object
-      description: Información de una habitación disponible
+      description: Información de una habitación del hotel
       properties:
         id:
+          type: integer
+          description: ID único de la habitación
+        nombre:
           type: string
-          description: Identificador único de la habitación (ej. hab-001)
-        numero:
-          type: string
-          description: Número de habitación visible
+          description: Nombre o descripción de la habitación
         tipo:
           type: string
           enum: [simple, doble, suite]
           description: Tipo de habitación
-        disponible:
-          type: boolean
-          description: Indica si la habitación está disponible para reservar
-        precio:
+        precio_por_dia:
           type: number
           format: float
-          description: Precio por noche en moneda local
+          description: Precio por noche en USD
         capacidad:
           type: integer
-          description: Número de personas que puede alojar
-    
-    # Esquema de Reserva (respuesta)
+          description: Número máximo de personas
+        descripcion:
+          type: string
+          description: Descripción detallada de la habitación
+        servicios:
+          type: string
+          description: Servicios incluidos (separados por comas)
+        imagen:
+          type: string
+          format: uri
+          description: URL de la imagen de la habitación
+
+    # ========== RESERVA ==========
     Reserva:
       type: object
-      description: Información de una reserva registrada
+      description: Información completa de una reserva
       properties:
         id:
-          type: string
-          description: Identificador único de la reserva
-        usuarioId:
-          type: string
-          description: ID del usuario que realiza la reserva
-        habitacionId:
-          type: string
+          type: integer
+          description: ID único de la reserva
+        id_habitacion:
+          type: integer
           description: ID de la habitación reservada
-        fechaInicio:
+        id_usuario:
+          type: integer
+          nullable: true
+          description: ID del usuario (puede ser null si no está registrado)
+        fecha_entrada:
           type: string
           format: date
           description: Fecha de check-in (YYYY-MM-DD)
-        fechaFin:
+        fecha_salida:
           type: string
           format: date
           description: Fecha de check-out (YYYY-MM-DD)
+        cantidad_adultos:
+          type: integer
+          description: Número de adultos
+        cantidad_ninos:
+          type: integer
+          description: Número de niños
+        cantidad_personas:
+          type: integer
+          description: Total de personas
+        precio_total:
+          type: number
+          format: float
+          description: Precio total de la reserva
         estado:
           type: string
           enum: [pendiente, confirmada, cancelada, completada]
           description: Estado actual de la reserva
-        precioTotal:
-          type: number
-          format: float
-          description: Precio total calculado (precio noche × cantidad noches)
-        createdAt:
+        nombre_completo:
           type: string
-          format: date-time
-          description: Fecha de creación de la reserva
-    
-    # Esquema para crear reserva
+          description: Nombre del huésped
+        email:
+          type: string
+          format: email
+          description: Email del huésped
+        telefono:
+          type: string
+          description: Teléfono del huésped
+        metodo_pago:
+          type: string
+          description: Método de pago utilizado
+        tarjeta_ultimos4:
+          type: string
+          description: Últimos 4 dígitos de la tarjeta (si aplica)
+        nombre_habitacion:
+          type: string
+          description: Nombre de la habitación (referencia)
+        nombre_usuario:
+          type: string
+          nullable: true
+          description: Nombre del usuario si está registrado
+
     ReservaCrear:
       type: object
       description: Datos requeridos para crear una nueva reserva
       required:
-        - usuarioId
-        - habitacionId
-        - fechaInicio
-        - fechaFin
+        - id_habitacion
+        - fecha_entrada
+        - fecha_salida
+        - adultos
+        - ninos
+        - nombre_completo
+        - email
+        - metodo_pago
       properties:
-        usuarioId:
-          type: string
-          description: ID del usuario que realiza la reserva
-        habitacionId:
-          type: string
+        id_habitacion:
+          type: integer
           description: ID de la habitación a reservar
-        fechaInicio:
+        fecha_entrada:
           type: string
           format: date
-          description: Fecha de entrada (YYYY-MM-DD)
-        fechaFin:
+          description: Fecha de check-in (YYYY-MM-DD)
+        fecha_salida:
           type: string
           format: date
-          description: Fecha de salida (YYYY-MM-DD)
+          description: Fecha de check-out (YYYY-MM-DD). Debe ser posterior a fecha_entrada
+        adultos:
+          type: integer
+          minimum: 1
+          description: Número de adultos
+        ninos:
+          type: integer
+          minimum: 0
+          description: Número de niños
+        nombre_completo:
+          type: string
+          description: Nombre completo del huésped
+        email:
+          type: string
+          format: email
+          description: Email del huésped
+        telefono:
+          type: string
+          description: Teléfono del huésped (opcional)
+        metodo_pago:
+          type: string
+          description: Método de pago (tarjeta, transferencia, etc.)
+        tarjeta_ultimos4:
+          type: string
+          description: Últimos 4 dígitos de tarjeta (opcional, si el pago es con tarjeta)
+
+    # ========== ERROR RESPONSE ==========
+    ErrorResponse:
+      type: object
+      description: Respuesta de error estándar de la API
+      properties:
+        error:
+          type: string
+          description: Mensaje de error detallado
+
+# =====================================================
+# INFORMACIÓN ADICIONAL
+# =====================================================
+
+x-info:
+  description: |
+    ## Guía de Uso de la API
+    
+    ### 1. Registro e Iniciar Sesión
+    - POST /usuarios: Registrar nuevo usuario
+    - POST /usuarios/login: Iniciar sesión con email y contraseña
+    
+    ### 2. Habitaciones
+    - GET /habitaciones: Listar todas las habitaciones
+    - GET /habitaciones/{id}: Obtener detalle de una habitación
+    
+    ### 3. Reservas
+    - POST /reservas: Crear nueva reserva
+    - GET /reservas: Listar todas las reservas
+    - GET /reservas/usuario/{usuario_id}: Obtener reservas de un usuario
+    
+    ### Códigos de Error Comunes
+    - 200: OK - Solicitud exitosa
+    - 201: Creado - Recurso creado exitosamente
+    - 400: Bad Request - Datos inválidos
+    - 404: Not Found - Recurso no encontrado
+    - 500: Server Error - Error en el servidor
+  

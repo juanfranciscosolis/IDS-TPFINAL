@@ -1,5 +1,6 @@
 \documentclass[12pt, a4paper]{article}
 
+\usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{graphicx}
 \usepackage{geometry}
@@ -38,7 +39,7 @@
 \rfoot{\today}
 
 \title{\textbf{INFORME TÉCNICO: PLATAFORMA DE RESERVA DE HOSPEDAJE}}
-\author{Equipo LAST PUSH \\ 
+\author{Equipo LAST PUSH \\
         Juan Felipe Gómez (98265) \\
         Susana Cai (106991) \\
         Luciano Desimone (114055) \\
@@ -51,9 +52,19 @@
 
 \maketitle
 
+\begin{abstract}
+Este documento presenta el informe técnico del Trabajo Práctico Final "Hotel IDS".
+Se describen la arquitectura cliente-servidor, los componentes principales,
+las rutas de la API REST, el modelo de datos y los pasos para instalar y
+ejecutar la aplicación en un entorno de desarrollo local. Además se incluye
+un diagrama de flujo que muestra la interacción entre frontend y backend.
+\end{abstract}
+
+% Índice para facilitar la navegación del informe
+\tableofcontents
+\clearpage
 
 \section{Introducción}
-
 
 El presente informe detalla la arquitectura, desarrollo e implementación de una plataforma integral de reserva de hospedaje. Este proyecto representa una solución completa que integra tecnologías modernas de \textit{frontend} y \textit{backend} para proporcionar a los usuarios una experiencia fluida y eficiente en la búsqueda y reserva de alojamientos.
 
@@ -81,7 +92,6 @@ La plataforma ``Hotel IDS'' es una aplicación web diseñada para facilitar la r
 \end{enumerate}
 
 \section{Tecnologías Utilizadas}
-
 
 \subsection{Frontend}
 
@@ -133,7 +143,7 @@ La arquitectura del proyecto sigue un patrón de separación cliente-servidor:
 \begin{itemize}
     \item \textbf{Frontend:} Aplicación Flask que renderiza vistas HTML
     \item \textbf{Backend:} API REST desarrollada con Flask para gestionar datos
-    \item \textbf{Base de Datos:} MYSQL para almacenamiento persistente
+    \item \textbf{Base de Datos:} MySQL para almacenamiento persistente
 \end{itemize}
 
 \subsection{Estructura de Carpetas}
@@ -168,9 +178,331 @@ IDS-TPFINAL/
 └── README.md
 \end{lstlisting}
 
+\subsection{Diagrama de flujo (arquitectura)}
+A continuación se describe la conexión entre el frontend (Flask) y el backend (API REST) y la base de datos.
+
+\textbf{Componentes principales:}
+\begin{itemize}
+    \item \textbf{FRONTEND (Flask):} Puerto 5000
+    \begin{itemize}
+        \item app.py: Rutas, sesiones, comunicación
+        \item Templates HTML: index, login, rooms, etc
+    \end{itemize}
+    \item \textbf{BACKEND (Flask):} Puerto 5010 - API REST
+    \begin{itemize}
+        \item Usuarios BP: /usuarios, /login
+        \item Habitaciones BP: /habitaciones
+        \item Reservas BP: /reservas
+    \end{itemize}
+    \item \textbf{MySQL Database:} usuarios, habitaciones, reservas
+\end{itemize}
+
+\textbf{Flujo de datos:} El frontend comunica con el backend a través de peticiones HTTP/JSON, y el backend se conecta con la base de datos MySQL para persistir datos.
+
+% ============================================================
+\section{Flujos de Trabajo Principal}
+% ============================================================
+
+Esta sección describe los flujos principales de interacción entre el frontend y backend,
+mostrando cómo se comunican los componentes para completar operaciones clave.
+
+\subsection{Flujo 1: Registro de Usuario}
+
+\begin{enumerate}
+    \item \textbf{Usuario accede a /register}: El frontend renderiza el formulario de registro
+    \item \textbf{Usuario completa datos}: Nombre, email, contraseña
+    \item \textbf{Frontend valida}: Verifica formato de email y coincidencia de contraseñas
+    \item \textbf{POST a /usuarios/}: El frontend envía los datos en JSON al backend
+    \item \textbf{Backend valida}: Verifica que el email no esté duplicado
+    \item \textbf{Backend almacena}: Inserta el nuevo usuario en la BD
+    \item \textbf{Respuesta 201}: Retorna mensaje de éxito
+    \item \textbf{Redirección}: Frontend redirige a página de login
+\end{enumerate}
+
+\textbf{Endpoint utilizado:} \texttt{POST /usuarios/}
+
+\textbf{Request JSON:}
+\begin{lstlisting}
+{
+  "name": "Juan Pérez",
+  "email": "juan@example.com",
+  "password": "micontraseña123"
+}
+\end{lstlisting}
+
+\textbf{Response (201):}
+\begin{lstlisting}
+{
+  "mensaje": "Usuario creado exitosamente"
+}
+\end{lstlisting}
+
+\subsection{Flujo 2: Autenticación (Login)}
+
+\begin{enumerate}
+    \item \textbf{Usuario accede a /login}: Formulario de autenticación
+    \item \textbf{Usuario ingresa credenciales}: Email y contraseña
+    \item \textbf{POST a /usuarios/login}: Frontend envía credenciales
+    \item \textbf{Backend busca usuario}: Query en BD por email
+    \item \textbf{Backend valida contraseña}: Compara contraseña ingresada
+    \item \textbf{Respuesta 200}: Si es válida, retorna datos del usuario
+    \item \textbf{Sesión creada}: Frontend almacena user\_id, user\_name en sesión Flask
+    \item \textbf{Redirección}: Usuario redirigido a /user/<user_id>
+\end{enumerate}
+
+\textbf{Endpoint utilizado:} \texttt{POST /usuarios/login}
+
+\textbf{Request JSON:}
+\begin{lstlisting}
+{
+  "email": "juan@example.com",
+  "password": "micontraseña123"
+}
+\end{lstlisting}
+
+\textbf{Response (200):}
+\begin{lstlisting}
+{
+  "id": 1,
+  "nombre": "Juan Pérez",
+  "email": "juan@example.com"
+}
+\end{lstlisting}
+
+\subsection{Flujo 3: Visualizar Habitaciones}
+
+\begin{enumerate}
+    \item \textbf{Usuario accede a /rooms}: Página de catálogo
+    \item \textbf{GET a /habitaciones/}: Frontend solicita lista
+    \item \textbf{Backend obtiene datos}: SELECT * FROM habitaciones
+    \item \textbf{Response 200}: Retorna JSON con todas las habitaciones
+    \item \textbf{Frontend renderiza}: Muestra catálogo con imágenes y precios
+    \item \textbf{Usuario puede filtrar}: Por tipo, precio, capacidad
+\end{enumerate}
+
+\textbf{Endpoint utilizado:} \texttt{GET /habitaciones/}
+
+\textbf{Response (200):}
+\begin{lstlisting}
+[
+  {
+    "id": 1,
+    "nombre": "Habitación Doble",
+    "tipo": "doble",
+    "capacidad": 2,
+    "precio_por_dia": 150.00,
+    "descripcion": "Habitación amplia con vista al mar",
+    "imagen": "habitacion_1.jpg",
+    "servicios": "WiFi, Aire acondicionado, TV"
+  },
+  ...
+]
+\end{lstlisting}
+
+\subsection{Flujo 4: Crear Reserva (Flujo Completo)}
+
+Este es el flujo más complejo. Requiere usuario logueado.
+
+\begin{enumerate}
+    \item \textbf{Usuario accede a /reservar}: Solo si está logueado
+    \item \textbf{GET /reservar}: Frontend obtiene sesión (user\_id, user\_name)
+    \item \textbf{Usuario completa formulario}: Selecciona:
+    \begin{itemize}
+        \item Habitación (id)
+        \item Fecha de entrada
+        \item Fecha de salida
+        \item Cantidad de adultos y niños
+        \item Datos de contacto (nombre, email, teléfono)
+        \item Método de pago
+        \item Número de tarjeta (últimos 4 dígitos)
+    \end{itemize}
+    \item \textbf{Frontend valida}: Fechas coherentes, datos completos
+    \item \textbf{POST a /reservas/}: Envía payload JSON con todos los datos
+    \item \textbf{Backend valida}: 
+    \begin{itemize}
+        \item Campos requeridos presentes
+        \item Fechas en formato correcto
+        \item Fecha de salida > fecha de entrada
+        \item Habitación existe
+        \item Cantidad de personas válida
+    \end{itemize}
+    \item \textbf{Backend calcula precio}:
+    \begin{itemize}
+        \item Obtiene precio\_por\_dia de la habitación
+        \item Calcula días: (fecha\_salida - fecha\_entrada)
+        \item precio\_total = precio\_por\_dia \* días
+    \end{itemize}
+    \item \textbf{Backend busca usuario}: Por email (id\_usuario)
+    \item \textbf{Backend inserta reserva}: INSERT en tabla reservas
+    \item \textbf{Backend envía email}: Notificación de reserva a admin
+    \item \textbf{Response 201}: Retorna ID de reserva y confirmación
+    \item \textbf{Frontend muestra confirmación}: Número de reserva y total
+\end{enumerate}
+
+\textbf{Endpoint utilizado:} \texttt{POST /reservas/}
+
+\textbf{Request JSON:}
+\begin{lstlisting}
+{
+  "id_habitacion": 1,
+  "fecha_entrada": "2025-12-01",
+  "fecha_salida": "2025-12-05",
+  "adultos": 2,
+  "ninos": 1,
+  "nombre_completo": "Juan Pérez García",
+  "email": "juan@example.com",
+  "telefono": "598 99123456",
+  "metodo_pago": "tarjeta",
+  "tarjeta_ultimos4": "1234"
+}
+\end{lstlisting}
+
+\textbf{Response (201):}
+\begin{lstlisting}
+{
+  "id": 42,
+  "precio_total": 600.00,
+  "estado": "pendiente",
+  "mensaje": "Reserva creada correctamente"
+}
+\end{lstlisting}
+
+\subsection{Flujo 5: Ver Historial de Reservas}
+
+\begin{enumerate}
+    \item \textbf{Usuario logueado accede a /user/<id>}: Panel de usuario
+    \item \textbf{GET /usuarios/<id>}: Obtiene datos personales
+    \item \textbf{GET /reservas/usuario/<id>}: Obtiene historial de reservas
+    \item \textbf{Backend hace JOIN}: Conecta reservas con habitaciones y usuario
+    \item \textbf{Response 200}: Retorna lista de reservas con detalles
+    \item \textbf{Frontend renderiza}: Tabla con historial completo
+\end{enumerate}
+
+\textbf{Endpoints utilizados:}
+\begin{itemize}
+    \item \texttt{GET /usuarios/\{id\}}
+    \item \texttt{GET /reservas/usuario/\{id\}}
+\end{itemize}
+
 % ============================================================
 \section{Componentes Principales}
 % ============================================================
+
+\subsection{Backend - API REST}
+
+\subsubsection{Arquitectura de Blueprints}
+
+El backend utiliza \textbf{Flask Blueprints} para organizar la API REST en módulos independientes.
+Los blueprints son como ``submódulos'' de Flask que agrupan rutas relacionadas.
+
+\textbf{Estructura:}
+\begin{lstlisting}[language=Python]
+# backend/app.py
+from backend.routes.habitaciones import habitaciones_bp
+from backend.routes.reservas import reservas_bp
+from backend.routes.usuarios import usuarios_bp
+
+# Registrar blueprints con prefijos URL
+app.register_blueprint(habitaciones_bp, url_prefix="/habitaciones")
+app.register_blueprint(reservas_bp, url_prefix="/reservas")
+app.register_blueprint(usuarios_bp, url_prefix="/usuarios")
+\end{lstlisting}
+
+Esto significa:
+\begin{itemize}
+    \item Todas las rutas en \texttt{habitaciones.py} se prefijan con \texttt{/habitaciones}
+    \item Todas las rutas en \texttt{reservas.py} se prefijan con \texttt{/reservas}
+    \item Todas las rutas en \texttt{usuarios.py} se prefijan con \texttt{/usuarios}
+\end{itemize}
+
+\subsubsection{Blueprint 1: Usuarios}
+
+\textbf{Archivo:} \texttt{backend/routes/usuarios.py}
+
+\textbf{Responsabilidades:}
+\begin{itemize}
+    \item Registro de nuevos usuarios
+    \item Autenticación (login)
+    \item Obtención de datos de usuario
+    \item Listado de usuarios
+\end{itemize}
+
+\textbf{Rutas implementadas:}
+\begin{lstlisting}[language=Python]
+usuarios_bp = Blueprint("usuarios", __name__)
+
+@usuarios_bp.route('/', methods=['GET'])
+def get_usuarios():  # GET /usuarios/
+    # Retorna lista de todos los usuarios
+
+@usuarios_bp.route('/<int:id_usuario>', methods=['GET'])
+def get_usuario(id_usuario):  # GET /usuarios/1
+    # Retorna datos de usuario específico
+
+@usuarios_bp.route('/', methods=['POST'])
+def crear_usuario():  # POST /usuarios/
+    # Crea nuevo usuario (registro)
+
+@usuarios_bp.route('/login', methods=['POST'])
+def login_usuario():  # POST /usuarios/login
+    # Autentica usuario y retorna datos
+\end{lstlisting}
+
+\subsubsection{Blueprint 2: Habitaciones}
+
+\textbf{Archivo:} \texttt{backend/routes/habitaciones.py}
+
+\textbf{Responsabilidades:}
+\begin{itemize}
+    \item Listado de habitaciones disponibles
+    \item Obtención de detalles de habitación específica
+    \item Información de precios y servicios
+\end{itemize}
+
+\textbf{Rutas implementadas:}
+\begin{lstlisting}[language=Python]
+habitaciones_bp = Blueprint("habitaciones", __name__)
+
+@habitaciones_bp.route("/")
+def get_habitaciones():  # GET /habitaciones/
+    # Retorna lista de todas las habitaciones
+
+@habitaciones_bp.route("/<int:habitacion_id>", methods=["GET"])
+def get_habitacion(habitacion_id):  # GET /habitaciones/1
+    # Retorna detalles de habitación específica
+\end{lstlisting}
+
+\subsubsection{Blueprint 3: Reservas}
+
+\textbf{Archivo:} \texttt{backend/routes/reservas.py}
+
+\textbf{Responsabilidades:}
+\begin{itemize}
+    \item Creación de nuevas reservas
+    \item Validación de disponibilidad
+    \item Cálculo de precios
+    \item Envío de emails de confirmación
+    \item Obtención de reservas por usuario
+    \item Listado de todas las reservas
+\end{itemize}
+
+\textbf{Rutas implementadas:}
+\begin{lstlisting}[language=Python]
+reservas_bp = Blueprint("reservas", __name__)
+
+@reservas_bp.route('/', methods=['GET'])
+def listar_reservas():  # GET /reservas/
+    # Retorna todas las reservas con detalles de usuario y habitación
+
+@reservas_bp.route('/', methods=['POST'])
+def crear_reserva():  # POST /reservas/
+    # Crea nueva reserva con validaciones complejas
+    # Calcula precio, verifica disponibilidad, envía email
+
+@reservas_bp.route('/usuario/<int:usuario_id>', methods=['GET'])
+def obtener_reservas_por_usuario(usuario_id):  # GET /reservas/usuario/1
+    # Retorna reservas específicas de un usuario
+\end{lstlisting}
 
 \subsection{Backend - API REST}
 
@@ -345,51 +677,348 @@ La ruta \texttt{/reservas} implementa:
 \end{itemize}
 
 % ============================================================
-\section{API REST}
+\section{API REST - Detalle de Endpoints}
 % ============================================================
 
-\subsection{Endpoints Principales}
+\subsection{Autenticación y Gestión de Usuarios}
 
-\subsubsection{Usuarios}
+\subsubsection{GET /usuarios/}
+\textbf{Descripción:} Obtiene lista de todos los usuarios registrados.
 
-\begin{tabularx}{\textwidth}{llX}
-    \toprule
-    \textbf{Método} & \textbf{Endpoint} & \textbf{Descripción} \\
-    \midrule
-    POST & /usuarios/registro & Registrar nuevo usuario \\
-    POST & /usuarios/login & Iniciar sesión \\
-    GET & /usuarios/\{id\} & Obtener datos de usuario \\
-    PUT & /usuarios/\{id\} & Actualizar usuario \\
-    POST & /usuarios/logout & Cerrar sesión \\
-    \bottomrule
-\end{tabularx}
+\textbf{Request:}
+\begin{lstlisting}
+GET http://localhost:5010/usuarios/ HTTP/1.1
+\end{lstlisting}
 
-\subsubsection{Habitaciones}
+\textbf{Response (200 OK):}
+\begin{lstlisting}
+[
+  {
+    "id": 1,
+    "nombre": "Juan Pérez",
+    "email": "juan@example.com"
+  },
+  {
+    "id": 2,
+    "nombre": "María García",
+    "email": "maria@example.com"
+  }
+]
+\end{lstlisting}
 
-\begin{tabularx}{\textwidth}{llX}
-    \toprule
-    \textbf{Método} & \textbf{Endpoint} & \textbf{Descripción} \\
-    \midrule
-    GET & /habitaciones & Listar todas las habitaciones \\
-    GET & /habitaciones/\{id\} & Obtener detalles de habitación \\
-    GET & /habitaciones/disponibles & Habitaciones disponibles \\
-    POST & /habitaciones/buscar & Buscar por criterios \\
-    \bottomrule
-\end{tabularx}
+\subsubsection{POST /usuarios/}
+\textbf{Descripción:} Registra un nuevo usuario en el sistema.
 
-\subsubsection{Reservas}
+\textbf{Request:}
+\begin{lstlisting}
+POST http://localhost:5010/usuarios/ HTTP/1.1
+Content-Type: application/json
 
-\begin{tabularx}{\textwidth}{llX}
-    \toprule
-    \textbf{Método} & \textbf{Endpoint} & \textbf{Descripción} \\
-    \midrule
-    POST & /reservas & Crear nueva reserva \\
-    GET & /reservas/\{id\} & Obtener detalles de reserva \\
-    GET & /reservas/usuario/\{id\} & Historial de usuario \\
-    PUT & /reservas/\{id\} & Modificar reserva \\
-    DELETE & /reservas/\{id\} & Cancelar reserva \\
-    \bottomrule
-\end{tabularx}
+{
+  "name": "Carlos López",
+  "email": "carlos@example.com",
+  "password": "micontraseña123"
+}
+\end{lstlisting}
+
+\textbf{Response (201 Created):}
+\begin{lstlisting}
+{
+  "mensaje": "Usuario creado exitosamente"
+}
+\end{lstlisting}
+
+\textbf{Response (409 Conflict):}
+\begin{lstlisting}
+{
+  "error": "El usuario ya existe"
+}
+\end{lstlisting}
+
+\subsubsection{GET /usuarios/\{id\}}
+\textbf{Descripción:} Obtiene datos de un usuario específico.
+
+\textbf{Request:}
+\begin{lstlisting}
+GET http://localhost:5010/usuarios/1 HTTP/1.1
+\end{lstlisting}
+
+\textbf{Response (200 OK):}
+\begin{lstlisting}
+{
+  "id": 1,
+  "nombre": "Juan Pérez",
+  "email": "juan@example.com"
+}
+\end{lstlisting}
+
+\textbf{Response (404 Not Found):}
+\begin{lstlisting}
+{
+  "error": "usuario no encontrado"
+}
+\end{lstlisting}
+
+\subsubsection{POST /usuarios/login}
+\textbf{Descripción:} Autentica un usuario con email y contraseña.
+
+\textbf{Request:}
+\begin{lstlisting}
+POST http://localhost:5010/usuarios/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "juan@example.com",
+  "password": "micontraseña123"
+}
+\end{lstlisting}
+
+\textbf{Response (200 OK):}
+\begin{lstlisting}
+{
+  "id": 1,
+  "nombre": "Juan Pérez",
+  "email": "juan@example.com"
+}
+\end{lstlisting}
+
+\textbf{Response (404 Not Found):}
+\begin{lstlisting}
+{
+  "error": "Usuario no existe"
+}
+\end{lstlisting}
+
+\textbf{Response (401 Unauthorized):}
+\begin{lstlisting}
+{
+  "error": "Contraseña incorrecta"
+}
+\end{lstlisting}
+
+\subsection{Gestión de Habitaciones}
+
+\subsubsection{GET /habitaciones/}
+\textbf{Descripción:} Lista todas las habitaciones disponibles del hotel.
+
+\textbf{Request:}
+\begin{lstlisting}
+GET http://localhost:5010/habitaciones/ HTTP/1.1
+\end{lstlisting}
+
+\textbf{Response (200 OK):}
+\begin{lstlisting}
+[
+  {
+    "id": 1,
+    "nombre": "Habitación Doble",
+    "tipo": "doble",
+    "capacidad": 2,
+    "precio_por_dia": 150.00,
+    "descripcion": "Habitación amplia con vista al mar",
+    "imagen": "room_1.jpg",
+    "disponible": true,
+    "servicios": "WiFi, Aire acondicionado, TV, Minibar"
+  },
+  {
+    "id": 2,
+    "nombre": "Suite Premium",
+    "tipo": "suite",
+    "capacidad": 4,
+    "precio_por_dia": 300.00,
+    "descripcion": "Suite de lujo con jacuzzi privado",
+    "imagen": "suite_1.jpg",
+    "disponible": true,
+    "servicios": "WiFi, AC, TV Smart, Jacuzzi, Sala de estar"
+  }
+]
+\end{lstlisting}
+
+\subsubsection{GET /habitaciones/\{id\}}
+\textbf{Descripción:} Obtiene detalles completos de una habitación específica.
+
+\textbf{Request:}
+\begin{lstlisting}
+GET http://localhost:5010/habitaciones/1 HTTP/1.1
+\end{lstlisting}
+
+\textbf{Response (200 OK):}
+\begin{lstlisting}
+{
+  "id": 1,
+  "nombre": "Habitación Doble",
+  "tipo": "doble",
+  "capacidad": 2,
+  "precio_por_dia": 150.00,
+  "descripcion": "Habitación amplia con vista al mar",
+  "imagen": "room_1.jpg",
+  "disponible": true,
+  "servicios": "WiFi, Aire acondicionado, TV, Minibar"
+}
+\end{lstlisting}
+
+\textbf{Response (404 Not Found):}
+\begin{lstlisting}
+{
+  "Error": "Habitacion no encontrada"
+}
+\end{lstlisting}
+
+\subsection{Gestión de Reservas}
+
+\subsubsection{GET /reservas/}
+\textbf{Descripción:} Lista todas las reservas del hotel con detalles completos.
+
+\textbf{Request:}
+\begin{lstlisting}
+GET http://localhost:5010/reservas/ HTTP/1.1
+\end{lstlisting}
+
+\textbf{Response (200 OK):}
+\begin{lstlisting}
+[
+  {
+    "id": 42,
+    "id_habitacion": 1,
+    "id_usuario": 1,
+    "fecha_entrada": "2025-12-01",
+    "fecha_salida": "2025-12-05",
+    "cantidad_adultos": 2,
+    "cantidad_ninos": 1,
+    "cantidad_personas": 3,
+    "precio_total": 600.00,
+    "estado": "pendiente",
+    "nombre_completo": "Juan Pérez García",
+    "email": "juan@example.com",
+    "telefono": "598 99123456",
+    "metodo_pago": "tarjeta",
+    "tarjeta_ultimos4": "1234",
+    "nombre_habitacion": "Habitación Doble",
+    "nombre_usuario": "Juan Pérez"
+  }
+]
+\end{lstlisting}
+
+\subsubsection{POST /reservas/}
+\textbf{Descripción:} Crea una nueva reserva con validaciones complejas.
+
+\textbf{Validaciones realizadas:}
+\begin{itemize}
+    \item Verifica que todos los campos requeridos estén presentes
+    \item Valida formato de fechas (YYYY-MM-DD)
+    \item Verifica que fecha\_salida > fecha\_entrada
+    \item Confirma que la habitación existe
+    \item Valida que adultos + niños sea positivo
+\end{itemize}
+
+\textbf{Request:}
+\begin{lstlisting}
+POST http://localhost:5010/reservas/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "id_habitacion": 1,
+  "fecha_entrada": "2025-12-01",
+  "fecha_salida": "2025-12-05",
+  "adultos": 2,
+  "ninos": 1,
+  "nombre_completo": "Juan Pérez García",
+  "email": "juan@example.com",
+  "telefono": "598 99123456",
+  "metodo_pago": "tarjeta",
+  "tarjeta_ultimos4": "1234"
+}
+\end{lstlisting}
+
+\textbf{Procesamiento en Backend:}
+\begin{enumerate}
+    \item Valida todos los campos requeridos
+    \item Convierte fechas a formato DATE
+    \item Verifica coherencia de fechas
+    \item Busca habitación y obtiene precio
+    \item Calcula: precio\_total = precio\_por\_dia * (fecha\_salida - fecha\_entrada).days
+    \item En este caso: 150 * 4 días = 600.00
+    \item Busca usuario por email
+    \item Inserta registro en tabla reservas
+    \item Envía email de confirmación al administrador
+\end{enumerate}
+
+\textbf{Response (201 Created):}
+\begin{lstlisting}
+{
+  "id": 42,
+  "precio_total": 600.00,
+  "estado": "pendiente",
+  "mensaje": "Reserva creada correctamente"
+}
+\end{lstlisting}
+
+\textbf{Response (400 Bad Request):}
+\begin{lstlisting}
+{
+  "error": "Faltan campos obligatorios: email, nombre_completo"
+}
+\end{lstlisting}
+
+\textbf{Response (400 Bad Request - Fechas):}
+\begin{lstlisting}
+{
+  "error": "Formato de fecha inválido. Usar YYYY-MM-DD"
+}
+\end{lstlisting}
+
+\textbf{Response (404 Not Found):}
+\begin{lstlisting}
+{
+  "error": "Habitación no encontrada"
+}
+\end{lstlisting}
+
+\subsubsection{GET /reservas/usuario/\{usuario\_id\}}
+\textbf{Descripción:} Obtiene todas las reservas de un usuario específico.
+
+\textbf{Request:}
+\begin{lstlisting}
+GET http://localhost:5010/reservas/usuario/1 HTTP/1.1
+\end{lstlisting}
+
+\textbf{Response (200 OK):}
+\begin{lstlisting}
+[
+  {
+    "id": 42,
+    "id_habitacion": 1,
+    "id_usuario": 1,
+    "fecha_entrada": "2025-12-01",
+    "fecha_salida": "2025-12-05",
+    "cantidad_adultos": 2,
+    "cantidad_ninos": 1,
+    "cantidad_personas": 3,
+    "precio_total": 600.00,
+    "estado": "pendiente",
+    "nombre_habitacion": "Habitación Doble",
+    "nombre_usuario": "Juan Pérez"
+  },
+  {
+    "id": 43,
+    "id_habitacion": 2,
+    "id_usuario": 1,
+    "fecha_entrada": "2026-01-15",
+    "fecha_salida": "2026-01-20",
+    "cantidad_adultos": 2,
+    "cantidad_ninos": 0,
+    "cantidad_personas": 2,
+    "precio_total": 1500.00,
+    "estado": "confirmada",
+    "nombre_habitacion": "Suite Premium",
+    "nombre_usuario": "Juan Pérez"
+  }
+]
+\end{lstlisting}
+
+% ============================================================
+\section{Componentes Principales}
+% ============================================================
 
 % ============================================================
 \section{Seguridad}
@@ -414,7 +1043,7 @@ La ruta \texttt{/reservas} implementa:
 
 \begin{itemize}
     \item Python 3.8 o superior
-    \item PostgreSQL 12 o superior
+    \item MySQL 5.7 o superior
     \item Node.js (opcional, para herramientas de desarrollo)
     \item Git para control de versiones
 \end{itemize}
@@ -430,13 +1059,10 @@ cd IDS-TPFINAL/backend
 
 # Crear entorno virtual
 python3 -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
+source venv/bin/activate
 
 # Instalar dependencias
 pip install -r requirements.txt
-
-# Crear archivo .env con variables
-cp .env.example .env
 
 # Inicializar base de datos
 python init_db.py
@@ -468,9 +1094,32 @@ python app.py
 # .env archivo
 FLASK_ENV=development
 FLASK_SECRET_KEY=your_secret_key
-DATABASE_URL=postgresql://user:password@localhost:5432/hotel_db
+DATABASE_URL=mysql://user:password@localhost:3306/hotel_db
 MAIL_USERNAME=your_email@gmail.com
 MAIL_PASSWORD=your_app_password
+\end{lstlisting}
+
+\subsection{Cómo compilar / generar el PDF y ejecutar localmente}
+
+\begin{lstlisting}[language=bash]
+# Generar PDF (desde la carpeta raíz del proyecto)
+pdflatex documentoOverleaf.tex
+# o usar latexmk si está disponible
+latexmk -pdf documentoOverleaf.tex
+
+# Ejecutar backend (puerto 5010)
+cd backend
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python app.py
+
+# En otra terminal: ejecutar frontend (puerto 5000)
+cd frontend
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python app.py
 \end{lstlisting}
 
 % ============================================================
@@ -480,9 +1129,8 @@ MAIL_PASSWORD=your_app_password
 \subsection{OpenAPI/Swagger}
 
 La documentación interactiva de la API está disponible en:
-\begin{verbatim}
-http://localhost:5010/api/docs
-\end{verbatim}
+
+\texttt{http://localhost:5010/api/docs}
 
 Ver archivo \texttt{openapi.yaml} para especificación completa.
 
@@ -524,7 +1172,6 @@ Se utilizó metodología Agile con sprints de una semana, permitiendo:
     \item \textbf{Slack/Discord:} Comunicación del equipo
 \end{itemize}
 
-
 % ============================================================
 \section{Conclusiones}
 % ============================================================
@@ -547,7 +1194,7 @@ La plataforma Hotel IDS proporciona una solución robusta y escalable para la ge
 
 \begin{itemize}
     \item Flask Documentation: \href{https://flask.palletsprojects.com/}{https://flask.palletsprojects.com/}
-    \item PostgreSQL Documentation: \href{https://www.postgresql.org/docs/}{https://www.postgresql.org/docs/}
+    \item MySQL Documentation: \href{https://dev.mysql.com/doc/}{https://dev.mysql.com/doc/}
     \item Bootstrap: \href{https://getbootstrap.com/}{https://getbootstrap.com/}
     \item Leaflet.js: \href{https://leafletjs.com/}{https://leafletjs.com/}
     \item OpenAPI Specification: \href{https://spec.openapis.org/}{https://spec.openapis.org/}
