@@ -14,7 +14,7 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# Clave de sesión (podés dejar esta fija o también moverla a .env si querés)
+
 app.secret_key = os.getenv(
     "FLASK_SECRET_KEY",
     "c7f1f6e8e9c54b3db5a2f0b0c2a4c3f6e1d9d8f7a6b5c4d3e2f1a0b9c8d7e6f5"

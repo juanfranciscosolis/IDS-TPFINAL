@@ -5,79 +5,13 @@
 {% block content %}
 
     <!-- ##### Sección encabezado de página ##### -->
-    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
-             style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-8.jpg') }}');">
-        <div class="bradcumbContent">
-            <h2>Contacto</h2>
-        </div>
-    </section>
-
-    <!-- ##### Área de Reserva ##### -->
-    <div class="book-now-area">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-10">
-                    <div class="book-now-form">
-                        <form action="#">
-                            <div class="form-group">
-                                <label for="select1">Fecha de ingreso</label>
-                                <select class="form-control" id="select1">
-                                  <option>19 Junio</option>
-                                  <option>20 Junio</option>
-                                  <option>21 Junio</option>
-                                  <option>22 Junio</option>
-                                  <option>23 Junio</option>
-                                  <option>24 Junio</option>
-                                  <option>25 Junio</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="select2">Fecha de salida</label>
-                                <select class="form-control" id="select2">
-                                  <option>20 Junio</option>
-                                  <option>21 Junio</option>
-                                  <option>22 Junio</option>
-                                  <option>23 Junio</option>
-                                  <option>24 Junio</option>
-                                  <option>25 Junio</option>
-                                  <option>26 Junio</option>
-                                  <option>27 Junio</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="select3">Adultos</label>
-                                <select class="form-control" id="select3">
-                                  <option>02</option>
-                                  <option>03</option>
-                                  <option>04</option>
-                                  <option>05</option>
-                                  <option>06</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="select4">Niños</label>
-                                <select class="form-control" id="select4">
-                                  <option>01</option>
-                                  <option>02</option>
-                                  <option>03</option>
-                                  <option>04</option>
-                                  <option>05</option>
-                                </select>
-                            </div>
-                             <button type="button"
-                            onclick="window.location.href='{{ url_for('reservar') }}'"
-                            class="book-room-btn btn palatin-btn">
-                            Reservar Ahora
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+   <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
+         style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-8.jpg') }}');">
+    <div class="bradcumbContent">
+        <h2>Contacto</h2>
     </div>
+</section>
+
 
     <!-- ##### Información de Contacto ##### -->
     <section class="contact-information-area">
@@ -199,15 +133,5 @@
         </div>
     </section>
 
-    <!-- ##### Mapa ##### -->
-    <div class="map-area mb-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <iframe src="https://www.google.com/maps/embed?..." ></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
 
 {% endblock %}

@@ -1,10 +1,19 @@
 from flask import Flask, jsonify, render_template, request, redirect, url_for, session, flash
+from flask_mail import Mail, Message
 import requests
 
 app = Flask(__name__, template_folder='template')
 app.secret_key = "mi_clave_super_secreta_para_el_tp_123"
 
 API_BASE = "http://localhost:5010" 
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'luchodesimone11@gmail.com'     # <- tu email
+app.config['MAIL_PASSWORD'] = 'ydvw immz vjlf uncy'   # <- clave de app, no tu contraseña
+
+mail = Mail(app)
 
 @app.route('/contact', methods=['POST'])
 def contacto():
@@ -183,8 +192,6 @@ def reservar():
     # Si no hay usuario logueado, redirigimos a login
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    
-    habitacion_id_preseleccionada = request.args.get('habitacion_id')
 
     try:
         response = requests.get(f"{API_BASE}/habitaciones", timeout=5)
@@ -197,13 +204,12 @@ def reservar():
         form_data = {
             'habitacion': habitacion_id
         }
-        # Mostrar formulario
         return render_template(
             'reservar.html',
             user_name=session.get('user_name'),
             user_email=session.get('user_email'),
             form_data=form_data,
-            habitaciones=habitaciones 
+            habitaciones=habitaciones
         )
 
     # POST: datos del form
@@ -220,6 +226,18 @@ def reservar():
     metodo_pago = request.form.get('metodo_pago')
     numero_tarjeta = (request.form.get('numero_tarjeta') or "").replace(" ", "")
     tarjeta_ultimos4 = numero_tarjeta[-4:] if len(numero_tarjeta) >= 4 else None
+
+    form_data = {
+        'habitacion': habitacion_id,
+        'fecha_entrada': fecha_entrada,
+        'fecha_salida': fecha_salida,
+        'adultos': adultos,
+        'ninos': ninos,
+        'nombre_completo': nombre_completo,
+        'email': email,
+        'telefono': telefono,
+        'metodo_pago': metodo_pago
+    }
 
     payload = {
         "id_habitacion": habitacion_id,
@@ -242,12 +260,39 @@ def reservar():
             error="No se pudo conectar con el servidor de reservas.",
             user_name=session.get('user_name'),
             user_email=session.get('user_email'),
-            habitaciones=habitaciones 
+            habitaciones=habitaciones
         ), 500
 
     if resp.status_code == 201:
         data = resp.json()
         success_msg = f"Reserva creada correctamente. N° {data.get('id')} - Total: ${data.get('precio_total')}"
+        # -----------------------------
+        #   ENVIAR MAIL DE RESERVA
+        # -----------------------------
+        try:
+            msg = Message(
+                subject="Nueva reserva realizada",
+                sender=app.config['MAIL_USERNAME'],
+                recipients=["TU_MAIL@gmail.com"],    # <-- a dónde te llega
+                body=f"""
+                Se realizó una nueva reserva.
+
+                ID de reserva: {data.get('id')}
+                Cliente: {nombre_completo}
+                Email: {email}
+                Teléfono: {telefono}
+                Habitación: {habitacion_id}
+                Entrada: {fecha_entrada}
+                Salida: {fecha_salida}
+                Adultos: {adultos}
+                Niños: {ninos}
+                Total: ${data.get('precio_total')}
+                """
+            )
+            mail.send(msg)
+        except Exception as e:
+            print("Error enviando correo:", e)
+
         return render_template(
             'reservar.html',
             success=success_msg,
@@ -257,7 +302,6 @@ def reservar():
             habitaciones=habitaciones
         )
 
-    # Algún error de validación / negocio
     try:
         data = resp.json()
         error_msg = data.get('error', 'Error al procesar la reserva')
@@ -270,8 +314,9 @@ def reservar():
         user_name=session.get('user_name'),
         user_email=session.get('user_email'),
         form_data=form_data,
-        habitaciones=habitaciones 
+        habitaciones=habitaciones
     ), resp.status_code
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
