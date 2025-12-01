@@ -12,63 +12,7 @@
         </div>
     </section>
 
-    <!-- ##### Reservar ##### -->
-    <div class="book-now-area">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-10">
-                    <div class="book-now-form">
-                        <form action="#">
-                            <div class="form-group">
-                                <label for="select1">Fecha de ingreso</label>
-                                <select class="form-control" id="select1">
-                                  <option>19 Junio</option>
-                                  <option>20 Junio</option>
-                                  <option>21 Junio</option>
-                                  <option>22 Junio</option>
-                                  <option>23 Junio</option>
-                                  <option>24 Junio</option>
-                                  <option>25 Junio</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="select2">Fecha de salida</label>
-                                <select class="form-control" id="select2">
-                                  <option>20 Junio</option>
-                                  <option>21 Junio</option>
-                                  <option>22 Junio</option>
-                                  <option>23 Junio</option>
-                                  <option>24 Junio</option>
-                                  <option>25 Junio</option>
-                                  <option>26 Junio</option>
-                                  <option>27 Junio</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="select3">Adultos</label>
-                                <select class="form-control" id="select3">
-                                  <option>02</option>
-                                  <option>03</option>
-                                  <option>04</option>
-                                  <option>05</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="select4">Niños</label>
-                                <select class="form-control" id="select4">
-                                  <option>00</option>
-                                  <option>01</option>
-                                  <option>02</option>
-                                  <option>03</option>
-                                </select>
-                            </div>
-                            <button type="submit">Reservar ahora</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
     <!-- ##### Introducción de Servicios ##### -->
     <section class="services-intro">
@@ -81,7 +25,12 @@
                             <h2>Servicios Excepcionales</h2>
                         </div>
                         <p>En el Hotel Palatin, cada servicio está diseñado para ofrecerte una experiencia inolvidable. Desde nuestro spa y piscina infinita hasta el lounge bar y actividades al aire libre, todo está pensado para tu descanso y bienestar.</p>
-                        <a href="#" class="btn palatin-btn mt-50">Saber más</a>
+                        <a href="{{ url_for('static', filename='docs/servicios_hotel_detallado.pdf') }}"
+                        target="_blank"
+                        class="btn palatin-btn mt-50">
+                        Saber más
+                        </a>           
+                        
                     </div>
                 </div>
 

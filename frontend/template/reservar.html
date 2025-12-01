@@ -20,7 +20,6 @@
             <div class="col-12 col-lg-10">
                 <div class="reservation-form p-4">
 
-                    {# Mensajes de éxito / error opcionales #}
                     {% if success %}
                         <div class="alert alert-success" role="alert">
                             {{ success }}
@@ -67,11 +66,12 @@
                                     <label for="habitacion">Tipo de habitación</label>
                                     <select class="form-control" id="habitacion" name="habitacion" required>
                                         <option value="">Seleccioná una opción</option>
-                                        <option value="1">Habitación Doble Estándar</option>
-                                        <option value="2">Suite Ejecutiva</option>
-                                        <option value="3">Habitación Familiar</option>
-                                        <option value="4">Habitación Individual</option>
-                                        <option value="5">Suite Presidencial</option>
+                                        {% for habitacion in habitaciones %}
+                                        <option value="{{ habitacion.id }}" 
+                                        {{ 'selected' if form_data.habitacion == habitacion.id|string else '' }}>
+                                            {{ habitacion.nombre }}
+                                        </option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>

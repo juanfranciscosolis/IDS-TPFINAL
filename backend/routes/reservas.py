@@ -1,51 +1,77 @@
 from flask import Blueprint, jsonify, request, current_app
-from flask_mail import Message
 from backend.db import get_connection
 from datetime import datetime
+from flask_mail import Message
 
 reservas_bp = Blueprint("reservas", __name__)
 
-
 @reservas_bp.route('/', methods=['GET'])
 def listar_reservas():
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("""
-        SELECT 
-            r.*,
-            h.nombre AS nombre_habitacion,
-            u.nombre AS nombre_usuario
-        FROM reservas r
-        LEFT JOIN habitaciones h ON r.id_habitacion = h.id
-        LEFT JOIN usuarios u ON r.id_usuario = u.id
-        ORDER BY r.id DESC
-    """)
-    reservas = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return jsonify(reservas), 200
+    conn = None
+    cursor = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("""
+            SELECT 
+                r.*,
+                h.nombre AS nombre_habitacion,
+                u.nombre AS nombre_usuario
+            FROM reservas r
+            LEFT JOIN habitaciones h ON r.id_habitacion = h.id
+            LEFT JOIN usuarios u ON r.id_usuario = u.id
+            ORDER BY r.id DESC
+        """)
+        
+        reservas = cursor.fetchall()
+        
+        return jsonify(reservas), 200
+        
+    except Exception:
+        return jsonify({"error": "Error del servidor"}), 500
+        
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
 
-
-@reservas_bp.route('/usuario/<int:usuario_id>', methods=['GET'])
+@reservas_bp.route('/usuario/<int:usuario_id>/reservas', methods=['GET'])
 def obtener_reservas_por_usuario(usuario_id):
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("""
-        SELECT 
-            r.*,
-            h.nombre AS nombre_habitacion,
-            u.nombre AS nombre_usuario
-        FROM reservas r
-        LEFT JOIN habitaciones h ON r.id_habitacion = h.id
-        LEFT JOIN usuarios u ON r.id_usuario = u.id
-        WHERE r.id_usuario = %s
-    """, (usuario_id,))
-    reservas = cursor.fetchall()
-    cursor.close()
-    conn.close()
+    if usuario_id <= 0:
+        return jsonify({"error": "ID de usuario invalido"}), 400
 
-    return jsonify(reservas), 200
+    conn = None
+    cursor = None
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("""
+            SELECT 
+                r.id,
+                r.fecha_entrada,
+                r.fecha_salida,
+                r.estado,
+                r.precio_total,
+                h.nombre AS nombre_habitacion,
+                u.nombre AS nombre_usuario
+            FROM reservas r
+            INNER JOIN habitaciones h ON r.id_habitacion = h.id
+            INNER JOIN usuarios u ON r.id_usuario = u.id
+            WHERE r.id_usuario = %s
+            ORDER BY r.fecha_entrada DESC
+        """, (usuario_id,))
+        
+        reservas = cursor.fetchall()
+            
+        return jsonify(reservas), 200
 
+    except Exception as e:
+        return jsonify({'error': 'Error del servidor'}), 500
+
+    finally:
+        if cursor: cursor.close()
+        if conn: conn.close()
 
 @reservas_bp.route('/', methods=['POST'])
 def crear_reserva():
@@ -178,7 +204,6 @@ Datos de la reserva:
 - Precio total: ${precio_total}
 """
 
-            # Solo a tu casilla (MAIL_DEFAULT_SENDER_EMAIL del .env)
             default_sender = current_app.config.get("MAIL_DEFAULT_SENDER")
             if isinstance(default_sender, tuple) and len(default_sender) == 2:
                 destinatarios = [default_sender[1]]
