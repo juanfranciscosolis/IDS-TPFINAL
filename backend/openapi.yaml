@@ -235,7 +235,7 @@ paths:
         '500':
           description: Error en el servidor
 
-  /reservas/usuario/{usuario_id}:
+  /reservas/usuario/{usuario_id}/reservas:
     get:
       summary: Obtener reservas de un usuario
       description: Retorna todas las reservas realizadas por un usuario específico.
@@ -302,6 +302,10 @@ components:
           type: string
           minLength: 6
           description: Contraseña (mínimo 6 caracteres)
+      example:
+        name: "Juan Jimenez"
+        email: "jjimenez@example.com"
+        password: "123456"
 
     UsuarioLogin:
       type: object
@@ -317,6 +321,9 @@ components:
         password:
           type: string
           description: Contraseña del usuario
+      example:
+        email: "jjimenez@example.com"
+        password: "123456"
 
     # ========== HABITACION ==========
     Habitacion:
@@ -463,6 +470,15 @@ components:
         tarjeta_ultimos4:
           type: string
           description: Últimos 4 dígitos de tarjeta (opcional, si el pago es con tarjeta)
+      example:
+        id_habitacion: 1
+        fecha_entrada: "2025-11-25"
+        fecha_salida: "2025-11-28"
+        adultos: 2
+        ninos: 1
+        nombre_completo: "Teodolindo Miranda"
+        metodo_pago: "tarjeta"
+        email: "teo.miranda@example.com"
 
     # ========== ERROR RESPONSE ==========
     ErrorResponse:
@@ -492,7 +508,7 @@ x-info:
     ### 3. Reservas
     - POST /reservas: Crear nueva reserva
     - GET /reservas: Listar todas las reservas
-    - GET /reservas/usuario/{usuario_id}: Obtener reservas de un usuario
+    - GET /reservas/usuario/{usuario_id}/reservas: Obtener reservas de un usuario
     
     ### Códigos de Error Comunes
     - 200: OK - Solicitud exitosa
@@ -500,4 +516,5 @@ x-info:
     - 400: Bad Request - Datos inválidos
     - 404: Not Found - Recurso no encontrado
     - 500: Server Error - Error en el servidor
+  
   
