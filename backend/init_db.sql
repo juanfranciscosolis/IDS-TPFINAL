@@ -1,3 +1,6 @@
+--- Data base ---
+--- CREATE DATABASE hotel_db;
+
 -- Crear tabla usuarios
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,

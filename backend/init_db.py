@@ -36,12 +36,13 @@ def init_tables():
     )
     cursor = conn.cursor()
 
-   
-    for statement in sql.split(";"):
-        stmt = statement.strip()
-        if stmt:
-            cursor.execute(stmt)
-    conn.commit()
+    try:
+        for result in cursor.execute(sql, multi=True):
+            pass
+        conn.commit()
+    except mysql.connector.Error as e:
+        conn.rollback()
+        raise
 
     cursor.close()
     conn.close()
