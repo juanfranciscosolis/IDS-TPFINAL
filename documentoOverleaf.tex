@@ -38,7 +38,7 @@
 \lfoot{TEAM LAST PUSH}
 \rfoot{\today}
 
-\title{\textbf{INFORME TÉCNICO: PLATAFORMA DE RESERVA DE HOSPEDAJE}}
+\title{\textbf{CARATURA: PLATAFORMA DE RESERVA DE HOSPEDAJE}}
 \author{Equipo LAST PUSH \\
         Juan Felipe Gómez (98265) \\
         Susana Cai (106991) \\
@@ -46,27 +46,47 @@
         Alexis Herrera (111127) \\
         Juan Francisco Solís (112796) \\
         Stefano Diaz (113909)}
-\date{November 24, 2025}
+\date{\today}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-Este documento presenta el informe técnico del Trabajo Práctico Final "Hotel IDS".
-Se describen la arquitectura cliente-servidor, los componentes principales,
-las rutas de la API REST, el modelo de datos y los pasos para instalar y
-ejecutar la aplicación en un entorno de desarrollo local. Además se incluye
-un diagrama de flujo que muestra la interacción entre frontend y backend.
+\textbf{Resumen:} Este documento presenta el informe técnico del Trabajo Práctico Final del curso Ingeniería de Software (IDS).
+El proyecto ``Hotel IDS'' es una plataforma web integral para la reserva de hospedaje que integra un frontend responsivo con HTML5, CSS3 y JavaScript, y un backend robusto basado en API REST con Flask y MySQL.
+Se describen la arquitectura cliente-servidor, componentes principales, rutas de la API, modelo de datos, y los desafíos enfrentados durante el desarrollo.
+El sistema permite a los usuarios registrarse, autenticarse, visualizar habitaciones disponibles, realizar reservas, y mantener un historial de sus transacciones.
 \end{abstract}
 
 % Índice para facilitar la navegación del informe
 \tableofcontents
 \clearpage
 
+% ============================================================
+\section{Integrantes del Equipo}
+% ============================================================
+
+El equipo LAST PUSH está compuesto por seis integrantes de la carrera de Ingeniería en Sistemas:
+
+\begin{enumerate}
+    \item \textbf{Juan Felipe Gómez} (98265) - Rol: Desarrollo Frontend
+    \item \textbf{Susana Cai} (106991) - Rol: Desarrollo Backend
+    \item \textbf{Luciano Desimone} (114055) - Rol: Base de Datos y Arquitectura
+    \item \textbf{Alexis Herrera} (111127) - Rol: Integración y Testing
+    \item \textbf{Juan Francisco Solís} (112796) - Rol: Documentación y Deployment
+    \item \textbf{Stefano Diaz} (113909) - Rol: Seguridad y Optimización
+\end{enumerate}
+
+Cada integrante aportó sus competencias específicas para lograr una solución integral y profesional.
+
+% ============================================================
 \section{Introducción}
+% ============================================================
 
 El presente informe detalla la arquitectura, desarrollo e implementación de una plataforma integral de reserva de hospedaje. Este proyecto representa una solución completa que integra tecnologías modernas de \textit{frontend} y \textit{backend} para proporcionar a los usuarios una experiencia fluida y eficiente en la búsqueda y reserva de alojamientos.
+
+El desarrollo de la plataforma ``Hotel IDS'' requirió la aplicación de conocimientos en ingeniería de software, gestión de bases de datos, programación web, y trabajo colaborativo en equipo. Durante el ciclo de desarrollo, el equipo LAST PUSH enfrentó diversos desafíos técnicos que permitieron fortalecer las competencias de cada integrante y consolidar una solución robusta y escalable.
 
 \subsection{Descripción General del Proyecto}
 
@@ -131,6 +151,70 @@ La plataforma ``Hotel IDS'' es una aplicación web diseñada para facilitar la r
     \item \textbf{Entorno Virtual:} Python venv
     \item \textbf{Gestor de Dependencias:} pip
 \end{itemize}
+
+% ============================================================
+\section{Solución Propuesta}
+% ============================================================
+
+\subsection{Visión General}
+
+La solución propuesta es una plataforma web completa de reserva de hospedaje que integra dos capas fundamentales:
+
+\begin{enumerate}
+    \item \textbf{Capa de Presentación (Frontend):} Interfaz responsiva y amigable desarrollada con Flask, HTML5, CSS3 y JavaScript que permite a los usuarios interactuar con el sistema de forma intuitiva.
+    
+    \item \textbf{Capa de Negocio y Datos (Backend):} API REST robusta desarrollada con Flask que proporciona servicios para gestionar usuarios, habitaciones y reservas, conectada a una base de datos MySQL.
+\end{enumerate}
+
+\subsection{Componentes Principales de la Solución}
+
+\textbf{1. Sistema de Gestión de Usuarios}
+\begin{itemize}
+    \item Registro de nuevos usuarios con validación de datos
+    \item Autenticación segura mediante sesiones Flask
+    \item Gestión de perfiles personales
+    \item Historial de reservas
+    \item Recuperación de contraseña mediante correo electrónico
+\end{itemize}
+
+\textbf{2. Catálogo de Habitaciones}
+\begin{itemize}
+    \item Visualización de todas las habitaciones disponibles
+    \item Búsqueda y filtrado por tipo, capacidad y precio
+    \item Detalles completos con fotografías y servicios
+    \item Consulta de disponibilidad por fechas
+\end{itemize}
+
+\textbf{3. Sistema de Reservas}
+\begin{itemize}
+    \item Creación de reservas con validaciones complejas
+    \item Cálculo automático de precio total
+    \item Verificación de disponibilidad de habitaciones
+    \item Confirmación por correo electrónico
+    \item Gestión y cancelación de reservas
+    \item Historial completo de transacciones
+\end{itemize}
+
+\textbf{4. Seguridad}
+\begin{itemize}
+    \item Hash seguro de contraseñas
+    \item Validación de datos en servidor
+    \item Protección contra inyecciones SQL mediante ORM
+    \item Control de acceso basado en sesiones
+    \item Configuración de CORS para comunicación segura
+\end{itemize}
+
+\subsection{Flujo de Datos}
+
+El sistema opera mediante un flujo cliente-servidor donde:
+
+\begin{enumerate}
+    \item El usuario interactúa con la interfaz frontend (puerto 5000)
+    \item El frontend realiza peticiones HTTP/JSON al backend (puerto 5010)
+    \item El backend procesa las solicitudes, valida datos y accede a la base de datos MySQL
+    \item El backend retorna respuestas JSON al frontend
+    \item El frontend actualiza la interfaz con los datos recibidos
+\end{enumerate}
 
 % ============================================================
 \section{Arquitectura del Sistema}
@@ -1011,29 +1095,11 @@ GET http://localhost:5010/reservas/usuario/1 HTTP/1.1
     "precio_total": 1500.00,
     "estado": "confirmada",
     "nombre_habitacion": "Suite Premium",
-    "nombre_usuario": "Juan Pérez"
+    "nombre_usuario": "Juan Perez"
   }
 ]
 \end{lstlisting}
 
-% ============================================================
-\section{Componentes Principales}
-% ============================================================
-
-% ============================================================
-\section{Seguridad}
-% ============================================================
-
-\subsection{Medidas Implementadas}
-
-\begin{itemize}
-    \item \textbf{Autenticación:} Sistema de login con sesiones Flask
-    \item \textbf{Contraseñas:} Hash seguro de contraseñas
-    \item \textbf{CORS:} Configuración de CORS en backend
-    \item \textbf{Validación:} Validación en servidor de todos los datos
-    \item \textbf{Sanitización:} Protección contra inyecciones SQL
-    \item \textbf{HTTPS:} (Recomendado en producción)
-\end{itemize}
 
 % ============================================================
 \section{Instalación y Configuración}
@@ -1048,28 +1114,7 @@ GET http://localhost:5010/reservas/usuario/1 HTTP/1.1
     \item Git para control de versiones
 \end{itemize}
 
-\subsection{Pasos de Instalación}
 
-\subsubsection{Backend}
-
-\begin{lstlisting}[language=bash]
-# Clonar repositorio
-git clone <repository-url>
-cd IDS-TPFINAL/backend
-
-# Crear entorno virtual
-python3 -m venv venv
-source venv/bin/activate
-
-# Instalar dependencias
-pip install -r requirements.txt
-
-# Inicializar base de datos
-python init_db.py
-
-# Ejecutar servidor
-python app.py
-\end{lstlisting}
 
 \subsubsection{Frontend}
 
@@ -1173,20 +1218,223 @@ Se utilizó metodología Agile con sprints de una semana, permitiendo:
 \end{itemize}
 
 % ============================================================
-\section{Conclusiones}
+\section{Dificultades Enfrentadas}
 % ============================================================
 
-Este proyecto de Trabajo Práctico Final demuestra la capacidad del equipo LAST PUSH para:
+Durante el desarrollo del proyecto Hotel IDS, el equipo LAST PUSH enfrentó varios desafíos técnicos que requirieron investigación, colaboración y resolución creativa de problemas. A continuación se detallan las principales dificultades y las soluciones implementadas:
 
+\subsection{1. Inicialización de las Aplicaciones Flask (app.py)}
+
+\textbf{Problema:}
+Uno de los primeros obstáculos fue lograr que ambas aplicaciones Flask (frontend y backend) se levantaran correctamente sin conflictos de puertos y con todas las dependencias cargadas adecuadamente. Varios integrantes experimentaron errores de módulos faltantes, conflictos de versiones de bibliotecas y problemas de configuración del entorno virtual.
+
+\textbf{Síntomas:}
 \begin{itemize}
-    \item Diseñar y arquitectar una aplicación web moderna
-    \item Implementar funcionalidades complejas en frontend y backend
-    \item Trabajar colaborativamente en un proyecto de escala real
-    \item Aplicar buenas prácticas de desarrollo y seguridad
-    \item Documentar adecuadamente el trabajo realizado
+    \item Error: \texttt{ModuleNotFoundError: No module named 'flask'}
+    \item Conflicto de puertos: el puerto 5000 o 5010 ya estaban en uso
+    \item Incompatibilidad de versiones entre Flask y sus extensiones
+    \item Variables de entorno no configuradas correctamente
 \end{itemize}
 
-La plataforma Hotel IDS proporciona una solución robusta y escalable para la gestión de reservas de hospedaje, con potencial para ser expandida y mejorada en el futuro. El código está bien estructurado, documentado y listo para ser mantenido y mejorado por otros desarrolladores.
+\textbf{Solución Implementada:}
+\begin{enumerate}
+    \item Se crearon entornos virtuales independientes para frontend y backend usando \texttt{python3 -m venv venv}
+    \item Se instalaron todas las dependencias especificadas en \texttt{requirements.txt} con \texttt{pip install -r requirements.txt}
+    \item Se validó que Flask y sus extensiones (Flask-CORS, Flask-Mail, etc.) estuvieran correctamente instaladas
+    \item Se modificó la configuración en \texttt{app.py} para usar puertos explícitos (5000 para frontend, 5010 para backend)
+    \item Se agregaron archivos \texttt{.env} para gestionar variables de entorno de forma segura
+    \item Se utilizó \texttt{python app.py} en lugar de \texttt{flask run} para mayor control
+\end{enumerate}
+
+\subsection{2. Inicialización de la Base de Datos MySQL}
+
+\textbf{Problema:}
+La configuración y levantamiento de la base de datos MySQL presentó múltiples obstáculos. El equipo enfrentó dificultades relacionadas con credenciales de acceso, permisos de usuario, y sincronización del esquema de la base de datos.
+
+\textbf{Síntomas:}
+\begin{itemize}
+    \item Error: \texttt{Access denied for user 'root'@'localhost'}
+    \item Error: \texttt{Can't connect to MySQL server on 'localhost'}
+    \item La base de datos no existía o las tablas no estaban creadas
+    \item Inconsistencia entre el esquema esperado y el actual
+    \item Error al ejecutar \texttt{init\_db.py}: conexión rechazada o credenciales inválidas
+\end{itemize}
+
+\textbf{Solución Implementada:}
+\begin{enumerate}
+    \item Se verificó que MySQL estuviera instalado y ejecutándose correctamente:
+    \begin{lstlisting}[language=bash]
+# Verificar si MySQL está corriendo
+brew services list  # en macOS
+# o
+systemctl status mysql  # en Linux
+    \end{lstlisting}
+    
+    \item Se reinició el servicio MySQL:
+    \begin{lstlisting}[language=bash]
+brew services restart mysql-community  # macOS
+# o
+sudo systemctl restart mysql  # Linux
+    \end{lstlisting}
+    
+    \item Se reseteó la contraseña del usuario root si era necesario
+    
+    \item Se creó un usuario específico para la aplicación con permisos limitados:
+    \begin{lstlisting}[language=sql]
+CREATE USER 'hotel_user'@'localhost' IDENTIFIED BY 'hotel_password';
+GRANT ALL PRIVILEGES ON hotel_db.* TO 'hotel_user'@'localhost';
+FLUSH PRIVILEGES;
+    \end{lstlisting}
+    
+    \item Se ejecutó el script de inicialización \texttt{init\_db.py} que crea automáticamente las tablas y datos iniciales
+    
+    \item Se agregó validación de conexión en \texttt{db.py} para verificar la conexión antes de realizar operaciones
+    
+    \item Se documentaron las credenciales en un archivo \texttt{.env} para referencia consistente:
+    \begin{lstlisting}
+DATABASE_URL=mysql://hotel_user:hotel_password@localhost:3306/hotel_db
+    \end{lstlisting}
+\end{enumerate}
+
+\subsection{3. Gestión de Contraseñas y Credenciales}
+
+\textbf{Problema:}
+La seguridad y consistencia en el manejo de contraseñas fue un desafío importante. El equipo debió implementar hash seguro de contraseñas, gestionar credenciales de base de datos y correo electrónico sin exponerlas en el código fuente.
+
+\textbf{Síntomas:}
+\begin{itemize}
+    \item Credenciales almacenadas en texto plano en el código
+    \item Dificultad para cambiar credenciales sin modificar el código
+    \item Vulnerabilidades de seguridad en autenticación de usuarios
+    \item Errores al conectar con servidor de correo (Flask-Mail)
+\end{itemize}
+
+\textbf{Solución Implementada:}
+\begin{enumerate}
+    \item Se implementó hashing de contraseñas usando bibliotecas seguras en el módulo de usuarios:
+    \begin{lstlisting}[language=Python]
+from werkzeug.security import generate_password_hash, check_password_hash
+
+# Hash al guardar
+hashed_password = generate_password_hash(password)
+
+# Verificación al login
+if check_password_hash(stored_hash, provided_password):
+    # Contraseña válida
+    \end{lstlisting}
+    
+    \item Se creó un archivo \texttt{.env} (no versionado en Git) para almacenar credenciales:
+    \begin{lstlisting}
+DATABASE_PASSWORD=secure_password_123
+MAIL_USERNAME=hotel_email@gmail.com
+MAIL_PASSWORD=app_specific_password
+FLASK_SECRET_KEY=your_secret_key_here
+    \end{lstlisting}
+    
+    \item Se agregó validación y sanitización de inputs en formularios
+    
+    \item Se implementó control de CORS restrictivo para evitar accesos no autorizados
+    
+    \item Se documentó en el README el proceso seguro de configuración de credenciales
+\end{enumerate}
+
+\subsection{4. Comunicación Frontend-Backend}
+
+\textbf{Problema:}
+Integrar correctamente la comunicación entre frontend y backend mediante HTTP/JSON presentó desafíos en validación de datos, manejo de errores y sincronización de estados.
+
+\textbf{Síntomas:}
+\begin{itemize}
+    \item Error CORS: \texttt{No 'Access-Control-Allow-Origin' header}
+    \item Datos no llegan correctamente al backend
+    \item Respuestas de error sin estructura clara
+    \item Timeout en peticiones HTTP
+\end{itemize}
+
+\textbf{Solución Implementada:}
+\begin{enumerate}
+    \item Se configuró Flask-CORS correctamente en el backend:
+    \begin{lstlisting}[language=Python]
+from flask_cors import CORS
+app = Flask(__name__)
+CORS(app, supports_credentials=True)
+    \end{lstlisting}
+    
+    \item Se implementaron validaciones robustas en backend para todos los endpoints
+    
+    \item Se estandarizó el formato de respuestas JSON (éxito y error)
+    
+    \item Se agregó logging para debugging de peticiones HTTP
+\end{enumerate}
+
+\subsection{5. Sincronización de Equipos y Control de Versiones}
+
+\textbf{Problema:}
+Trabajar en equipo con Git requirió definir workflows claros, resolver conflictos de merge y coordinar cambios simultáneos.
+
+\textbf{Solución:}
+\begin{itemize}
+    \item Se establecieron ramas específicas (main, develop, feature/*)
+    \item Se realizaron commits frecuentes con mensajes descriptivos
+    \item Se utilizó GitHub Projects para trackear tareas
+    \item Se realizaron code reviews antes de mergear a main
+\end{itemize}
+
+% ============================================================
+\section{Conclusión Final}
+% ============================================================
+
+El Trabajo Práctico Final ``Hotel IDS'' ha sido un proyecto integral que ha permitido al equipo LAST PUSH aplicar de manera práctica los conocimientos adquiridos en Ingeniería de Software, demostrando competencias en:
+
+\subsection{Logros Principales}
+
+\begin{enumerate}
+    \item \textbf{Diseño Arquitectónico:} Se logró diseñar una arquitectura cliente-servidor escalable separando adecuadamente las responsabilidades entre frontend y backend.
+    
+    \item \textbf{Implementación Full-Stack:} El equipo desarrolló exitosamente una aplicación web completa con interfaz responsiva, API REST robusta, y base de datos relacional.
+    
+    \item \textbf{Gestión de Proyectos:} Se aplicó metodología Agile con sprints semanales, utilización de GitHub Projects y una comunicación efectiva entre integrantes.
+    
+    \item \textbf{Resolución de Problemas:} El equipo enfrentó y resolvió desafíos técnicos significativos incluyendo configuración de entornos, gestión de bases de datos, autenticación y seguridad.
+    
+    \item \textbf{Documentación:} Se produjo documentación completa y profesional incluyendo diagramas de flujo, especificación de API, y este informe técnico.
+    
+    \item \textbf{Seguridad:} Se implementaron medidas de seguridad importantes como hash de contraseñas, validación de datos, protección CORS y manejo seguro de credenciales.
+\end{enumerate}
+
+\subsection{Aprendizajes y Competencias Desarrolladas}
+
+Durante el desarrollo del proyecto, cada integrante del equipo LAST PUSH fortaleció sus habilidades en:
+
+\begin{itemize}
+    \item \textbf{Programación Web:} HTML5, CSS3, JavaScript, Python y Flask
+    \item \textbf{Bases de Datos:} Diseño de esquemas relaciones, SQL, MySQL y ORM
+    \item \textbf{Desarrollo de APIs:} Creación de endpoints RESTful, validación de datos, manejo de errores
+    \item \textbf{Trabajo en Equipo:} Control de versiones, resolución de conflictos, comunicación y coordinación
+    \item \textbf{Ingeniería de Software:} Arquitectura de sistemas, metodologías Agile, documentación técnica
+    \item \textbf{Gestión de Desafíos:} Troubleshooting, investigación independiente y resolución creativa de problemas
+\end{itemize}
+
+\subsection{Estado Actual y Posibilidades Futuras}
+
+La plataforma Hotel IDS en su estado actual proporciona funcionalidades core completas para la reserva de hospedaje. Sin embargo, existen oportunidades de mejora y expansión tales como:
+
+\begin{itemize}
+    \item Implementación de autenticación con OAuth (Google, Facebook)
+    \item Sistema de pagos integrado (Stripe, PayPal)
+    \item Notificaciones en tiempo real mediante WebSockets
+    \item Aplicación móvil nativa (iOS/Android)
+    \item Dashboard administrativo avanzado
+    \item Sistema de calificaciones y comentarios de usuarios
+    \item Optimizaciones de rendimiento y escalabilidad
+    \item Integración con mapas más avanzados (geolocalización)
+\end{itemize}
+
+\subsection{Reflexión Final}
+
+Este proyecto ha demostrado que el equipo LAST PUSH posee las competencias técnicas, organizacionales y humanas necesarias para desarrollar soluciones de software profesionales y de calidad. La capacidad de trabajar colaborativamente, resolver desafíos complejos, y documentar adecuadamente el trabajo realizado son habilidades fundamentales en la carrera de Ingeniería en Sistemas.
+
+La plataforma Hotel IDS es un testimonio del trabajo dedicado, la perseverancia ante obstáculos técnicos, y el compromiso del equipo con la excelencia. Esperamos que este proyecto sirva como punto de partida para futuras mejoras y expansiones, y que el código y documentación produzidos sean de valor para otros estudiantes y profesionales.
 
 % ============================================================
 \section{Referencias}
