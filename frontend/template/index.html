@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - The Palatin{% endblock %}
+
+{% block content %}
+
+    <!-- ##### Hero Area ##### -->
+    <section class="hero-area">
+        <div class="hero-slides owl-carousel">
+            <div class="single-hero-slide d-flex align-items-center justify-content-center">
+                <div class="slide-img bg-img" style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-1.jpg') }}');"></div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-9">
+                            <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
+                                <div class="line"></div>
+                                <h2>Tu paraíso vacacional</h2>
+                                <p>Relajate y disfrutá de un entorno natural, con habitaciones de lujo y un servicio pensado para tu descanso y bienestar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="single-hero-slide d-flex align-items-center justify-content-center">
+                <div class="slide-img bg-img" style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-2.jpg') }}');"></div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-9">
+                            <div class="hero-slides-content">
+                                <div class="line"></div>
+                                <h2>Un lugar para recordar</h2>
+                                <p>Experimentá la tranquilidad frente al mar, con gastronomía gourmet, spa y actividades para toda la familia.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="single-hero-slide d-flex align-items-center justify-content-center">
+                <div class="slide-img bg-img" style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-3.jpg') }}');"></div>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-lg-9">
+                            <div class="hero-slides-content">
+                                <div class="line"></div>
+                                <h2>Viví momentos inolvidables</h2>
+                                <p>De día o de noche, nuestro resort te ofrece la combinación perfecta de relax, lujo y naturaleza.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ##### Sobre nosotros ##### -->
+    <section class="about-us-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-6">
+                    <div class="about-text text-center mb-100">
+                        <div class="section-heading text-center">
+                            <div class="line-"></div>
+                            <h2>Un lugar para recordar</h2>
+                        </div>
+                        <p>El Hotel Palatin ofrece una experiencia única en hospitalidad. Ubicado en un entorno natural incomparable, combina el confort moderno con la tranquilidad del paisaje. Cada detalle está pensado para que disfrutes de una estadía inolvidable.</p>
+                        <div class="about-key-text">
+                            <h6><span class="fa fa-check"></span> Habitaciones amplias con vista panorámica</h6>
+                            <h6><span class="fa fa-check"></span> Servicio de primer nivel las 24 horas</h6>
+                        </div>
+                       
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="about-thumbnail homepage mb-100">
+                        <div class="first-img"><img src="{{ url_for('static', filename='img/bg-img/5.jpg') }}" alt=""></div>
+                        <div class="second-img"><img src="{{ url_for('static', filename='img/bg-img/6.jpg') }}" alt=""></div>
+                        <div class="third-img"><img src="{{ url_for('static', filename='img/bg-img/7.jpg') }}" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ##### Zona de piscina ##### -->
+    <section class="pool-area section-padding-100 bg-img bg-fixed" style="background-image: url('{{ url_for('static', filename='img/bg-img/4.png') }}');">
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-12 col-lg-7">
+                    <div class="pool-content text-center wow fadeInUp" data-wow-delay="300ms">
+                        <div class="section-heading text-center white">
+                            <div class="line-"></div>
+                            <h2>Piscina Infinita</h2>
+                            <p>Sumergite en nuestra piscina infinita con vistas espectaculares. Un espacio diseñado para la relajación, donde el agua y el cielo parecen unirse. Disfrutá del bar junto a la piscina y del cálido sol con reposeras exclusivas.</p>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-4">
+                                <div class="pool-feature">
+                                    <i class="icon-cocktail-1"></i>
+                                    <p>Bar en la piscina</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="pool-feature">
+                                    <i class="icon-swimming-pool"></i>
+                                    <p>Piscina infinita</p>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-4">
+                                <div class="pool-feature">
+                                    <i class="icon-beach"></i>
+                                    <p>Reposeras y solárium</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ url_for('static', filename='img/bg-img/piscina.png') }}"
+                        target="_blank"
+                        class="btn palatin-btn mt-50">
+                        Ver Más
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ##### Habitaciones ##### -->
+    <section class="rooms-area section-padding-100-0">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <div class="section-heading text-center">
+                        <div class="line"></div>
+                        <h2>Elegí tu habitación</h2>
+                        <p>Descubrí nuestras distintas opciones de alojamiento: desde habitaciones estándar hasta suites de lujo con vistas inigualables. Cada una pensada para tu máximo confort.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+
+                <!-- Habitación Deluxe -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="100ms">
+                        <div class="bg-thumbnail bg-img" style="background-image: url('{{ url_for('static', filename='img/bg-img/1.jpg') }}');"></div>
+                        <p class="price-from">Desde $150/noche</p>
+                        <div class="rooms-text">
+                            <div class="line"></div>
+                            <h4>Habitación Deluxe</h4>
+                            <p>Comodidad y elegancia con balcón privado, aire acondicionado y minibar. Ideal para parejas o estancias prolongadas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Habitación Doble -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="300ms">
+                        <div class="bg-thumbnail bg-img" style="background-image: url('{{ url_for('static', filename='img/bg-img/8.jpg') }}');"></div>
+                        <p class="price-from">Desde $150/noche</p>
+                        <div class="rooms-text">
+                            <div class="line"></div>
+                            <h4>Suite Doble</h4>
+                            <p>Espacio moderno con dos camas queen, escritorio, baño privado y acceso a servicios premium del resort.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Habitación Individual -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-rooms-area wow fadeInUp" data-wow-delay="500ms">
+                        <div class="bg-thumbnail bg-img" style="background-image: url('{{ url_for('static', filename='img/bg-img/9.jpg') }}');"></div>
+                        <p class="price-from">Desde $100/noche</p>
+                        <div class="rooms-text">
+                            <div class="line"></div>
+                            <h4>Habitación Individual</h4>
+                            <p>Ideal para viajeros solos. Confort, privacidad y todas las comodidades para tu descanso perfecto.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ##### Contacto ##### -->
+    <section class="contact-area d-flex flex-wrap align-items-center">
+        <div class="home-map-area">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22236.40558254599!2d-118.25292394686001!3d34.057682914027104!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2z4Kay4Ka4IOCmj-CmnuCnjeCmnOCnh-CmsuCnh-CmuCwg4KaV4KeN4Kav4Ka-4Kay4Ka_4Kar4KeL4Kaw4KeN4Kao4Ka_4Kav4Ka84Ka-LCDgpq7gpr7gprDgp43gppXgpr_gpqgg4Kav4KeB4KaV4KeN4Kak4Kaw4Ka-4Ka34KeN4Kaf4KeN4Kaw!5e0!3m2!1sbn!2sbd!4v1532328708137" allowfullscreen></iframe>
+        </div>
+
+        <div class="contact-info">
+            <div class="section-heading wow fadeInUp" data-wow-delay="100ms">
+                <div class="line"></div>
+                <h2>Información de contacto</h2>
+                <p>Estamos a tu disposición para consultas, reservas o eventos especiales. Comunicate con nosotros y te ayudaremos a planificar tu próxima estadía o escapada.</p>
+            </div>
+            <h4 class="wow fadeInUp" data-wow-delay="300ms">Los Ángeles, 1481 Creekside Lane, Avila Beach, CA 931</h4>
+            <h5 class="wow fadeInUp" data-wow-delay="400ms">+53 345 7953 32453</h5>
+            <h5 class="wow fadeInUp" data-wow-delay="500ms">reservas@palatinhotel.com</h5>
+            <div class="social-info mt-50 wow fadeInUp" data-wow-delay="600ms">
+                <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

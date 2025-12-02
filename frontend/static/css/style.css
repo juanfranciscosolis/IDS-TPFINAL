@@ -49,10 +49,11 @@
 * {
   margin: 0;
   padding: 0; }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
 
 body {
-  font-family: "FuturaLT-Book";
-  font-size: 14px; }
+    font-family: "Poppins", sans-serif;
+}
 
 h1,
 h2,
@@ -1554,6 +1555,473 @@ img {
   .palatin-tabs-content .tab-content h6 {
     font-size: 18px; }
 
+   
+/* --- Botones de login / registro / reserva en el header --- */
+
+.menu-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;            /* espacio entre login/registro y reserva */
+    padding-top: 8px;    /* aire arriba, separa los botones de la parte superior del header */
+    padding-bottom: 14px;/* aire abajo, separa "Hacer una reserva" de la línea gris */
+}
+.menu-btn > * {
+    width: 100%;
+}
+
+/* fila login / registro */
+.auth-links {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+.auth-links a {
+    flex: 1;
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    font-size: 11px;
+    padding: 3px 10px;      /* más padding interno en los botones superiores */
+    border-radius: 999px;
+    text-transform: none;
+    text-align: center;
+    line-height: 1.2;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+/* buen contraste en hover */
+.classynav .auth-links a:hover {
+    background-color: #fff !important;
+    color: #111 !important;
+    border-color: #fff !important;
+}
+
+.menu-btn .palatin-btn {
+    padding: 1px 10px 3px 10px;  /* top 1px, lados 10px, bottom 3px */
+    font-size: 12px;
+    border-radius: 999px;
+    display: block;
+    text-align: center;
+}
+
+/* ========================= */
+/* LOGIN / REGISTER HERO     */
+/* ========================= */
+
+.user-panel {
+    background: rgba(30, 30, 40, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem auto;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 1200px;
+    position: relative;
+    z-index: 10;
+    color: #e9ecef;
+}
+
+.user-panel .card {
+    background: rgba(45, 45, 60, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #e9ecef;
+}
+
+.user-panel .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+    background: rgba(50, 50, 65, 0.95);
+}
+
+.user-panel .card-header {
+    background: linear-gradient(135deg, #a3b6c9 0%, #197ee2 100%) !important;
+    border-radius: 12px 12px 0 0 !important;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(128, 163, 187, 0.3);
+    color: #ffffff;
+}
+
+.user-panel .card-body {
+    padding: 1.5rem;
+    background: transparent;
+}
+
+.user-panel .reserva-item {
+    background: linear-gradient(135deg, rgba(52, 73, 94, 0.6) 0%, rgba(44, 62, 80, 0.6) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 5px solid #3498db;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    color: #e9ecef;
+}
+
+.user-panel .reserva-item:hover {
+    background: linear-gradient(135deg, rgba(41, 128, 185, 0.3) 0%, rgba(52, 152, 219, 0.2) 100%);
+    transform: translateX(5px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
+    border-left-color: #2980b9;
+}
+
+.user-panel .alert-info {
+    border: 1px solid rgba(101, 153, 189, 0.4);
+    border-radius: 12px;
+    padding: 2rem;
+    color: #d6eaf8;
+}
+
+.user-panel .btn-primary {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.user-panel .btn-primary:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #2471a3 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+}
+
+.user-panel .badge {
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+}
+
+.user-panel .text-muted {
+    color: #bdc3c7 !important;
+}
+
+.user-panel .border-top {
+    border-color: rgba(236, 230, 230, 0.1) !important;
+}
+
+.user-panel strong {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.user-panel .text-success {
+    color: #58d68d !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .user-panel {
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: 10px;
+    }
+    
+    .user-panel .card-body {
+        padding: 1rem;
+    }
+    
+    .user-panel .reserva-item {
+        padding: 1rem;
+    }
+}
+
+.auth-hero {
+    position: relative;
+    margin-top: 90px;                 /* compensa la navbar fija */
+    padding: 110px 0 180px;           /* ↑ más espacio arriba y abajo */
+    min-height: calc(100vh - 90px);   /* ocupa casi toda la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.auth-hero .auth-panel {
+    background-color: rgba(0, 0, 0, 0.86);
+    border: 1px solid #d89a7c;
+    padding: 24px 32px 22px;
+    max-width: 680px;   /* MÁS ANCHO */
+    width: 100%;
+    color: #fff;
+}
+
+/* En móviles mantenemos algo más angosto para que no se rompa */
+@media (max-width: 767px) {
+    .auth-hero .auth-panel {
+        max-width: 100%;
+        padding: 20px 18px 18px;
+    }
+}
+
+/* Labels */
+.auth-hero .auth-panel .form-group label {
+    font-size: 15px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+/* Inputs */
+.auth-hero .auth-panel .form-control {
+    background-color: transparent;
+    border-radius: 0;
+    border: 1px solid #555;
+    color: #fff;
+    height: 42px;
+    font-size: 13px;
+}
+
+.auth-hero .auth-panel .form-control::placeholder {
+    color: #aaa;
+}
+
+/* Botón */
+.auth-hero .auth-btn {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+}
+
+/* Texto "¿No tenés cuenta?..." / "¿Ya tenés cuenta?..." */
+.auth-hero .auth-switch-text {
+    margin-top: 14px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.auth-hero .auth-switch-text a {
+    color: #d89a7c;
+}
+/* Fila de dos columnas en login/register (nombre+email, password+confirm) */
+.auth-hero .auth-panel .auth-row {
+    display: flex;
+    gap: 16px;
+}
+
+/* Que cada form-group ocupe la mitad de la fila */
+.auth-hero .auth-panel .auth-row .form-group {
+    flex: 1;
+    margin-bottom: 14px;
+}
+
+/* En pantallas chicas se apilan uno debajo del otro */
+@media (max-width: 767px) {
+    .auth-hero .auth-panel .auth-row {
+        flex-direction: column;
+    }
+}
+/* Usuario logueado en la navbar */
+.auth-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;              /* espacio entre nombre y "Cerrar sesión" */
+}
+
+.navbar-username {
+    color: #ffffff;         /* texto blanco */
+    font-weight: 500;       /* un poquito más grueso */
+}
+
+.logout-link {
+    color: #ffffff;         /* link "Cerrar sesión" en blanco */
+    text-decoration: none;
+}
+
+.logout-link:hover {
+    text-decoration: underline;
+}
+
+/* ====== Portada Reservar (titulo + subtitulo) ====== */
+
+.reservation-hero {
+    position: relative;
+    padding: 120px 0;
+}
+
+.reservation-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35); /* leve oscurecimiento sobre la foto */
+}
+
+.reservation-hero .bradcumbContent {
+    position: relative;
+    text-align: center;
+}
+
+.reservation-hero .bradcumbContent h2 {
+    color: #ffffff;
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.reservation-hero .bradcumbContent p {
+    color: #ffffff;
+    font-size: 18px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* ====== Formulario de Reserva (panel oscuro tipo login) ====== */
+
+.reservation-area {
+    background-color: #f5f5f5;  /* gris claro, fuera del formulario se ve blanco/gris */
+    padding-top: 60px;
+    padding-bottom: 80px;
+}
+
+.reservation-form {
+    background: rgba(40, 40, 40, 0.9);   /* gris oscuro, no negro puro */
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 40px 35px;
+    max-width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Títulos dentro del formulario */
+.reservation-form .section-title {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Labels blancos */
+.reservation-form label {
+    position: static !important;
+    transform: none !important;
+    display: block;
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #f7f7f7;
+    margin-bottom: 0.35rem;
+}
+
+/* Inputs y selects estilo oscuro, más grandes */
+.reservation-form .form-control,
+.reservation-form select {
+    width: 100% !important;
+    height: 46px !important;
+    padding: 0.55rem 0.85rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background-color: rgba(255, 255, 255, 0.07);
+    color: #ffffff;
+    box-shadow: none;
+}
+
+.reservation-form .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Texto de ayuda */
+.reservation-form .small,
+.reservation-form .text-muted {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Check de términos */
+.reservation-form .form-check-label {
+    color: #f7f7f7;
+}
+
+/* Alertas dentro del panel oscuro */
+.reservation-form .alert-success {
+    background-color: rgba(40, 167, 69, 0.9);
+    border-color: transparent;
+    color: #fff;
+}
+
+.reservation-form .alert-danger {
+    background-color: rgba(220, 53, 69, 0.9);
+    border-color: transparent;
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .reservation-hero {
+        padding: 90px 0;
+    }
+
+    .reservation-hero .bradcumbContent h2 {
+        font-size: 32px;
+    }
+
+    .reservation-hero .bradcumbContent p {
+        font-size: 16px;
+        padding: 0 15px;
+    }
+
+    .reservation-form {
+        padding: 30px 20px;
+    }
+
+    .reservation-form .form-control,
+    .reservation-form select {
+        height: 50px !important;
+    }
+}
+/* Selects: fondo claro para que el desplegable se lea bien */
+.reservation-form select {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+/* Opciones del desplegable */
+.reservation-form select option {
+    background-color: #ffffff;
+    color: #333;
+}
+/* ====== Fix visual de nice-select dentro del formulario de reserva ====== */
+
+/* Caja cerrada del select */
+.reservation-form .nice-select {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    color: #333 !important;
+    border: 1px solid rgba(0, 0, 0, 0.25) !important;
+    height: 46px !important;
+    line-height: 46px !important;
+}
+
+/* Texto actual (lo que se ve cuando está cerrado) */
+.reservation-form .nice-select .current {
+    color: #333 !important;
+}
+
+/* Lista desplegable */
+.reservation-form .nice-select .list {
+    background-color: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Opciones dentro del desplegable */
+.reservation-form .nice-select .option {
+    color: #333 !important;
+}
+
+/* Hover y opción seleccionada */
+.reservation-form .nice-select .option:hover,
+.reservation-form .nice-select .option.focus,
+.reservation-form .nice-select .option.selected.focus {
+    background-color: #f0f0f0 !important;
+    color: #000 !important;
+}
 /* ====== The End ====== */
+
+
 
 /*# sourceMappingURL=style.css.map */

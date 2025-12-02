@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto - The Palatin{% endblock %}
+
+{% block content %}
+
+    <!-- ##### Sección encabezado de página ##### -->
+   <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
+         style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-8.jpg') }}');">
+    <div class="bradcumbContent">
+        <h2>Contacto</h2>
+    </div>
+</section>
+
+
+    <!-- ##### Información de Contacto ##### -->
+    <section class="contact-information-area">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 col-lg-4">
+                    <div class="single-contact-information mb-100">
+                        <div class="section-text">
+                            <h3>Ibiza</h3>
+                            <p>Disfrutá del encanto mediterráneo en nuestro hotel ubicado frente al mar, ideal para unas vacaciones inolvidables.</p>
+                        </div>
+                        <div class="contact-content d-flex">
+                            <p>Dirección</p>
+                            <p>1481 Creekside Lane <br>Avila Beach, CA 931</p>
+                        </div>
+                        <div class="contact-content d-flex">
+                            <p>Teléfono</p>
+                            <p>+36 345 7953 4994</p>
+                        </div>
+                        <div class="contact-content d-flex">
+                            <p>E-mail</p>
+                            <p>reservas@palatin.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <div class="single-contact-information mb-100">
+                        <div class="section-text">
+                            <h3>Los Ángeles</h3>
+                            <p>Una experiencia urbana de lujo, con spa, rooftop y vistas únicas a la ciudad.</p>
+                        </div>
+                        <div class="contact-content d-flex">
+                            <p>Dirección</p>
+                            <p>245 Principe Lane <br>Avila Beach, España</p>
+                        </div>
+                        <div class="contact-content d-flex">
+                            <p>Teléfono</p>
+                            <p>+36 345 7953 4994</p>
+                        </div>
+                        <div class="contact-content d-flex">
+                            <p>E-mail</p>
+                            <p>reservas@palatin.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <div class="single-contact-information mb-100">
+                        <div class="section-text">
+                            <h3>Dubái</h3>
+                            <p>Lujo y modernidad en el corazón de los Emiratos, con servicios exclusivos y atención personalizada.</p>
+                        </div>
+                        <div class="contact-content d-flex">
+                            <p>Dirección</p>
+                            <p>889 Creekside Lane <br>Avila Beach, Dubái</p>
+                        </div>
+                        <div class="contact-content d-flex">
+                            <p>Teléfono</p>
+                            <p>+77 345 7953 2406</p>
+                        </div>
+                        <div class="contact-content d-flex">
+                            <p>E-mail</p>
+                            <p>reservas@palatin.com</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ##### Formulario de Contacto ##### -->
+    <section class="contact-form-area mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading">
+                        <div class="line-"></div>
+                        <h2>Contáctanos</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form action="{{ url_for('contacto') }}" method="post">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" name="text" placeholder="Tu Nombre" required>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="email" class="form-control" name="email" placeholder="Correo Electrónico"required>
+                            </div>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" name="subject" placeholder="Asunto"required>
+                            </div>
+                            <div class="col-12">
+                                <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Mensaje"required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn palatin-btn mt-50">Enviar Mensaje</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

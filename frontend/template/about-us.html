@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Sobre nosotros - The Palatin{% endblock %}
+
+{% block content %}
+
+    <!-- ##### Portada ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
+             style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-2.jpg') }}');">
+        <div class="bradcumbContent">
+            <h2>Sobre Nosotros</h2>
+        </div>
+    </section>
+
+   
+
+    <!-- ##### Sección “Sobre Nosotros” ##### -->
+    <section class="about-us-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-6">
+                    <div class="about-text mb-100">
+                        <div class="section-heading">
+                            <div class="line-"></div>
+                            <h2>Un lugar para recordar</h2>
+                        </div>
+                        <p>El Hotel Palatin combina lujo, naturaleza y tranquilidad. Nuestro compromiso es ofrecerte una experiencia única, donde cada detalle está pensado para tu descanso y bienestar. Disfrutá de nuestros espacios amplios, vistas impresionantes y atención personalizada.</p>
+                     
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="about-thumbnail mb-100">
+                        <img src="{{ url_for('static', filename='img/bg-img/2.jpg') }}" alt="Vista del hotel">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ##### Logros ##### -->
+    <section class="our-milestones section-padding-100-0 bg-img bg-overlay bg-fixed"
+             style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-4.jpg') }}');">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <div class="section-heading text-center white">
+                        <div class="line-"></div>
+                        <h2>Nuestros logros</h2>
+                        <p>Con años de experiencia en hospitalidad, el Hotel Palatin ha sido reconocido por su excelencia en servicio, su gastronomía de primer nivel y su compromiso con el confort de los huéspedes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-center">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="300ms">
+                        <div class="scf-text">
+                            <i class="icon-cocktail-1"></i>
+                            <h2><span class="counter">250</span></h2>
+                            <p>Cócteles al día</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="500ms">
+                        <div class="scf-text">
+                            <i class="icon-swimming-pool"></i>
+                            <h2><span class="counter">3</span></h2>
+                            <p>Piscinas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="700ms">
+                        <div class="scf-text">
+                            <i class="icon-resort"></i>
+                            <h2><span class="counter">80</span></h2>
+                            <p>Habitaciones</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="single-cool-fact mb-100 wow fadeInUp" data-wow-delay="900ms">
+                        <div class="scf-text">
+                            <i class="icon-restaurant"></i>
+                            <h2><span class="counter">25</span></h2>
+                            <p>Apartamentos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ##### Nuestro Hotel ##### -->
+    <section class="our-hotels-area section-padding-100-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading text-center">
+                        <div class="line-"></div>
+                        <h2>Nuestro Hotel</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                {% for img in [3,10,11] %}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-hotel-info mb-100">
+                        <div class="hotel-info-text">
+                            <h6><span class="fa fa-check"></span> Habitaciones espaciosas y confortables</h6>
+                            <h6><span class="fa fa-check"></span> Servicio personalizado y atención 24 hs</h6>
+                            <h6><span class="fa fa-check"></span> Instalaciones de primer nivel</h6>
+                        </div>
+                        <div class="hotel-img">
+                            <img src="{{ url_for('static', filename='img/bg-img/' ~ img ~ '.jpg') }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- ##### Testimonios ##### -->
+    <section class="testimonial-area section-padding-100 bg-img"
+             style="background-image: url('{{ url_for('static', filename='img/core-img/pattern.png') }}');">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="testimonial-content">
+                        <div class="section-heading text-center">
+                            <div class="line-"></div>
+                            <h2>Lo que dicen nuestros huéspedes</h2>
+                        </div>
+                        <div class="testimonial-slides owl-carousel">
+                            <div class="single-testimonial">
+                                <p>“Una experiencia inolvidable. Las instalaciones son impecables, el servicio es excelente y el entorno natural es único.”</p>
+                                <h6>María López, <span>Cliente</span></h6>
+                                <img src="{{ url_for('static', filename='img/core-img/trip.png') }}" alt="">
+                            </div>
+
+                            <div class="single-testimonial">
+                                <p>“El mejor lugar para relajarse. Desde la comida hasta la atención, todo superó nuestras expectativas.”</p>
+                                <h6>Carlos Gómez, <span>Turista</span></h6>
+                                <img src="{{ url_for('static', filename='img/core-img/trip.png') }}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

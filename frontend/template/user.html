@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %} Mi Perfil {% endblock %}
+
+{% block content %}
+
+<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
+         style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-1.jpg') }}'); min-height: 400px;">
+    <div class="bradcumbContent">
+        <h2>Mi Perfil</h2>
+    </div>
+</section>
+
+<!-- Contenido Principal -->
+<section class="container mt-5 mb-5">
+    <div class="user-panel">
+        
+        <!-- Perfil del Usuario -->
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0"><i class="fa fa-user me-2"></i>Mi Perfil</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <strong>ID:</strong><br>
+                            <span class="text-muted">{{ usuario.id }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <strong>Nombre:</strong><br>
+                            <span class="text-muted">{{ usuario.nombre }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <strong>Email:</strong><br>
+                            <span class="text-muted">{{ usuario.email }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Reservas -->
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fa fa-calendar me-2"></i>Mis Reservas</h5>
+            </div>
+            <div class="card-body">
+                {% if reservas %}
+                    {% for reserva in reservas %}
+                    <div class="reserva-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Reserva ID:</strong> {{ reserva.id }}<br>
+                                <strong>Habitación:</strong> {{ reserva.id_habitacion }}<br>
+                                <strong>Estado:</strong> <span class="badge bg-success">{{ reserva.estado }}</span>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Check-in:</strong> {{ reserva.fecha_entrada }}<br>
+                                <strong>Check-out:</strong> {{ reserva.fecha_salida }}<br>
+                                <strong>Huéspedes:</strong> {{ reserva.adultos }} adultos, {{ reserva.ninos }} niños
+                            </div>
+                        </div>
+                        {% if reserva.precio_total %}
+                        <div class="mt-3 pt-3 border-top">
+                            <strong>Total:</strong> <span class="text-success fw-bold">${{ reserva.precio_total }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-info text-center py-4">
+                        <i class="fa fa-calendar-times fa-3x mb-3 text-info"></i>
+                        <h5>No tienes reservas realizadas</h5>
+                        <p class="mb-3">Comienza a planificar tu estadía con nosotros</p>
+                        <a href="{{ url_for('reservar') }}" class="btn btn-primary">
+                            <i class="fa fa-plus me-2"></i>Hacer mi primera reserva
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

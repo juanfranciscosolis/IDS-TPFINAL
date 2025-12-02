@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Habitaciones - The Palatin{% endblock %}
+
+{% block content %}
+
+    <!-- ##### Portada ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
+             style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-6.jpg') }}');">
+        <div class="bradcumbContent">
+            <h2>Habitaciones</h2>
+        </div>
+    </section>
+
+    <!-- ##### Habitaciones ##### -->
+    <section class="rooms-area section-padding-0-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-6">
+                    <div class="section-heading text-center">
+                        <div class="line"></div>
+                        <h2>Elegí tu habitación</h2>
+                        <p>Elegí entre nuestras habitaciones y suites diseñadas para ofrecerte confort, elegancia y descanso total durante tu estadía.</p>
+                    </div>
+                </div>
+            </div>
+
+            {% if error %}
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8">
+                    <div class="alert alert-warning text-center" role="alert">
+                        {{ error }}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="row">
+                {% if habitaciones %}            
+                    {% for habitacion in habitaciones %}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="single-rooms-area wow fadeInUp" data-wow-delay="{{ loop.index * 100 }}ms">
+                            <!-- Imagen de la habitación -->
+                            <div class="bg-thumbnail bg-img"
+                                style="background-image: url('{{ url_for('static', filename=habitacion.imagen_url) if habitacion.imagen_url else url_for('static', filename='img/bg-img/default-room.jpg') }}');">
+                            </div>
+                            <!-- Precio -->
+                            <p class="price-from">
+                                Desde ${{ habitacion.precio_por_dia or habitacion.precio_noche }}/noche
+                            </p>
+                            
+                            <div class="rooms-text">
+                                <div class="line"></div>
+                                <h4>{{ habitacion.nombre }}</h4>
+                                <p>{{ habitacion.descripcion or 'Descripción no disponible' }}</p>
+                                
+                                <!-- Características adicionales 
+                                <div class="room-text">
+                                    <p>
+                                        {% if habitacion.capacidad %}• {{ habitacion.capacidad }} personas{% endif %}
+                                    </p>
+                                    </div>-->
+                            </div>
+                            
+                            <!-- Botón de reserva -->
+                            <a href="{{ url_for('reservar', habitacion_id=habitacion.id) }}" 
+                               class="book-room-btn btn palatin-btn 
+                                      {% if habitacion.disponible is defined and not habitacion.disponible %}disabled{% endif %}">
+                                {% if habitacion.disponible is defined and not habitacion.disponible %}
+                                    No disponible
+                                {% else %}
+                                    Reservar
+                                {% endif %}
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <!-- Mensaje cuando no hay habitaciones -->
+                    <div class="col-12">
+                        <div class="text-center">
+                            <p>No hay habitaciones disponibles en este momento.</p>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Paginación 
+                <div class="col-12">
+                    <div class="pagination-area wow fadeInUp" data-wow-delay="400ms">
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <!--<li class="page-item"><a class="page-link" href="#">02.</a></li>
+                                <li class="page-item"><a class="page-link" href="#">03.</a></li>-->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

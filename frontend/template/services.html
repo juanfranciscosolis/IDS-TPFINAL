@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Servicios - The Palatin{% endblock %}
+
+{% block content %}
+
+    <!-- ##### Portada ##### -->
+    <section class="breadcumb-area bg-img d-flex align-items-center justify-content-center"
+             style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-5.jpg') }}');">
+        <div class="bradcumbContent">
+            <h2>Servicios</h2>
+        </div>
+    </section>
+
+   
+
+    <!-- ##### Introducción de Servicios ##### -->
+    <section class="services-intro">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-6">
+                    <div class="service-intro-text mb-100">
+                        <div class="section-heading">
+                            <div class="line-"></div>
+                            <h2>Servicios Excepcionales</h2>
+                        </div>
+                        <p>En el Hotel Palatin, cada servicio está diseñado para ofrecerte una experiencia inolvidable. Desde nuestro spa y piscina infinita hasta el lounge bar y actividades al aire libre, todo está pensado para tu descanso y bienestar.</p>
+                        <a href="{{ url_for('static', filename='docs/servicios_hotel_detallado.pdf') }}"
+                        target="_blank"
+                        class="btn palatin-btn mt-50">
+                        Saber más
+                        </a>           
+                        
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="row mb-100">
+                        <div class="col-12 col-sm-4">
+                            <div class="single-cool-fact">
+                                <div class="scf-text">
+                                    <i class="icon-cocktail-1"></i>
+                                    <p>Bar en la piscina</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="single-cool-fact">
+                                <div class="scf-text">
+                                    <i class="icon-swimming-pool"></i>
+                                    <p>Piscina infinita</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-4">
+                            <div class="single-cool-fact">
+                                <div class="scf-text">
+                                    <i class="icon-beach"></i>
+                                    <p>Camastros y solarium</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ##### Áreas Principales ##### -->
+    <section class="core-features-area">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-core-feature mb-100">
+                        <div class="bg-thumbnail bg-img"
+                             style="background-image: url('{{ url_for('static', filename='img/bg-img/12.jpg') }}');"></div>
+                        <div class="feature-content">
+                            <i class="icon-sunset"></i>
+                            <h3>Bienestar</h3>
+                            <p>Un espacio dedicado al equilibrio físico y mental, con actividades relajantes y terapias personalizadas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-core-feature mb-100">
+                        <div class="bg-thumbnail bg-img"
+                             style="background-image: url('{{ url_for('static', filename='img/bg-img/13.jpg') }}');"></div>
+                        <div class="feature-content">
+                            <i class="icon-sunset"></i>
+                            <h3>Spa &amp; Relax</h3>
+                            <p>Masajes, jacuzzis y tratamientos de belleza con productos naturales. Una experiencia sensorial inigualable.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="single-core-feature mb-100">
+                        <div class="bg-thumbnail bg-img"
+                             style="background-image: url('{{ url_for('static', filename='img/bg-img/14.jpg') }}');"></div>
+                        <div class="feature-content">
+                            <i class="icon-island"></i>
+                            <h3>Lounge Bar</h3>
+                            <p>Disfrutá cócteles exclusivos con música en vivo y vistas panorámicas al atardecer.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ##### Servicios ##### -->
+    <section class="services-area">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="100ms">
+                        <i class="icon-trekking"></i>
+                        <h4>Alquiler de bicicletas</h4>
+                        <p>Explorá los alrededores del resort con nuestras bicicletas, ideales para paseos en familia o recorridos de aventura.</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="200ms">
+                        <i class="icon-boat"></i>
+                        <h4>Paseos en barco</h4>
+                        <p>Recorré paisajes únicos en excursiones guiadas y disfrutá del atardecer desde el mar.</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="300ms">
+                        <i class="icon-restaurant"></i>
+                        <h4>Restaurantes gourmet</h4>
+                        <p>Sabores únicos y cocina internacional en nuestros restaurantes con menú de autor.</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="400ms">
+                        <i class="icon-beach"></i>
+                        <h4>Masajes relajantes</h4>
+                        <p>Terapias con aceites esenciales y técnicas de relajación profunda en un ambiente de serenidad.</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="500ms">
+                        <i class="icon-boarding-pass"></i>
+                        <h4>Entradas a eventos</h4>
+                        <p>Te ayudamos a acceder a los mejores espectáculos y experiencias culturales locales.</p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="600ms">
+                        <i class="icon-sign"></i>
+                        <h4>Senderismo guiado</h4>
+                        <p>Descubrí la naturaleza de los alrededores con nuestras excursiones y guías expertos.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

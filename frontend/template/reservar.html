@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block title %}Reservar - The Palatin{% endblock %}
+
+{% block content %}
+
+<!-- Portada -->
+<section class="breadcumb-area bg-img d-flex align-items-center justify-content-center reservation-hero"
+         style="background-image: url('{{ url_for('static', filename='img/bg-img/bg-6.jpg') }}');">
+    <div class="bradcumbContent">
+        <h2>Reservar</h2>
+        <p>Completá los datos de tu estadía, tus datos personales y la información de pago.</p>
+    </div>
+</section>
+
+<!-- Formulario de reserva -->
+<section class="reservation-area section-padding-100-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="reservation-form p-4">
+
+                    {% if success %}
+                        <div class="alert alert-success" role="alert">
+                            {{ success }}
+                        </div>
+                    {% endif %}
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endif %}
+
+                    <form method="post" action="{{ url_for('reservar') }}">
+                        <div class="row">
+
+                            <!-- Datos de la estadía -->
+                            <div class="col-12">
+                                <h4 class="section-title mb-3">Datos de la estadía</h4>
+                            </div>
+
+                            <div class="col-12 col-md-3">
+                                <div class="form-group">
+                                    <label for="fecha_entrada">Fecha de ingreso</label>
+                                    <input type="date"
+                                           class="form-control"
+                                           id="fecha_entrada"
+                                           name="fecha_entrada"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3">
+                                <div class="form-group">
+                                    <label for="fecha_salida">Fecha de salida</label>
+                                    <input type="date"
+                                           class="form-control"
+                                           id="fecha_salida"
+                                           name="fecha_salida"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3">
+                                <div class="form-group">
+                                    <label for="habitacion">Tipo de habitación</label>
+                                    <select class="form-control" id="habitacion" name="habitacion" required>
+                                        <option value="">Seleccioná una opción</option>
+                                        {% for habitacion in habitaciones %}
+                                        <option value="{{ habitacion.id }}" 
+                                        {{ 'selected' if form_data.habitacion == habitacion.id|string else '' }}>
+                                            {{ habitacion.nombre }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3">
+                                <div class="form-row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="adultos">Adultos</label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   id="adultos"
+                                                   name="adultos"
+                                                   min="1"
+                                                   value="2"
+                                                   required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="ninos">Niños</label>
+                                            <input type="number"
+                                                   class="form-control"
+                                                   id="ninos"
+                                                   name="ninos"
+                                                   min="0"
+                                                   value="0"
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12"><hr></div>
+
+                            <!-- Datos personales -->
+                            <div class="col-12">
+                                <h4 class="section-title mb-3">Datos personales</h4>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="nombre_completo">Nombre completo</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="nombre_completo"
+                                           name="nombre_completo"
+                                           placeholder="Tu nombre y apellido"
+                                           value="{{ user_name if user_name is defined else '' }}"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="email">Correo electrónico</label>
+                                    <input type="email"
+                                           class="form-control"
+                                           id="email"
+                                           name="email"
+                                           placeholder="Tu correo electrónico"
+                                           value="{{ user_email if user_email is defined else '' }}"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-2">
+                                <div class="form-group">
+                                    <label for="telefono">Teléfono</label>
+                                    <input type="tel"
+                                           class="form-control"
+                                           id="telefono"
+                                           name="telefono"
+                                           placeholder="+54 11 1234-5678">
+                                </div>
+                            </div>
+
+                            <div class="col-12"><hr></div>
+
+                            <!-- Datos de pago (demo) -->
+                            <div class="col-12">
+                                <h4 class="section-title mb-3">Datos de pago</h4>
+                                <p class="small text-muted">
+                                    Esta sección es sólo para fines prácticos del proyecto. No ingreses datos reales de tarjeta.
+                                </p>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="titular_tarjeta">Titular de la tarjeta</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="titular_tarjeta"
+                                           name="titular_tarjeta"
+                                           placeholder="Nombre que figura en la tarjeta"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="numero_tarjeta">Número de tarjeta (simulado)</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="numero_tarjeta"
+                                           name="numero_tarjeta"
+                                           maxlength="19"
+                                           placeholder="XXXX XXXX XXXX 1234"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <label for="vencimiento">Vencimiento</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="vencimiento"
+                                           name="vencimiento"
+                                           placeholder="MM/AA"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-3">
+                                <div class="form-group">
+                                    <label for="cvv">CVV</label>
+                                    <input type="password"
+                                           class="form-control"
+                                           id="cvv"
+                                           name="cvv"
+                                           maxlength="4"
+                                           placeholder="***"
+                                           required>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="metodo_pago">Método de pago</label>
+                                    <select class="form-control" id="metodo_pago" name="metodo_pago" required>
+                                        <option value="credito">Tarjeta de crédito</option>
+                                        <option value="debito">Tarjeta de débito</option>
+                                        <option value="mercadopago">Mercado Pago (simulado)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           id="terminos"
+                                           name="terminos"
+                                           required>
+                                    <label class="form-check-label" for="terminos">
+                                        Acepto los términos y condiciones de la reserva.
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn palatin-btn mt-3">
+                                    Confirmar reserva
+                                </button>
+                            </div>
+
+                        </div> <!-- row -->
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
