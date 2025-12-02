@@ -69,7 +69,7 @@ INSERT INTO reservas (
     fecha_salida,
     cantidad_personas,
     cantidad_adultos,
-    cantidad_menores,
+    cantidad_ninos,
     precio_total,
     estado,
     nombre_completo,
